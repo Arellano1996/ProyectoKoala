@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ServeStaticModule } from '@nestjs/serve-static';
+
+import { join } from 'path';
+import { UsuariosModule } from './usuarios/usuarios.module';
+import { CancionesModule } from './canciones/canciones.module';
 
 @Module({
   imports: [
@@ -22,8 +24,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       synchronize: true//Solo en desarollo, sirve para cuando se crea o modifica la base de datos se actualize
       //En producción se suele hacer una migración
     }),
+    UsuariosModule,
+    CancionesModule
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [],
 })
 export class AppModule {}
