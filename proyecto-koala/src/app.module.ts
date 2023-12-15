@@ -6,6 +6,11 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { CancionesModule } from './canciones/canciones.module';
+import { LinkModule } from './link/link.module';
+import { ArtistasModule } from './artistas/artistas.module';
+import { GenerosModule } from './generos/generos.module';
+import { UsuariosCancionesLetrasModule } from './usuarios-canciones-letras/usuarios-canciones-letras.module';
+import { UsuariosCancionesLinksModule } from './usuarios-canciones-links/usuarios-canciones-links.module';
 
 @Module({
   imports: [
@@ -25,7 +30,12 @@ import { CancionesModule } from './canciones/canciones.module';
       //En producción se suele hacer una migración
     }),
     UsuariosModule,
-    CancionesModule
+    CancionesModule,
+    LinkModule,
+    ArtistasModule,
+    GenerosModule,
+    UsuariosCancionesLetrasModule,
+    UsuariosCancionesLinksModule,
   ],
   controllers: [],
   providers: [],

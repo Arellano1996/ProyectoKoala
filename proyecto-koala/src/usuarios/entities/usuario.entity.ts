@@ -15,17 +15,17 @@ export class Usuario {
     @Column()
     Contrasena: string;
 
-    @ManyToMany(type => Cancion)
-    @JoinTable()
-    Repertorio: Cancion[];
-
     @Column()
-    SociosDEV: string;
-
-    @Column()
-    SuscripcionDEV: string;
+    DevSocios: string;
     
     @Column()
-    HistorialDonacionesDEV: string;
+    DevSuscripcion: string;
+    
+    @Column()
+    DevHistorialDonaciones: string;
+
+    @ManyToMany(type => Cancion)
+    @JoinTable()
+    Canciones: Cancion[];
 
 }
