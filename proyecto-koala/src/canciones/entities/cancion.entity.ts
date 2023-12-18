@@ -1,3 +1,5 @@
+import { Artista } from "src/artistas/entities/artistas.entity";
+import { Genero } from "src/generos/entities/genero.entity";
 import { Usuario } from "src/usuarios/entities/usuario.entity";
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
@@ -27,6 +29,13 @@ export class Cancion {
     @Column()
     Link: string;
 
-    @ManyToMany(type => Usuario, Usuario => Usuario.Repertorio)
+    @ManyToMany(type => Usuario, Usuario => Usuario.Canciones)
     Usuarios: Usuario[];
+
+    @ManyToMany(type => Artista, Artista => Artista.ArtistaId )
+    Artistas: Artista[];
+
+    @ManyToMany(type => Genero, Genero => Genero.GeneroId)
+    Generos: Genero[];
+
 }
