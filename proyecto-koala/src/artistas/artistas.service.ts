@@ -1,26 +1,74 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateArtistaDto } from './dto/create-artista.dto';
 import { UpdateArtistaDto } from './dto/update-artista.dto';
+import { Artista } from './entities/artistas.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { createOrGetExistingEntity } from 'src/Helper/resultados.existentes';
 
 @Injectable()
 export class ArtistasService {
-  create(createArtistaDto: CreateArtistaDto) {
-    return 'This action adds a new artista';
+
+  private readonly logger = new Logger('ArtistaService');
+
+  constructor(
+    @InjectRepository(Artista)
+    private readonly repository: Repository<Artista>,
+  ){}
+
+  async create(createArtistaDto: CreateArtistaDto) {
+    try {
+
+      const artistaExistente = await createOrGetExistingEntity(
+        this.repository,
+        createArtistaDto,
+        { Nombre: createArtistaDto.Nombre },
+        'artista'
+      );
+
+      return artistaExistente;
+
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException(`No se encontró un artista con el nombre: ${createArtistaDto.Nombre}`)
+    }
   }
 
   findAll() {
-    return `This action returns all artistas`;
+    try {
+      return this.repository.find();
+    } catch (error) {
+      throw new InternalServerErrorException()
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} artista`;
+  async findOne(ArtistaId: string) {
+    try {
+
+      const artista = await this.repository.findOneBy({ ArtistaId })
+      
+      if(!artista) throw new NotFoundException(`El artista con el id: ${ ArtistaId } no existe`);
+
+      return artista;
+
+    } catch (error) {
+      throw new InternalServerErrorException()
+    }
   }
 
   update(id: number, updateArtistaDto: UpdateArtistaDto) {
     return `This action updates a #${id} artista`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} artista`;
+  async remove(ArtistaId: string) {
+    try {
+
+      const artista = await this.repository.findOneBy({ ArtistaId });
+      
+      await this.repository.remove(artista);
+
+    } catch (error) {
+      throw new InternalServerErrorException()
+    }
   }
 }

@@ -7,10 +7,12 @@ export class Genero
     @PrimaryGeneratedColumn('uuid')
     GeneroId: string;
 
-    @Column()
+    @Column('text', {
+        unique: true
+    })
     Nombre: string;
 
-    @ManyToMany(type => Cancion)
-    @JoinTable()
-    Canciones: Cancion[];
+    @ManyToMany( type => Cancion, cancion => cancion.Generos )
+    canciones: Cancion[]
+
 }

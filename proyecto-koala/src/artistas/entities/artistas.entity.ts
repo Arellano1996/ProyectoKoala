@@ -7,10 +7,11 @@ export class Artista
     @PrimaryGeneratedColumn('uuid')
     ArtistaId: string;
 
-    @Column()
+    @Column('text', {
+        unique: true
+    })
     Nombre: string;
 
-    @ManyToMany(type => Cancion)
-    @JoinTable()
-    Canciones: Cancion[];
+    @ManyToMany( type => Cancion, cancion => cancion.Artistas)
+    Canciones: Cancion[]
 }

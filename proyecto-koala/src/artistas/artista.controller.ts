@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common';
 import { ArtistasService } from './artistas.service';
 import { CreateArtistaDto } from './dto/create-artista.dto';
 import { UpdateArtistaDto } from './dto/update-artista.dto';
@@ -18,8 +18,8 @@ export class ArtistasController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.artistasService.findOne(+id);
+  async findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return this.artistasService.findOne(id);
   }
 
   @Patch(':id')
@@ -28,7 +28,7 @@ export class ArtistasController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.artistasService.remove(+id);
+  remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.artistasService.remove(id);
   }
 }

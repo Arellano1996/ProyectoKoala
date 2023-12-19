@@ -1,11 +1,35 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateGeneroDto } from './dto/create-genero.dto';
 import { UpdateGeneroDto } from './dto/update-genero.dto';
+import { Genero } from './entities/genero.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { createOrGetExistingEntity } from 'src/Helper/resultados.existentes';
 
 @Injectable()
 export class GenerosService {
-  create(createGeneroDto: CreateGeneroDto) {
-    return 'This action adds a new genero';
+
+  constructor(
+    @InjectRepository(Genero)
+    private readonly repository: Repository<Genero>,
+  ){}
+
+  async create(createGeneroDto: CreateGeneroDto) {
+    try {
+
+      const generoExiste = await createOrGetExistingEntity(
+        this.repository,
+        createGeneroDto,
+        { Nombre: createGeneroDto.Nombre },
+        'genero'
+      );
+
+      return generoExiste;
+      
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException();
+    }
   }
 
   findAll() {

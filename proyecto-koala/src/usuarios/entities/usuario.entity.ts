@@ -24,8 +24,8 @@ export class Usuario {
     @Column()
     DevHistorialDonaciones: string;
 
-    @ManyToMany(type => Cancion)
-    @JoinTable()
-    Canciones: Cancion[];
+    // @ManyToMany(type => Cancion)
+    // @JoinTable()
+    // Canciones: Cancion[];
 
 }

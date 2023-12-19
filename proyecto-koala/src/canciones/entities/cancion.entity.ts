@@ -1,7 +1,7 @@
 import { Artista } from "src/artistas/entities/artistas.entity";
 import { Genero } from "src/generos/entities/genero.entity";
 import { Usuario } from "src/usuarios/entities/usuario.entity";
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Cancion {
@@ -17,25 +17,39 @@ export class Cancion {
     })
     Nombre: string;
     
-    @Column()
-    Tono: string;
+    @Column({
+        nullable: true
+    })
+    Tono?: string;
 
-    @Column()
-    Acordes: string;
+    @Column({
+        nullable: true
+    })
+    Acordes?: string;
 
-    @Column()
-    Letra: string;
+    @Column({
+        nullable: true
+    })
+    Letra?: string;
 
-    @Column()
-    Link: string;
+    @Column({
+        nullable: true
+    })
+    Link?: string;
 
-    @ManyToMany(type => Usuario, Usuario => Usuario.Canciones)
-    Usuarios: Usuario[];
+    // @ManyToMany(type => Usuario, Usuario => Usuario.Canciones)
+    // Usuarios: Usuario[];
 
-    @ManyToMany(type => Artista, Artista => Artista.ArtistaId )
+    @ManyToMany( type => Artista, Artista => Artista.ArtistaId, {
+        cascade: true
+    } )
+    @JoinTable()
     Artistas: Artista[];
 
-    @ManyToMany(type => Genero, Genero => Genero.GeneroId)
+    @ManyToMany( type => Genero, Genero => Genero.GeneroId, {
+        cascade: true
+    })
+    @JoinTable()
     Generos: Genero[];
 
 }
