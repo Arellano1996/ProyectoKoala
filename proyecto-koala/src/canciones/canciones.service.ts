@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { CreateCancioneDto } from './dto/create-cancione.dto';
 import { UpdateCancioneDto } from './dto/update-cancione.dto';
 import { Cancion } from './entities/cancion.entity';
@@ -13,7 +13,7 @@ import { CreateArtistaDto } from 'src/artistas/dto/create-artista.dto';
 @Injectable()
 export class CancionesService {
 
-  private readonly logger = new Logger('CancionService');
+  private readonly logger = new Logger('Canciones Service');
   
   constructor(
     @InjectRepository(Cancion)
@@ -60,7 +60,8 @@ export class CancionesService {
 
     } catch (error) {
       this.logger.error(error);
-      // throw new InternalServerErrorException(`No se encontró un artista con el nombre: ${createCancioneDto.Nombre}`)
+      if(error.code === '23505') throw new ConflictException(`La canción con el nombre: ${createCancioneDto.Nombre}, ya existe`)
+      throw new InternalServerErrorException()
     }
   }
 
@@ -83,7 +84,16 @@ export class CancionesService {
     return `This action updates a #${id} cancione`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cancione`;
+  async remove(CancionId: string) {
+    try {
+
+      const cancion = await this.repository.findOneBy({ CancionId });
+      
+      console.log(cancion)
+
+    } catch (error) {
+      console.log(error)
+      throw new InternalServerErrorException()
+    }
   }
 }

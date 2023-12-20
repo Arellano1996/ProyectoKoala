@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateArtistaDto } from './dto/create-artista.dto';
 import { UpdateArtistaDto } from './dto/update-artista.dto';
 import { Artista } from './entities/artistas.entity';
@@ -9,7 +9,7 @@ import { createOrGetExistingEntity } from 'src/Helper/resultados.existentes';
 @Injectable()
 export class ArtistasService {
 
-  private readonly logger = new Logger('ArtistaService');
+  private readonly logger = new Logger('Artistas Service');
 
   constructor(
     @InjectRepository(Artista)
@@ -26,10 +26,14 @@ export class ArtistasService {
         'artista'
       );
 
-      return artistaExistente;
+      await this.repository.save(artistaExistente);
+
+      const { ArtistaId, ...resto } = artistaExistente;
+      return resto;
 
     } catch (error) {
       this.logger.error(error);
+      if(error.code === '23505') throw new ConflictException(`El artista con el nombre: ${createArtistaDto.Nombre}, ya existe`)
       throw new InternalServerErrorException(`No se encontró un artista con el nombre: ${createArtistaDto.Nombre}`)
     }
   }

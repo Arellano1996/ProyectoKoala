@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { CreateGeneroDto } from './dto/create-genero.dto';
 import { UpdateGeneroDto } from './dto/update-genero.dto';
 import { Genero } from './entities/genero.entity';
@@ -8,6 +8,8 @@ import { createOrGetExistingEntity } from 'src/Helper/resultados.existentes';
 
 @Injectable()
 export class GenerosService {
+
+  private readonly logger = new Logger('Generos Service');
 
   constructor(
     @InjectRepository(Genero)
@@ -24,10 +26,15 @@ export class GenerosService {
         'genero'
       );
 
-      return generoExiste;
+      const { GeneroId, ...resto } = generoExiste
+
+      await this.repository.save({...resto} as CreateGeneroDto);
+
+      return resto;
       
     } catch (error) {
-      console.log(error);
+      this.logger.error(error);
+      if(error.code === '23505') throw new ConflictException(`El genero con el nombre: ${createGeneroDto.Nombre}, ya existe`)
       throw new InternalServerErrorException();
     }
   }
