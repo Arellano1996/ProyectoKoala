@@ -23,8 +23,8 @@ export class CancionesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCancioneDto: UpdateCancioneDto) {
-    return this.cancionesService.update(+id, updateCancioneDto);
+  update(@Param('id', ParseUUIDPipe) id: string, @Body() updateCancioneDto: UpdateCancioneDto) {
+    return this.cancionesService.update(id, updateCancioneDto);
   }
 
   @Delete(':id')

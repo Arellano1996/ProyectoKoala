@@ -1,9 +1,9 @@
-import { ConflictException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateCancioneDto } from './dto/create-cancione.dto';
 import { UpdateCancioneDto } from './dto/update-cancione.dto';
 import { Cancion } from './entities/cancion.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { EntityNotFoundError, Repository } from 'typeorm';
 import { Genero } from 'src/generos/entities/genero.entity';
 import { Artista } from 'src/artistas/entities/artistas.entity';
 import { CreateGeneroDto } from 'src/generos/dto/create-genero.dto';
@@ -80,19 +80,36 @@ export class CancionesService {
     return `This action returns a #${id} cancione`;
   }
 
-  update(id: number, updateCancioneDto: UpdateCancioneDto) {
+  update(id: string, updateCancioneDto: UpdateCancioneDto) {
     return `This action updates a #${id} cancione`;
   }
 
-  async remove(CancionId: string) {
+  async remove(cancionid: string) {
     try {
 
-      const cancion = await this.repository.findOneBy({ CancionId });
-      
+      const cancion = await this.repository.findOneByOrFail({ CancionId: cancionid });
+      // const cancion = await this.repository.findOne({ 
+      //   relations: {
+      //     Artistas: true,
+      //     Generos: true
+      //   },
+      //   where: {
+      //     CancionId
+      //   }
+      //  });
       console.log(cancion)
-
+    
+      await this.repository.remove(cancion)
+      
+      const {CancionId, ...resto} = cancion;
+      return  resto;
+      
     } catch (error) {
-      console.log(error)
+      this.logger.error({error});
+      if (error instanceof EntityNotFoundError) {
+        // Lanzar una excepción específica si la canción no se encuentra
+        throw new NotFoundException(`La canción solicitada no existe.`);
+      }
       throw new InternalServerErrorException()
     }
   }
