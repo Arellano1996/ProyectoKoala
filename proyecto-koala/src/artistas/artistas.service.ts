@@ -4,7 +4,7 @@ import { UpdateArtistaDto } from './dto/update-artista.dto';
 import { Artista } from './entities/artistas.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { createOrGetExistingEntity } from 'src/Helper/resultados.existentes';
+import { createOrGetExistingEntity } from 'src/common/resultados.existentes';
 
 @Injectable()
 export class ArtistasService {

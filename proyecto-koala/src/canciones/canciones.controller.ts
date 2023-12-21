@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query } from '@nestjs/common';
 import { CancionesService } from './canciones.service';
 import { CreateCancioneDto } from './dto/create-cancione.dto';
 import { UpdateCancioneDto } from './dto/update-cancione.dto';
+import { PaginationDto } from 'src/common/paginacion.dto';
 
 @Controller('canciones')
 export class CancionesController {
@@ -13,13 +14,13 @@ export class CancionesController {
   }
 
   @Get()
-  findAll() {
-    return this.cancionesService.findAll();
+  findAll( @Query() paginationDto: PaginationDto) {
+    return this.cancionesService.findAll( paginationDto );
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cancionesService.findOne(+id);
+  @Get(':termino')
+  findOne(@Param('termino') termino: string) {
+    return this.cancionesService.findOne(termino);
   }
 
   @Patch(':id')

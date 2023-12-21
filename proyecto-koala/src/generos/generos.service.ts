@@ -4,7 +4,7 @@ import { UpdateGeneroDto } from './dto/update-genero.dto';
 import { Genero } from './entities/genero.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { createOrGetExistingEntity } from 'src/Helper/resultados.existentes';
+import { createOrGetExistingEntity } from 'src/common/resultados.existentes';
 
 @Injectable()
 export class GenerosService {
