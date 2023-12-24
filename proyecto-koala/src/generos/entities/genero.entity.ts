@@ -1,5 +1,6 @@
 import { Cancion } from "src/canciones/entities/cancion.entity";
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { formatearSlug } from "src/common/formatear-slug";
+import { BeforeInsert, Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Genero
@@ -12,7 +13,15 @@ export class Genero
     })
     Nombre: string;
 
+    @Column()
+    Slug: string;
+
     @ManyToMany( type => Cancion, cancion => cancion.Generos )
     canciones: Cancion[]
+
+    @BeforeInsert()
+    generarSlug(){
+        this.Slug = formatearSlug( this.Nombre )
+    }
 
 }

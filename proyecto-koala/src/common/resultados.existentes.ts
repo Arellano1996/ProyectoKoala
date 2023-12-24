@@ -16,9 +16,17 @@ export const createOrGetExistingEntity: CreateOrGetExistingEntity<any> = async (
     searchCriteria,
     entityName
 ) => {
-      
+    
+    searchCriteria.Nombre = searchCriteria.Nombre.toLowerCase()
+    .replaceAll(' ', '_')
+    .replaceAll('á', 'a')
+    .replaceAll('é', 'e')
+    .replaceAll('í', 'i')
+    .replaceAll('ó', 'o')
+    .replaceAll('ú', 'u')
+
     const existingEntity = await repository.createQueryBuilder(entityName)
-    .where(`LOWER(${entityName}.Nombre) = LOWER(:Nombre)`, searchCriteria)
+    .where(`${entityName}.Slug = :Nombre`, searchCriteria)
     .getOne();
 
     // Si la entidad existe, devuélvela

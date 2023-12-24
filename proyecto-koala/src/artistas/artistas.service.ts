@@ -19,17 +19,11 @@ export class ArtistasService {
   async create(createArtistaDto: CreateArtistaDto) {
     try {
 
-      const artistaExistente = await createOrGetExistingEntity(
-        this.repository,
-        createArtistaDto,
-        { Nombre: createArtistaDto.Nombre },
-        'artista'
-      );
+      const cancion = this.repository.create(createArtistaDto)
+      
+      await this.repository.save(cancion)
 
-      await this.repository.save(artistaExistente);
-
-      const { ArtistaId, ...resto } = artistaExistente;
-      return resto;
+      return cancion;
 
     } catch (error) {
       this.logger.error(error);

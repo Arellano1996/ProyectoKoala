@@ -19,22 +19,15 @@ export class GenerosService {
   async create(createGeneroDto: CreateGeneroDto) {
     try {
 
-      const generoExiste = await createOrGetExistingEntity(
-        this.repository,
-        createGeneroDto,
-        { Nombre: createGeneroDto.Nombre },
-        'genero'
-      );
+      const genero = this.repository.create(createGeneroDto)
 
-      const { GeneroId, ...resto } = generoExiste
+      await this.repository.save(genero);
 
-      await this.repository.save({...resto} as CreateGeneroDto);
-
-      return resto;
+      return genero;
       
     } catch (error) {
       this.logger.error(error);
-      if(error.code === '23505') throw new ConflictException(`El genero con el nombre: ${createGeneroDto.Nombre}, ya existe`)
+      if (error.code === '23505') throw new ConflictException(`El genero: ${createGeneroDto.Nombre}, ya existe`)
       throw new InternalServerErrorException();
     }
   }

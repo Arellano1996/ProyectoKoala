@@ -84,10 +84,8 @@ export class CancionesService {
   }
 
   async findOne(termino: string) {
-    console.log(termino)
     try {
       let cancion: Cancion;
-      let canciones: Cancion[];
 
       if (isUUID(termino)) {
         cancion = await this.repository.findOneOrFail({
@@ -101,9 +99,9 @@ export class CancionesService {
         const queryBuilder = this.repository.createQueryBuilder('cancion')
 
         cancion = await queryBuilder.leftJoinAndSelect('cancion.Artistas', 'artistas')//alias de las entidades
-        .where('LOWER(cancion.Nombre) = LOWER(:nombre) or LOWER(artistas.Nombre) = LOWER(:artistanombre)', { 
-          artistanombre: termino, 
-          nombre: termino 
+        .where('cancion.Slug = :cancionslug or artistas.Slug = :artistanombre', { 
+          cancionslug: termino, 
+          artistanombre: termino 
         })
         //Haces la referencia a las entidades y despues a sus propiedades
         .getOneOrFail()
