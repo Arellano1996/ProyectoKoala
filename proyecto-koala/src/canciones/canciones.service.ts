@@ -101,11 +101,16 @@ export class CancionesService {
       return await this.repository.find({
         take: limite,
         skip: skip,
+        select: {
+          // Creador: true,
+          // Nombre: true
+        },
         relations: {
           Generos: true,
           Artistas: true
         }
       })
+
     } catch (error) { }
   }
 
