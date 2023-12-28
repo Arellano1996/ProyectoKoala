@@ -2,7 +2,7 @@ import { Artista } from "src/artistas/entities/artistas.entity";
 import { formatearSlug } from "src/common/formatear-slug";
 import { Genero } from "src/generos/entities/genero.entity";
 import { Usuario } from "src/usuarios/entities/usuario.entity";
-import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Cancion {
@@ -56,6 +56,11 @@ export class Cancion {
 
     @BeforeInsert()
     generarSlug(){
+        this.Slug = formatearSlug( this.Nombre )
+    }
+
+    @BeforeUpdate()
+    generarSlugActualizado(){
         this.Slug = formatearSlug( this.Nombre )
     }
 

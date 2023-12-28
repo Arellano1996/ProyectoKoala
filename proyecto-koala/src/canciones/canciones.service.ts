@@ -1,9 +1,9 @@
-import { ConflictException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateCancioneDto } from './dto/create-cancione.dto';
 import { UpdateCancioneDto } from './dto/update-cancione.dto';
 import { Cancion } from './entities/cancion.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EntityNotFoundError, QueryBuilder, Repository } from 'typeorm';
+import { EntityNotFoundError, Repository } from 'typeorm';
 import { Genero } from 'src/generos/entities/genero.entity';
 import { Artista } from 'src/artistas/entities/artistas.entity';
 import { CreateGeneroDto } from 'src/generos/dto/create-genero.dto';
@@ -11,6 +11,7 @@ import { createOrGetExistingEntities } from 'src/common/resultados.existentes';
 import { CreateArtistaDto } from 'src/artistas/dto/create-artista.dto';
 import { PaginationDto } from 'src/common/paginacion.dto';
 import { validate as isUUID } from 'uuid';
+import { formatearSlug } from 'src/common/formatear-slug';
 
 @Injectable()
 export class CancionesService {
@@ -30,11 +31,11 @@ export class CancionesService {
   ) { }
 
   async create(createCancioneDto: CreateCancioneDto) {
-
     try {
 
       const { Generos, Artistas, ...restoPropiedades } = createCancioneDto;
 
+      //Revisar si ya existen los generos
       const generosExistentes = await createOrGetExistingEntities(
         this.repositoryGenero,//Se envia el repositorio
         Generos.map(genero => ({ ...genero } as CreateGeneroDto)),//Se manda uno por uno el objeto tipo DTO; *Se usa operador de propagación
@@ -49,6 +50,31 @@ export class CancionesService {
         'artista'//Nombre de la tabla
       );
 
+      //Aquí se revisa si la canción ya fue registrada con un artista existente
+      const yaExiste = await Promise.allSettled( artistasExistentes.map( async (artista) => {//Se recorren los artistas
+        
+        const { ArtistaId } = {...artista} as Artista;//Si tienen la propiedad ArtistaId significa que ese artista ya está registrado, por lo tanto hay que corroborar si
+                                                      //ya tiene una canción registrada con el mismo nombre
+        if(ArtistaId){//Si este valor (ArtistaId) existe significa que el artista ya está registrado
+
+          const yaHayUnaCancionConElMismoNombreYArtista = 
+          await this.repository.createQueryBuilder('cancion')
+          .leftJoinAndSelect('cancion.Artistas', 'artistas')//alias de las entidades
+          .leftJoinAndSelect('cancion.Generos', 'generos')
+          .where('cancion.Slug = :cancionslug and artistas.Slug = :artistanombre', {
+            cancionslug: formatearSlug(restoPropiedades.Nombre), 
+            artistanombre: formatearSlug(artista.Nombre) 
+          }).getOne();
+
+          if(yaHayUnaCancionConElMismoNombreYArtista) throw new ConflictException(`El artista ${ artista.Nombre } ya tiene una canción con el nombre: ${createCancioneDto.Nombre}.`)
+        }
+      }) )
+
+      //Revisamos si hubo exceptions
+      yaExiste.forEach( resultado => {
+        if (resultado.status === 'rejected') throw new ConflictException(resultado.reason)
+      })
+      
       const cancion = this.repository.create({
         ...restoPropiedades,
         Generos: generosExistentes,
@@ -56,13 +82,13 @@ export class CancionesService {
       })
 
       await this.repository.save(cancion)
-
+      
       return cancion;
-
 
     } catch (error) {
       this.logger.error(error);
       if (error.code === '23505') throw new ConflictException(`La canción con el nombre: ${createCancioneDto.Nombre}, ya existe`)
+      if(error instanceof ConflictException) throw new ConflictException(error.message)
       throw new InternalServerErrorException()
     }
   }
@@ -85,7 +111,8 @@ export class CancionesService {
 
   async findOne(termino: string) {
     try {
-      let cancion: Cancion;
+
+      let cancion: Cancion | Cancion[];
 
       if (isUUID(termino)) {
         cancion = await this.repository.findOneOrFail({
@@ -98,17 +125,16 @@ export class CancionesService {
       } else {
         const queryBuilder = this.repository.createQueryBuilder('cancion')
 
-        cancion = await queryBuilder.leftJoinAndSelect('cancion.Artistas', 'artistas')//alias de las entidades
+        cancion = await queryBuilder
+        .leftJoinAndSelect('cancion.Artistas', 'artistas')//alias de las entidades
+        .leftJoinAndSelect('cancion.Generos', 'generos')
         .where('cancion.Slug = :cancionslug or artistas.Slug = :artistanombre', { 
-          cancionslug: termino, 
-          artistanombre: termino 
+          cancionslug: formatearSlug(termino), 
+          artistanombre: formatearSlug(termino) 
         })
         //Haces la referencia a las entidades y despues a sus propiedades
-        .getOneOrFail()
-
-        // canciones = await queryBuilder.leftJoinAndSelect('cancion.Artistas', 'Nombre').getMany()
+        .getMany()
       }
-
 
       return cancion
 
@@ -123,25 +149,56 @@ export class CancionesService {
 
   }
 
-  update(id: string, updateCancioneDto: UpdateCancioneDto) {
-    return `This action updates a #${id} cancione`;
+  async update(id: string, updateCancioneDto: UpdateCancioneDto) {
+    
+    if(id != updateCancioneDto.CancionId) throw new BadRequestException('Datos invalidos')
+
+    const { Artistas, Generos, ...resto } = updateCancioneDto;
+
+    let artistasExistentes, generosExistentes;
+
+    if(Artistas){
+      artistasExistentes = await createOrGetExistingEntities(
+        this.repositoryArtista,
+        Artistas.map(artista => ({ ...artista } as CreateArtistaDto)),
+        artista => ({ Nombre: artista.Nombre }),
+        'artista'//Nombre de la tabla
+      );
+
+    }
+
+    if(Generos){
+      generosExistentes = await createOrGetExistingEntities(
+        this.repositoryGenero,//Se envia el repositorio
+        Generos.map(genero => ({ ...genero } as CreateGeneroDto)),//Se manda uno por uno el objeto tipo DTO; *Se usa operador de propagación
+        genero => ({ Nombre: genero.Nombre }),//Criterio por el cuál se va a comprar si hay otro resultado con el mismo valor, en este caso si hay otro resultado con el mismo nomnbre
+        'genero'//Nombre de la tabla
+      );//Si en la base de datos ya existe un genero con el mismo nombre trae esa referencia, de lo contrario crea el nuevo dato
+    }
+
+    const cancion = await this.repository.preload({
+      CancionId: id,
+      Artistas: artistasExistentes,
+      Generos: generosExistentes,
+      ...resto
+    })
+    
+    await this.repository.save(cancion)
+
+    return await this.repository.findOne({
+      where: { CancionId: id },
+      relations: {
+        Generos: true,
+        Artistas: true
+      }
+    })
   }
 
   async remove(cancionid: string) {
     try {
 
       const cancion = await this.repository.findOneByOrFail({ CancionId: cancionid });
-      // const cancion = await this.repository.findOne({ 
-      //   relations: {
-      //     Artistas: true,
-      //     Generos: true
-      //   },
-      //   where: {
-      //     CancionId
-      //   }
-      //  });
-      console.log(cancion)
-
+     
       await this.repository.remove(cancion)
 
       const { CancionId, ...resto } = cancion;

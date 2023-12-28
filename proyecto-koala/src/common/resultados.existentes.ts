@@ -1,5 +1,6 @@
 // Importa las clases y tipos necesarios
 import { Repository, DeepPartial } from 'typeorm';
+import { formatearSlug } from './formatear-slug';
 
 // Define un tipo para la función genérica
 type CreateOrGetExistingEntity<T> = (
@@ -17,13 +18,7 @@ export const createOrGetExistingEntity: CreateOrGetExistingEntity<any> = async (
     entityName
 ) => {
     
-    searchCriteria.Nombre = searchCriteria.Nombre.toLowerCase()
-    .replaceAll(' ', '_')
-    .replaceAll('á', 'a')
-    .replaceAll('é', 'e')
-    .replaceAll('í', 'i')
-    .replaceAll('ó', 'o')
-    .replaceAll('ú', 'u')
+    searchCriteria.Nombre = formatearSlug( searchCriteria.Nombre )
 
     const existingEntity = await repository.createQueryBuilder(entityName)
     .where(`${entityName}.Slug = :Nombre`, searchCriteria)
