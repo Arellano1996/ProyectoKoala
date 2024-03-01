@@ -19,8 +19,8 @@ export class CancionesController {
   }
 
   @Get(':termino')
-  findOne(@Param('termino') termino: string) {
-    return this.cancionesService.findOne(termino);
+  findByTerm(@Param('termino') termino: string) {
+    return this.cancionesService.findByTerm(termino);
   }
 
   @Patch(':id')

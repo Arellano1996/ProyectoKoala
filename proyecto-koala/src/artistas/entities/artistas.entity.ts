@@ -1,6 +1,6 @@
 import { Cancion } from "src/canciones/entities/cancion.entity";
 import { formatearSlug } from "src/common/formatear-slug";
-import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Artista

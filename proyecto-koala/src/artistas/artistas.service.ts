@@ -5,6 +5,8 @@ import { Artista } from './entities/artistas.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { createOrGetExistingEntity } from 'src/common/resultados.existentes';
+import { isUUID } from 'class-validator';
+import { formatearSlug } from 'src/common/formatear-slug';
 
 @Injectable()
 export class ArtistasService {
@@ -40,16 +42,33 @@ export class ArtistasService {
     }
   }
 
-  async findOne(ArtistaId: string) {
+  async findByTerm(termino: string) {
     try {
+      //Cuando se busca por termino, se puede usar el UUID, o un termino, en el primer caso se trae el resultado único y en el segundo se trae todas las coincidencias
+      let artista: Artista | Artista[];
 
-      const artista = await this.repository.findOneBy({ ArtistaId })
+      if( isUUID(termino) ){
+        artista = await this.repository.findOneBy({ ArtistaId: termino })
+      }
+      else
+      {
+        //Se asocia la entidad repository<Artista> que está inyectada en el constructor y se especifica que se trabajará en la tabla artista en base de datos
+        const queryBuilder = this.repository.createQueryBuilder('artista')
+        //Este es un query SQL, ya que se estableció que se está trabajando en la tabla artista en la variable queryBuilder, hacemos un query donde podemos establecer variables.
+        //El formato de las variables debe ser :{nombreVariable} en este caso se complementa con los porcentajes % para hacer el query LIKE correctamente
+        artista = await queryBuilder
+        .where('artista.Slug LIKE :artistaslug', {
+          artistaslug: `%${formatearSlug(termino)}%`
+        })
+        .getMany()
+
+        if(!artista.any()) throw new NotFoundException();
+      }
       
-      if(!artista) throw new NotFoundException(`El artista con el id: ${ ArtistaId } no existe`);
-
       return artista;
 
     } catch (error) {
+      console.log("Error")
       throw new InternalServerErrorException()
     }
   }

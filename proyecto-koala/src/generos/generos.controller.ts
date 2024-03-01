@@ -18,8 +18,8 @@ export class GenerosController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.generosService.findOne(+id);
+  findByTerm(@Param('id') id: string) {
+    return this.generosService.findByTerm(+id);
   }
 
   @Patch(':id')

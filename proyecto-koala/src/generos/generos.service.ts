@@ -36,7 +36,7 @@ export class GenerosService {
     return `This action returns all generos`;
   }
 
-  findOne(id: number) {
+  findByTerm(id: number) {
     return `This action returns a #${id} genero`;
   }
 

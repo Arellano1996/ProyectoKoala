@@ -1,4 +1,5 @@
-import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+//#region Importaciones 
+import { BadRequestException, ConflictException, ConsoleLogger, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateCancioneDto } from './dto/create-cancione.dto';
 import { UpdateCancioneDto } from './dto/update-cancione.dto';
 import { Cancion } from './entities/cancion.entity';
@@ -12,6 +13,8 @@ import { CreateArtistaDto } from 'src/artistas/dto/create-artista.dto';
 import { PaginationDto } from 'src/common/paginacion.dto';
 import { validate as isUUID } from 'uuid';
 import { formatearSlug } from 'src/common/formatear-slug';
+import '../common/extenciones/array.extensiones';
+//#endregion Importaciones
 
 @Injectable()
 export class CancionesService {
@@ -114,7 +117,7 @@ export class CancionesService {
     } catch (error) { }
   }
 
-  async findOne(termino: string) {
+  async findByTerm(termino: string) {
     try {
 
       let cancion: Cancion | Cancion[];
@@ -133,14 +136,15 @@ export class CancionesService {
         cancion = await queryBuilder
         .leftJoinAndSelect('cancion.Artistas', 'artistas')//alias de las entidades
         .leftJoinAndSelect('cancion.Generos', 'generos')
-        .where('cancion.Slug = :cancionslug or artistas.Slug = :artistanombre', { 
-          cancionslug: formatearSlug(termino), 
-          artistanombre: formatearSlug(termino) 
+        .where('cancion.Slug LIKE :cancionslug or artistas.Slug LIKE :artistanombre', { 
+          cancionslug: `%${formatearSlug(termino)}%`, 
+          artistanombre: `%${formatearSlug(termino)}%`
         })
         //Haces la referencia a las entidades y despues a sus propiedades
         .getMany()
-      }
 
+        if(!cancion.any()) throw new NotFoundException();
+      }
       return cancion
 
     } catch (error) {
@@ -148,6 +152,9 @@ export class CancionesService {
       if (error instanceof EntityNotFoundError) {
         // Lanzar una excepción específica si la canción no se encuentra
         throw new NotFoundException(`La canción solicitada no existe.`);
+      }
+      if(error instanceof NotFoundException){
+        throw new NotFoundException(`No se encontraron elementos.`);
       }
       throw new InternalServerErrorException()
     }

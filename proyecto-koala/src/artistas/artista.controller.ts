@@ -17,9 +17,9 @@ export class ArtistasController {
     return this.artistasService.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param('id', ParseUUIDPipe) id: string) {
-    return this.artistasService.findOne(id);
+  @Get(':termino')
+  findByTerm(@Param('termino') termino: string) {
+    return this.artistasService.findByTerm(termino);
   }
 
   @Patch(':id')
