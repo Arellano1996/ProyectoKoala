@@ -4,28 +4,33 @@ import { UpdateArtistaDto } from './dto/update-artista.dto';
 import { Artista } from './entities/artistas.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { createOrGetExistingEntity } from 'src/common/resultados.existentes';
 import { isUUID } from 'class-validator';
 import { formatearSlug } from 'src/common/formatear-slug';
+import Respuesta from 'src/common/respuesta.modelo';
 
 @Injectable()
-export class ArtistasService {
+export class ArtistasService extends Respuesta
+{
 
   private readonly logger = new Logger('Artistas Service');
-
-  constructor(
+  
+  constructor
+  (
     @InjectRepository(Artista)
     private readonly repository: Repository<Artista>,
-  ){}
+  )
+  {
+    super();
+  }
+    
+    async create(createArtistaDto: CreateArtistaDto) {
+      try {
+        
+        const cancion = this.repository.create(createArtistaDto)
+        
+        await this.repository.save(cancion)
 
-  async create(createArtistaDto: CreateArtistaDto) {
-    try {
-
-      const cancion = this.repository.create(createArtistaDto)
-      
-      await this.repository.save(cancion)
-
-      return cancion;
+      return new Respuesta("Este es un mensaje");
 
     } catch (error) {
       this.logger.error(error);
@@ -43,9 +48,10 @@ export class ArtistasService {
   }
 
   async findByTerm(termino: string) {
+  
     try {
       //Cuando se busca por termino, se puede usar el UUID, o un termino, en el primer caso se trae el resultado único y en el segundo se trae todas las coincidencias
-      let artista: Artista | Artista[];
+      let artista: Artista | [Artista[], number]
 
       if( isUUID(termino) ){
         artista = await this.repository.findOneBy({ ArtistaId: termino })
@@ -60,15 +66,16 @@ export class ArtistasService {
         .where('artista.Slug LIKE :artistaslug', {
           artistaslug: `%${formatearSlug(termino)}%`
         })
-        .getMany()
+        .getManyAndCount()
 
-        if(!artista.any()) throw new NotFoundException();
+
+        if(!artista[0].any()) return new Respuesta (`No hay resultados con: ${termino}`)
       }
       
-      return artista;
+      return new Respuesta( artista )
 
     } catch (error) {
-      console.log("Error")
+      console.log(error)
       throw new InternalServerErrorException()
     }
   }
