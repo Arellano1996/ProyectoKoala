@@ -1,3 +1,4 @@
+//#region Import
 import { ConflictException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateArtistaDto } from './dto/create-artista.dto';
 import { UpdateArtistaDto } from './dto/update-artista.dto';
@@ -6,35 +7,37 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { isUUID } from 'class-validator';
 import { formatearSlug } from 'src/common/formatear-slug';
-import Respuesta from 'src/common/respuesta.modelo';
+import res from 'src/common/respuesta.modelo';
+//#endregion import
 
 @Injectable()
-export class ArtistasService extends Respuesta
+export class ArtistasService extends res
 {
 
   private readonly logger = new Logger('Artistas Service');
   
-  constructor
-  (
+  constructor(
     @InjectRepository(Artista)
     private readonly repository: Repository<Artista>,
-  )
-  {
+  ){
     super();
   }
     
-    async create(createArtistaDto: CreateArtistaDto) {
-      try {
+  async create(createArtistaDto: CreateArtistaDto) {
+    try 
+    {
+      const artista = this.repository.create(createArtistaDto)
         
-        const cancion = this.repository.create(createArtistaDto)
-        
-        await this.repository.save(cancion)
+      await this.repository.save(artista)
 
-      return new Respuesta("Este es un mensaje");
-
-    } catch (error) {
+      return new res( artista )
+    } 
+    catch (error) 
+    {
       this.logger.error(error);
+
       if(error.code === '23505') throw new ConflictException(`El artista con el nombre: ${createArtistaDto.Nombre}, ya existe`)
+
       throw new InternalServerErrorException(`No se encontró un artista con el nombre: ${createArtistaDto.Nombre}`)
     }
   }
@@ -69,13 +72,12 @@ export class ArtistasService extends Respuesta
         .getManyAndCount()
 
 
-        if(!artista[0].any()) return new Respuesta (`No hay resultados con: ${termino}`)
+        if(!artista[0].any()) return new res(`No se encontraron resultados con ${termino}`)
       }
       
-      return new Respuesta( artista )
+      return new res( artista )
 
     } catch (error) {
-      console.log(error)
       throw new InternalServerErrorException()
     }
   }
