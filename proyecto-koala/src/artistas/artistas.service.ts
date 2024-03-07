@@ -1,5 +1,5 @@
 //#region Import
-import { ConflictException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { CreateArtistaDto } from './dto/create-artista.dto';
 import { UpdateArtistaDto } from './dto/update-artista.dto';
 import { Artista } from './entities/artistas.entity';
@@ -7,20 +7,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { isUUID } from 'class-validator';
 import { formatearSlug } from 'src/common/formatear-slug';
-import res from 'src/common/respuesta.modelo';
+import erroresHandler from 'src/common/errores.handler';
+import { UUID } from 'crypto';
 //#endregion import
 
 @Injectable()
-export class ArtistasService extends res
+export class ArtistasService extends erroresHandler
 {
-
-  private readonly logger = new Logger('Artistas Service');
-  
-  constructor(
-    @InjectRepository(Artista)
-    private readonly repository: Repository<Artista>,
-  ){
-    super();
+  constructor(@InjectRepository(Artista) private readonly repository: Repository<Artista>,) { 
+    super()
+    this.logger = new Logger('Artistas Service');
   }
     
   async create(createArtistaDto: CreateArtistaDto) {
@@ -30,15 +26,11 @@ export class ArtistasService extends res
         
       await this.repository.save(artista)
 
-      return new res( artista )
+      return artista
     } 
     catch (error) 
     {
-      this.logger.error(error);
-
-      if(error.code === '23505') throw new ConflictException(`El artista con el nombre: ${createArtistaDto.Nombre}, ya existe`)
-
-      throw new InternalServerErrorException(`No se encontró un artista con el nombre: ${createArtistaDto.Nombre}`)
+      this.handleExceptions(error, `El artista con el nombre: ${createArtistaDto.Nombre}, ya existe`)
     }
   }
 
@@ -70,20 +62,20 @@ export class ArtistasService extends res
           artistaslug: `%${formatearSlug(termino)}%`
         })
         .getManyAndCount()
-
-
-        if(!artista[0].any()) return new res(`No se encontraron resultados con ${termino}`)
       }
       
-      return new res( artista )
+      return artista
 
     } catch (error) {
       throw new InternalServerErrorException()
     }
   }
 
-  update(id: number, updateArtistaDto: UpdateArtistaDto) {
-    return `This action updates a #${id} artista`;
+  async update(ArtistaId: string, updateArtistaDto: UpdateArtistaDto) {
+
+    if(ArtistaId != updateArtistaDto.ArtistaId) this.handleExceptions(null, 'Información invalida');
+
+    return `This action updates a #${ArtistaId} artista`;
   }
 
   async remove(ArtistaId: string) {

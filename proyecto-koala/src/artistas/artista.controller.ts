@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from
 import { ArtistasService } from './artistas.service';
 import { CreateArtistaDto } from './dto/create-artista.dto';
 import { UpdateArtistaDto } from './dto/update-artista.dto';
+import { UUID } from 'crypto';
 
 @Controller('artistas')
 export class ArtistasController {
@@ -23,8 +24,8 @@ export class ArtistasController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateArtistaDto: UpdateArtistaDto) {
-    return this.artistasService.update(+id, updateArtistaDto);
+  update(@Param('id', ParseUUIDPipe) id: string, @Body() updateArtistaDto: UpdateArtistaDto) {
+    return this.artistasService.update(id, updateArtistaDto);
   }
 
   @Delete(':id')
