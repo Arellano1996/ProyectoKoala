@@ -1,7 +1,7 @@
-import { IsArray, IsNumberString, IsObject, IsOptional, IsString, MinLength } from "class-validator";
+import { IsArray, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
 import { Artista } from "src/artistas/entities/artistas.entity";
 import { Genero } from "src/generos/entities/genero.entity";
-import { IsNull } from "typeorm";
+import { Not } from "typeorm";
 
 export class CreateCancioneDto {
     
@@ -37,6 +37,7 @@ export class CreateCancioneDto {
     // Usuarios: Usuario[];
 
     @IsArray()
+    @IsNotEmpty()
     Artistas: Artista[];
 
     @IsArray()

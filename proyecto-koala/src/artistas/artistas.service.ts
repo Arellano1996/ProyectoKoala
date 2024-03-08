@@ -16,7 +16,7 @@ export class ArtistasService extends erroresHandler
 {
   constructor(@InjectRepository(Artista) private readonly repository: Repository<Artista>,) { 
     super()
-    this.logger = new Logger('Artistas Service');
+    this.logger = new Logger('Artistas Service')
   }
     
   async create(createArtistaDto: CreateArtistaDto) {
@@ -73,7 +73,7 @@ export class ArtistasService extends erroresHandler
 
   async update(ArtistaId: string, updateArtistaDto: UpdateArtistaDto) {
 
-    if(ArtistaId != updateArtistaDto.ArtistaId) this.handleExceptions(null, 'Información invalida');
+    if(ArtistaId != updateArtistaDto.ArtistaId) this.handleExceptions(null, 'Información invalida')
 
     return `This action updates a #${ArtistaId} artista`;
   }
@@ -86,7 +86,7 @@ export class ArtistasService extends erroresHandler
       await this.repository.remove(artista);
 
     } catch (error) {
-      throw new InternalServerErrorException()
+      this.handleExceptions(error);
     }
   }
 }
