@@ -1,11 +1,13 @@
+//#region import
 import { Artista } from "src/artistas/entities/artistas.entity";
 import { formatearSlug } from "../formatear-slug";
 import { ConflictException } from "@nestjs/common";
 import { Repository } from "typeorm";
 import { CreateCancioneDto } from "src/canciones/dto/create-cancione.dto";
 import { CreateArtistaDto } from "src/artistas/dto/create-artista.dto";
+//#endregion import
 
-export const CancionesPorArtistasIds = async (ArtistasExistentes: CreateArtistaDto[], CreateCancioneDto: CreateCancioneDto, Repository: Repository<any>) => {
+export const CancionesPorArtistasIds = async (ArtistasExistentes: CreateArtistaDto[], nombreCancion: string, Repository: Repository<any>) => {
     //Aquí se revisa si la canción ya fue registrada con un artista existente
     //Puede haber canciones con el mismo nombre, pero con diferente artista
     //Esta variable guardará un arreglo de exepciones, pero si no se regresa ningún error, será un arreglo vacio
@@ -18,11 +20,11 @@ export const CancionesPorArtistasIds = async (ArtistasExistentes: CreateArtistaD
                 .leftJoinAndSelect('cancion.Artistas', 'artistas') //alias de las entidades
                 // .leftJoinAndSelect('cancion.Generos', 'generos')
                 .where('cancion.Slug = :cancionslug and artistas.Slug = :artistanombre', {
-                    cancionslug: formatearSlug(CreateCancioneDto.Nombre),
+                    cancionslug: formatearSlug(nombreCancion),
                     artistanombre: formatearSlug(artista.Nombre)
                 }).getOne();
 
-            if (yaHayUnaCancionConElMismoNombreYArtista) throw new ConflictException(null, `El artista ${artista.Nombre} ya tiene una canción con el nombre: ${CreateCancioneDto.Nombre}.`);
+            if (yaHayUnaCancionConElMismoNombreYArtista) throw new ConflictException(null, `El artista ${artista.Nombre} ya tiene una canción con el nombre: ${nombreCancion}.`);
         }
     }));
 

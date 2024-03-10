@@ -5,16 +5,19 @@ import { Genero } from './entities/genero.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { createOrGetExistingEntity } from 'src/common/resultados.existentes';
+import erroresHandler from 'src/common/errores.handler';
 
 @Injectable()
-export class GenerosService {
-
-  private readonly logger = new Logger('Generos Service');
+export class GenerosService extends erroresHandler
+{
 
   constructor(
     @InjectRepository(Genero)
     private readonly repository: Repository<Genero>,
-  ){}
+  ){
+    super()
+    this.logger = new Logger('Generos Service')
+  }
 
   async create(createGeneroDto: CreateGeneroDto) {
     try {
@@ -26,9 +29,7 @@ export class GenerosService {
       return genero;
       
     } catch (error) {
-      this.logger.error(error);
-      if (error.code === '23505') throw new ConflictException(`El genero: ${createGeneroDto.Nombre}, ya existe`)
-      throw new InternalServerErrorException();
+      this.handleExceptions(error, `El genero: ${createGeneroDto.Nombre}, ya existe`)
     }
   }
 

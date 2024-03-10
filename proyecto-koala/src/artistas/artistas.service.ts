@@ -8,7 +8,6 @@ import { Repository } from 'typeorm';
 import { isUUID } from 'class-validator';
 import { formatearSlug } from 'src/common/formatear-slug';
 import erroresHandler from 'src/common/errores.handler';
-import { UUID } from 'crypto';
 //#endregion import
 
 @Injectable()

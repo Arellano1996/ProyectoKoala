@@ -57,11 +57,13 @@ export class CancionesService extends erroresHandler {
         artista => ({ Nombre: artista.Nombre }),
         'artista'//Nombre de la tabla
       )
-
-      const cancionesPorArtistasIds = (await CancionesPorArtistasIds(artistasExistentes, createCancioneDto, this.repository)).forEach(resultado => {
+      
+      //Aquí se revisa si ya hay canciones guardadas con el artista id
+      const cancionesPorArtistasIds = (await CancionesPorArtistasIds(artistasExistentes, createCancioneDto.Nombre, this.repository)).forEach(resultado => {
          if (resultado.status === 'rejected') throw new ConflictException(resultado.reason);
        })
 
+       //Esta variable guarda todo el objeto de Cancion incluyendo uuid, es necesaria para guardar la información en la base de datos
       const cancion = this.repository.create({
         ...restoPropiedades,
         Generos: generosExistentes,
@@ -70,6 +72,7 @@ export class CancionesService extends erroresHandler {
 
       await this.repository.save(cancion)
       
+      //Esta variable solo guarda la información necesaria para el usuario
       const _cancion = this.repository.create({
         ...restoPropiedades,
         Generos,
@@ -131,14 +134,12 @@ export class CancionesService extends erroresHandler {
         })
         //Haces la referencia a las entidades y despues a sus propiedades
         .getManyAndCount()
-
       }
       return cancion
 
     } catch (error) {
       this.handleExceptions(error)
     }
-
   }
 
   async update(id: string, updateCancioneDto: UpdateCancioneDto) {
@@ -147,7 +148,7 @@ export class CancionesService extends erroresHandler {
       //Si se cambia el nombre, este nuevo nombre no debe haber sido registrado con el mismo artista, y viseversa, se se cambia el artista
       //el artista no debe tener una canción con el nombre de la canción
 
-      //Comprobamos que el id que se va editar, es el mismo que el id que recibimos
+      //Comprobamos que el id que se va editar, es el mismo que el id que recibimos tanto por body como por parametro
       if(id != updateCancioneDto.CancionId) this.handleExceptions(null, 'Información invalida')
       
       //Después vemos qué recibimos en nuestro objeto canción
@@ -155,7 +156,7 @@ export class CancionesService extends erroresHandler {
 
       let artistasExistentes, generosExistentes;
 
-      //Si recibimos Artistas revisar si ya existen o son nuevos artistas
+      //Si recibimos Artistas y tiene información, revisar si ya existen o son nuevos artistas
       //Así obtener la referencia del objeto que ya existe o el nuevo objeto repository create
       if( Artista && Artistas.any() ){
         artistasExistentes = await createOrGetExistingEntities(
@@ -166,8 +167,10 @@ export class CancionesService extends erroresHandler {
         );
       }
 
-      //Si se recibió un artista que ya existe corroboramos que no tenga una canción con el mismo nombre
-      
+      //Si se recibió una lista de artistas que ya existe, corroboramos que no tenga una canción con el mismo nombre
+      const cancionesPorArtistasIds = (await CancionesPorArtistasIds(artistasExistentes, updateCancioneDto.Nombre, this.repository)).forEach(resultado => {
+        if (resultado.status === 'rejected') throw new ConflictException(resultado.reason);
+      })
 
       if( Generos && Generos.any() ){
         generosExistentes = await createOrGetExistingEntities(
@@ -195,7 +198,6 @@ export class CancionesService extends erroresHandler {
         }
       })
       } catch (error) {
-        console.log(error)
         this.handleExceptions(error)
       }
   
