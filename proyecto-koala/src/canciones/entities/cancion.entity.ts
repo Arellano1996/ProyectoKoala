@@ -58,7 +58,7 @@ export class Cancion {
     generarSlug(){
         this.Slug = formatearSlug( this.Nombre )
     }
-
+    
     @BeforeUpdate()
     generarSlugActualizado(){
         this.Slug = formatearSlug( this.Nombre )

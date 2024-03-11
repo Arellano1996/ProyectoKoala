@@ -1,11 +1,12 @@
-import { ConflictException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+//#region imports
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateGeneroDto } from './dto/create-genero.dto';
 import { UpdateGeneroDto } from './dto/update-genero.dto';
 import { Genero } from './entities/genero.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { createOrGetExistingEntity } from 'src/common/resultados.existentes';
 import erroresHandler from 'src/common/errores.handler';
+//#endregion imports
 
 @Injectable()
 export class GenerosService extends erroresHandler

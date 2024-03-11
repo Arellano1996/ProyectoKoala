@@ -8,6 +8,8 @@ import { Repository } from 'typeorm';
 import { isUUID } from 'class-validator';
 import { formatearSlug } from 'src/common/formatear-slug';
 import erroresHandler from 'src/common/errores.handler';
+import { Artistas } from 'src/common/consultas/Artistas';
+import { PaginationDto } from 'src/common/paginacion.dto';
 //#endregion import
 
 @Injectable()
@@ -25,7 +27,7 @@ export class ArtistasService extends erroresHandler
         
       await this.repository.save(artista)
 
-      return artista
+      return createArtistaDto
     } 
     catch (error) 
     {
@@ -33,11 +35,15 @@ export class ArtistasService extends erroresHandler
     }
   }
 
-  findAll() {
+  async findAll(paginationDto: PaginationDto) {
     try {
-      return this.repository.find();
+
+      const { limite = 0, skip = 0 } = paginationDto;
+
+      return await Artistas(limite, skip)
+
     } catch (error) {
-      throw new InternalServerErrorException()
+      this.handleExceptions(error)
     }
   }
 
@@ -66,26 +72,49 @@ export class ArtistasService extends erroresHandler
       return artista
 
     } catch (error) {
-      throw new InternalServerErrorException()
+      this.handleExceptions(error)
     }
   }
 
-  async update(ArtistaId: string, updateArtistaDto: UpdateArtistaDto) {
+  async update(artistaId: string, updateArtistaDto: UpdateArtistaDto) {
+    try {
+      //Primero vemos que el body y el uuid sean iguales
+      if(artistaId != updateArtistaDto.ArtistaId) this.handleExceptions(null, 'Información invalida')
 
-    if(ArtistaId != updateArtistaDto.ArtistaId) this.handleExceptions(null, 'Información invalida')
+      const artista = await this.repository.preload({
+        ...updateArtistaDto
+      })
 
-    return `This action updates a #${ArtistaId} artista`;
+      await this.repository.save(artista)
+
+      return await this.repository.findOne({
+        where: {
+          ArtistaId: artistaId
+        }
+      })
+    } catch (error) {
+      this.handleExceptions(error, `La artista con el nombre: ${updateArtistaDto.Nombre}, ya existe`)
+    }
   }
 
-  async remove(ArtistaId: string) {
+  async remove(artistaId: string) {
     try {
 
-      const artista = await this.repository.findOneBy({ ArtistaId });
+      const artista = await this.repository.findOneByOrFail({ ArtistaId: artistaId })
+
+      const _artista = await this.repository.createQueryBuilder('artista')
+      .where('artista.ArtistaId = :artistaId', { artistaId: artistaId })
+      .select([
+        'artista.Nombre'
+      ])
+      .getOne();
       
       await this.repository.remove(artista);
 
+      return _artista
+
     } catch (error) {
-      this.handleExceptions(error);
+      this.handleExceptions(error, `El artista que se intenta borrar no existe.`);
     }
   }
 }

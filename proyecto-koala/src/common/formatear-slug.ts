@@ -1,5 +1,6 @@
 
 export const formatearSlug = (slug: string) => {
+    if(slug)
     return slug
     .toLowerCase()
     .replaceAll(' ', '_')

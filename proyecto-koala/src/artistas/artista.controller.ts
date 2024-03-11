@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common';
+//#region imports
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query } from '@nestjs/common';
 import { ArtistasService } from './artistas.service';
 import { CreateArtistaDto } from './dto/create-artista.dto';
 import { UpdateArtistaDto } from './dto/update-artista.dto';
-import { UUID } from 'crypto';
+import { PaginationDto } from 'src/common/paginacion.dto';
+//#endregion imports
 
 @Controller('artistas')
 export class ArtistasController {
@@ -14,8 +16,8 @@ export class ArtistasController {
   }
 
   @Get()
-  findAll() {
-    return this.artistasService.findAll();
+  findAll( @Query() paginationDto: PaginationDto) {
+    return this.artistasService.findAll( paginationDto );
   }
 
   @Get(':termino')

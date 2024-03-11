@@ -41,5 +41,6 @@ export class CreateCancioneDto {
     Artistas: Artista[];
 
     @IsArray()
+    @IsNotEmpty()
     Generos: Genero[];
 }
