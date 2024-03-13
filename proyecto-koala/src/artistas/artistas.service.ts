@@ -8,8 +8,9 @@ import { Repository } from 'typeorm';
 import { isUUID } from 'class-validator';
 import { formatearSlug } from 'src/common/formatear-slug';
 import erroresHandler from 'src/common/errores.handler';
-import { Artistas } from 'src/common/consultas/Artistas';
+import { ArtistasConPaginacion } from 'src/common/consultas/ArtistasConPaginacion';
 import { PaginationDto } from 'src/common/paginacion.dto';
+import { ArtistasPorUUIDoTermino } from 'src/common/consultas/ArtistasPorUUIDoTermino';
 //#endregion import
 
 @Injectable()
@@ -40,7 +41,7 @@ export class ArtistasService extends erroresHandler
 
       const { limite = 0, skip = 0 } = paginationDto;
 
-      return await Artistas(limite, skip)
+      return await ArtistasConPaginacion(limite, skip)
 
     } catch (error) {
       this.handleExceptions(error)
@@ -48,26 +49,11 @@ export class ArtistasService extends erroresHandler
   }
 
   async findByTerm(termino: string) {
-  
     try {
       //Cuando se busca por termino, se puede usar el UUID, o un termino, en el primer caso se trae el resultado único y en el segundo se trae todas las coincidencias
       let artista: Artista | [Artista[], number]
 
-      if( isUUID(termino) ){
-        artista = await this.repository.findOneBy({ ArtistaId: termino })
-      }
-      else
-      {
-        //Se asocia la entidad repository<Artista> que está inyectada en el constructor y se especifica que se trabajará en la tabla artista en base de datos
-        const queryBuilder = this.repository.createQueryBuilder('artista')
-        //Este es un query SQL, ya que se estableció que se está trabajando en la tabla artista en la variable queryBuilder, hacemos un query donde podemos establecer variables.
-        //El formato de las variables debe ser :{nombreVariable} en este caso se complementa con los porcentajes % para hacer el query LIKE correctamente
-        artista = await queryBuilder
-        .where('artista.Slug LIKE :artistaslug', {
-          artistaslug: `%${formatearSlug(termino)}%`
-        })
-        .getManyAndCount()
-      }
+      artista = await ArtistasPorUUIDoTermino(termino)
       
       return artista
 
@@ -93,7 +79,7 @@ export class ArtistasService extends erroresHandler
         }
       })
     } catch (error) {
-      this.handleExceptions(error, `La artista con el nombre: ${updateArtistaDto.Nombre}, ya existe`)
+      this.handleExceptions(error, `El artista con el nombre: ${updateArtistaDto.Nombre}, ya existe`)
     }
   }
 
@@ -107,7 +93,7 @@ export class ArtistasService extends erroresHandler
       .select([
         'artista.Nombre'
       ])
-      .getOne();
+      .getOne()
       
       await this.repository.remove(artista);
 

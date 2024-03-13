@@ -1,7 +1,6 @@
 import { Artista } from "src/artistas/entities/artistas.entity";
 import { formatearSlug } from "src/common/formatear-slug";
 import { Genero } from "src/generos/entities/genero.entity";
-import { Usuario } from "src/usuarios/entities/usuario.entity";
 import { BeforeInsert, BeforeUpdate, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

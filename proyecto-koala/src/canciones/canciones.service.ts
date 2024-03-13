@@ -10,13 +10,12 @@ import { CreateGeneroDto } from 'src/generos/dto/create-genero.dto';
 import { createOrGetExistingEntities } from 'src/common/resultados.existentes';
 import { CreateArtistaDto } from 'src/artistas/dto/create-artista.dto';
 import { PaginationDto } from 'src/common/paginacion.dto';
-import { validate as isUUID } from 'uuid';
-import { formatearSlug } from 'src/common/formatear-slug';
 import '../common/extenciones/array.extensiones';
 import erroresHandler from 'src/common/errores.handler';
 import { Repository } from 'typeorm';
-import { CancionesConArtistasYGeneros } from 'src/common/consultas/CancionesConArtistasYGeneros';
+import { CancionesConArtistasYGenerosConPaginacion } from 'src/common/consultas/CancionesConArtistasYGenerosConPaginacion';
 import { CancionConArtistasPorCancionNombreYArtistaNombre } from 'src/common/consultas/CancionConArtistasPorCancionNombreYArtistaNombre';
+import { CancionesConArtistasYGenerosPorUUIDoTermino } from 'src/common/consultas/CancionesConArtistasYGenerosPorUUIDoTermino';
 //#endregion Importaciones
 
 @Injectable()
@@ -90,7 +89,7 @@ export class CancionesService extends erroresHandler {
 
       const { limite = 0, skip = 0 } = paginationDto;
 
-      return await CancionesConArtistasYGeneros(limite, skip)
+      return await CancionesConArtistasYGenerosConPaginacion(limite, skip)
 
     } catch (error) { 
       this.handleExceptions(error)
@@ -102,27 +101,8 @@ export class CancionesService extends erroresHandler {
 
       let cancion: Cancion | [Cancion[], number];
 
-      if (isUUID(termino)) {
-        cancion = await this.repository.findOneOrFail({
-          where: { CancionId: termino },
-          relations: {
-            Artistas: true,
-            Generos: true
-          }
-        });
-      } else {
-        const queryBuilder = this.repository.createQueryBuilder('cancion')
-
-        cancion = await queryBuilder
-        .leftJoinAndSelect('cancion.Artistas', 'artistas')//alias de las entidades
-        .leftJoinAndSelect('cancion.Generos', 'generos')
-        .where('cancion.Slug LIKE :cancionslug or artistas.Slug LIKE :artistanombre', { 
-          cancionslug: `%${formatearSlug(termino)}%`, 
-          artistanombre: `%${formatearSlug(termino)}%`
-        })
-        //Haces la referencia a las entidades y despues a sus propiedades
-        .getManyAndCount()
-      }
+      cancion = await CancionesConArtistasYGenerosPorUUIDoTermino(termino);
+      
       return cancion
 
     } catch (error) {

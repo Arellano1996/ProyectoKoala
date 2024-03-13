@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseUUIDPipe } from '@nestjs/common';
 import { GenerosService } from './generos.service';
 import { CreateGeneroDto } from './dto/create-genero.dto';
 import { UpdateGeneroDto } from './dto/update-genero.dto';
+import { PaginationDto } from 'src/common/paginacion.dto';
 
 @Controller('generos')
 export class GenerosController {
@@ -13,22 +14,22 @@ export class GenerosController {
   }
 
   @Get()
-  findAll() {
-    return this.generosService.findAll();
+  findAll( @Query() paginationDto: PaginationDto) {
+    return this.generosService.findAll( paginationDto );
   }
 
-  @Get(':id')
-  findByTerm(@Param('id') id: string) {
-    return this.generosService.findByTerm(+id);
+  @Get(':termino')
+  findByTerm(@Param('termino') termino: string) {
+    return this.generosService.findByTerm( termino );
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateGeneroDto: UpdateGeneroDto) {
-    return this.generosService.update(+id, updateGeneroDto);
+  update(@Param('id', ParseUUIDPipe) id: string, @Body() updateGeneroDto: UpdateGeneroDto) {
+    return this.generosService.update(id, updateGeneroDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.generosService.remove(+id);
+  remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.generosService.remove(id);
   }
 }

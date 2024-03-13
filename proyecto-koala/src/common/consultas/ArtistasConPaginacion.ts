@@ -6,7 +6,7 @@ import { Artista } from "src/artistas/entities/artistas.entity";
 import { Repository } from "typeorm";
 //#endregion imports
 
-export async function Artistas(limite: number, skip: number){
+export async function ArtistasConPaginacion(limite: number, skip: number){
     
     //Se inyecta el contexto y después el repositorio que se va a consultar
     const context = await NestFactory.createApplicationContext(AppModule)
