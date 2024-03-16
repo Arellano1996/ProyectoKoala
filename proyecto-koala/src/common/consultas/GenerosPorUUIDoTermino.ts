@@ -2,10 +2,10 @@
 import { NestFactory } from "@nestjs/core";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { AppModule } from "src/app.module";
+import { Genero } from "src/generos/entities/genero.entity";
 import { Repository } from "typeorm";
 import { formatearSlug } from "../formatear-slug";
 import { isUUID } from "class-validator";
-import { Genero } from "src/generos/entities/genero.entity";
 //#endregion imports
 
 export async function GenerosPorUUIDoTermino(termino: string){
@@ -16,12 +16,12 @@ export async function GenerosPorUUIDoTermino(termino: string){
 
     if( isUUID(termino) )
     {
-        return await this.repository.findOneBy({GeneroId: termino})
+        return await repository.findOneBy({GeneroId: termino})
     }
     else
     {
         return await repository
-        .createQueryBuilder('artista')
+        .createQueryBuilder('genero')
         .where('genero.Slug LIKE :generoslug', {
             generoslug: `%${ formatearSlug( termino ) }%`
         })

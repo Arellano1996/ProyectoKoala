@@ -56,7 +56,7 @@ export class GenerosService extends erroresHandler
     try {
       //Cuando se busca por termino, se puede usar el UUID, o un termino, en el primer caso se trae el resultado único y en el segundo se trae todas las coincidencias
       let genero: Genero | [Genero[], number]
-
+      
       genero = await GenerosPorUUIDoTermino( termino )
 
       return genero

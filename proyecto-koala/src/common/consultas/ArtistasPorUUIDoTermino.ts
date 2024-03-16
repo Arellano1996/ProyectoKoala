@@ -16,7 +16,7 @@ export async function ArtistasPorUUIDoTermino(termino: string){
 
     if( isUUID(termino) )
     {
-        return await this.repository.findOneBy({ ArtistaId: termino })
+        return await repository.findOneBy({ ArtistaId: termino })
     }
     else
     {

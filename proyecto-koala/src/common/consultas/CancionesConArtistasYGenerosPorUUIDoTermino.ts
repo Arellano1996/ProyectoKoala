@@ -16,7 +16,7 @@ export async function CancionesConArtistasYGenerosPorUUIDoTermino(termino: strin
 
     if (isUUID(termino)) 
     {
-        return await this.repository.findOneOrFail({
+        return await repository.findOneOrFail({
             where: { CancionId: termino },
             relations: {
                 Artistas: true,
