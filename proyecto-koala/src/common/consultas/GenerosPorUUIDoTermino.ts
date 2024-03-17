@@ -16,7 +16,9 @@ export async function GenerosPorUUIDoTermino(termino: string){
 
     if( isUUID(termino) )
     {
-        return await repository.findOneBy({GeneroId: termino})
+        return await repository.findAndCount({
+            where: { GeneroId: termino }
+        })
     }
     else
     {

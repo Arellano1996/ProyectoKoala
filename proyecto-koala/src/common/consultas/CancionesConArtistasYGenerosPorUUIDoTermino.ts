@@ -16,13 +16,13 @@ export async function CancionesConArtistasYGenerosPorUUIDoTermino(termino: strin
 
     if (isUUID(termino)) 
     {
-        return await repository.findOneOrFail({
+        return await repository.findAndCount({
             where: { CancionId: termino },
             relations: {
                 Artistas: true,
                 Generos: true
             }
-        });
+        })
     }
     else
     {

@@ -10,7 +10,6 @@ import { CreateGeneroDto } from 'src/generos/dto/create-genero.dto';
 export class UpdateCancioneDto {
 
     @IsUUID()
-    @IsOptional()
     CancionId: string;
 
     @IsString({ message: 'Nombre debe ser tipo string.'})

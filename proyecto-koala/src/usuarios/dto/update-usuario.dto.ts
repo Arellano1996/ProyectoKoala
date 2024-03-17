@@ -1,4 +1,20 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateUsuarioDto } from './create-usuario.dto';
+import { Cancion } from 'src/canciones/entities/cancion.entity';
+import { IsArray, IsOptional, IsUUID } from 'class-validator';
+import { Type } from 'class-transformer';
+import { CreateCancioneDto } from 'src/canciones/dto/create-cancione.dto';
 
-export class UpdateUsuarioDto extends PartialType(CreateUsuarioDto) {}
+export class UpdateUsuarioDto {
+    
+    @IsUUID()
+    UsuarioId: string;
+
+    @IsOptional()
+    Nombre: string;
+
+    @IsOptional()
+    Correo: string;
+    
+    @IsOptional()
+    Contrasena: string;
+
+}

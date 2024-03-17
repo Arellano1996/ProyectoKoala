@@ -1,7 +1,8 @@
+//#region imports
 import { IsArray, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
 import { Artista } from "src/artistas/entities/artistas.entity";
 import { Genero } from "src/generos/entities/genero.entity";
-import { Not } from "typeorm";
+//#endregion imports
 
 export class CreateCancioneDto {
     

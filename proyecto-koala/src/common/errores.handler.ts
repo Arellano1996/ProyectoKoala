@@ -1,5 +1,5 @@
 //#region imports
-import { BadRequestException, ConflictException, InternalServerErrorException, Logger, NotFoundException } from "@nestjs/common";
+import { ConflictException, InternalServerErrorException, Logger, NotFoundException } from "@nestjs/common";
 import { EntityNotFoundError, MustBeEntityError } from "typeorm";
 //#endregion imports
 
@@ -14,9 +14,10 @@ class erroresHandler{
         //Inicializar
         this.logger.error(error)
         
-        if( error.code === '23505') throw new ConflictException(message)
+        if( error.code === '23505' && message)  throw new ConflictException(message)
+        if( error.code === '23505' && !message) throw new ConflictException(error.detail.replace(/[()"\\]/g, '') )
         
-        if (error instanceof EntityNotFoundError) throw new NotFoundException(message)
+        if (error instanceof EntityNotFoundError && message ) throw new NotFoundException(message)
         
         if(MustBeEntityError){
             // console.log(Object.getOwnPropertyNames(error))
