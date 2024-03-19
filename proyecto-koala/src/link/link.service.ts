@@ -23,6 +23,7 @@ export class LinkService extends erroresHandler {
   }
   async create(createLinkDto: CreateLinkDto) {
     try {
+      
       const { UsuarioId, CancionId, ...resto } = createLinkDto
 
       const link = this.repository.create({

@@ -13,7 +13,7 @@ export class Cancion {
     CancionId: string;
     
     @Column()
-    Creador: string;
+    UsuarioId: string;
     
     @Column()
     Nombre: string;

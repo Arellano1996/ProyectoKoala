@@ -77,12 +77,12 @@ export class CancionesService extends erroresHandler {
       
       //Ahora agregamos la cancion al usuario
       const agregarCancionAUsuario : EditarCancionesUsuarioDto = {
-        UsuarioId : createCancioneDto.Creador,
+        UsuarioId : createCancioneDto.UsuarioId,
         AgergarCanciones: [ cancion.CancionId ],
         EliminarCanciones: []
       }
 
-      await this.usuariosService.editarCancionesUsuario(createCancioneDto.Creador, agregarCancionAUsuario)
+      await this.usuariosService.editarCancionesUsuario(createCancioneDto.UsuarioId, agregarCancionAUsuario)
       //Esta variable solo guarda la información necesaria para el usuario
       const _cancion = this.repository.create({
         ...restoPropiedades,

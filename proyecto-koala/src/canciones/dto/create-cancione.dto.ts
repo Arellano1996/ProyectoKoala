@@ -8,9 +8,8 @@ import { Genero } from "src/generos/entities/genero.entity";
 export class CreateCancioneDto {
     
     @IsUUID()
-    @MinLength(1)
     @Validate( validarQueElUuidUsuarioExista )
-    Creador: string;
+    UsuarioId: string;
 
     @IsString()
     @MinLength(1)
