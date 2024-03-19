@@ -1,13 +1,15 @@
 //#region imports
-import { IsArray, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
+import { IsArray, IsNotEmpty, IsOptional, IsString, IsUUID, MinLength, Validate } from "class-validator";
 import { Artista } from "src/artistas/entities/artistas.entity";
+import { validarQueElUuidUsuarioExista } from "src/common/validaciones/validarQueElUuidUsuarioExista";
 import { Genero } from "src/generos/entities/genero.entity";
 //#endregion imports
 
 export class CreateCancioneDto {
     
-    @IsString()
+    @IsUUID()
     @MinLength(1)
+    @Validate( validarQueElUuidUsuarioExista )
     Creador: string;
 
     @IsString()

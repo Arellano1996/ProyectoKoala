@@ -1,5 +1,5 @@
 //#region Importaciones 
-import { ConflictException, Injectable, Logger } from '@nestjs/common';
+import { ConflictException, Inject, Injectable, Logger } from '@nestjs/common';
 import { CreateCancioneDto } from './dto/create-cancione.dto';
 import { UpdateCancioneDto } from './dto/update-cancione.dto';
 import { Cancion } from './entities/cancion.entity';
@@ -16,6 +16,9 @@ import { Repository } from 'typeorm';
 import { CancionesConArtistasYGenerosConPaginacion } from 'src/common/consultas/CancionesConArtistasYGenerosConPaginacion';
 import { CancionConArtistasPorCancionNombreYArtistaNombre } from 'src/common/consultas/CancionConArtistasPorCancionNombreYArtistaNombre';
 import { CancionesConArtistasYGenerosPorUUIDoTermino } from 'src/common/consultas/CancionesConArtistasYGenerosPorUUIDoTermino';
+import { UsuariosService } from 'src/usuarios/usuarios.service';
+import { EditarCancionesUsuarioDto } from 'src/usuarios/dto/editar-canciones-usuario.dto';
+import { UsuariosModule } from 'src/usuarios/usuarios.module';
 //#endregion Importaciones
 
 @Injectable()
@@ -31,6 +34,8 @@ export class CancionesService extends erroresHandler {
     @InjectRepository(Artista)
     private readonly repositoryArtista: Repository<Artista>,
 
+    @Inject(UsuariosService)
+    private readonly usuariosService: UsuariosService
   ) { 
     super()
     this.logger = new Logger('Canciones Service')
@@ -70,11 +75,19 @@ export class CancionesService extends erroresHandler {
 
       await this.repository.save(cancion)
       
+      //Ahora agregamos la cancion al usuario
+      const agregarCancionAUsuario : EditarCancionesUsuarioDto = {
+        UsuarioId : createCancioneDto.Creador,
+        AgergarCanciones: [ cancion.CancionId ],
+        EliminarCanciones: []
+      }
+
+      await this.usuariosService.editarCancionesUsuario(createCancioneDto.Creador, agregarCancionAUsuario)
       //Esta variable solo guarda la información necesaria para el usuario
       const _cancion = this.repository.create({
         ...restoPropiedades,
         Generos,
-        Artistas
+        Artistas,
       })
       
       return _cancion;

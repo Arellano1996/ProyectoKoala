@@ -1,6 +1,7 @@
 import { Cancion } from "src/canciones/entities/cancion.entity";
 import { formatearSlug } from "src/common/formatear-slug";
-import { BeforeInsert, BeforeUpdate, Column, Entity, IsNull, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Link } from "src/link/entities/link.entity";
+import { BeforeInsert, BeforeUpdate, Column, Entity, IsNull, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Usuario {
@@ -58,6 +59,11 @@ export class Usuario {
     @ManyToMany(type => Cancion, cancion => cancion.CancionId)
     @JoinTable()
     Canciones: Cancion[] | null;
+
+    //Si se usa OneToMany() es obligatorio usar tambien ManyToOne() y @JoinTable() se puede omitir en estas dos relaciones OneToMany y ManyToOne
+    //Un usuario puede tener muchos links
+    @OneToMany( type => Link, link => link.Usuario)
+    Links: Link[] | null;
 
     @BeforeInsert()
     generarSlug(){
