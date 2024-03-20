@@ -1,7 +1,5 @@
 import { ValidationArguments, ValidatorConstraint } from 'class-validator';
-import { LinksConUsuarioYCancionePorUsuarioUUIDYCancionUUID } from '../consultas/LinksConUsuarioYCancionePorUsuarioUUIDYCancionUUID';
 import { CancionPorUUID } from '../consultas/CancionPorUUID';
-import { Cancion } from 'src/canciones/entities/cancion.entity';
 import { LinksConCancionYUsuarioPorCancionUUIDUsuarioUUIDYURL } from '../consultas/LinksConCancionYUsuarioPorCancionUUIDUsuarioUUIDYURL';
 
 

@@ -1,5 +1,5 @@
 import { ValidationArguments, ValidatorConstraint } from 'class-validator';
-import { LinksConUsuarioYCancionePorUsuarioUUIDYCancionUUID } from '../consultas/LinksConUsuarioYCancionePorUsuarioUUIDYCancionUUID';
+import { LinksConUsuarioYCancionesPorUsuarioUUIDYCancionUUID } from '../consultas/LinksConUsuarioYCancionesPorUsuarioUUIDYCancionUUID';
 
 
 @ValidatorConstraint({ async: true })
@@ -11,10 +11,10 @@ export class validarSiEsPrimerLinkEnRegistrarse {
     const { object, constraints } = args;
 
     //Las posibles respuestas son un usuario o null
-    const link = await LinksConUsuarioYCancionePorUsuarioUUIDYCancionUUID(object['UsuarioId'], object['CancionId'])
+    const link = await LinksConUsuarioYCancionesPorUsuarioUUIDYCancionUUID(object['UsuarioId'], object['CancionId'])
     
     //Si no hay resultados entonces este link será el default, si ya hay más resultados default será falso
-    if(link === 0) object['Default'] = true
+    if(link[1] === 0) object['Default'] = true
     
     return true
 

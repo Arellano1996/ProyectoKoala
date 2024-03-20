@@ -1,11 +1,11 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateCancioneDto } from './create-cancione.dto';
-import { ArrayMinSize, IsArray, IsNotEmpty, IsOptional, IsString, IsUUID, MinLength, ValidateNested } from 'class-validator';
+//#region Imports
+import { ArrayMinSize, IsArray, IsOptional, IsString, IsUUID, MinLength, ValidateNested } from 'class-validator';
 import { Artista } from 'src/artistas/entities/artistas.entity';
 import { Type } from 'class-transformer';
 import { Genero } from 'src/generos/entities/genero.entity';
 import { CreateArtistaDto } from 'src/artistas/dto/create-artista.dto';
 import { CreateGeneroDto } from 'src/generos/dto/create-genero.dto';
+//#endregion Imports
 
 export class UpdateCancioneDto {
 

@@ -7,6 +7,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Link } from './entities/link.entity';
 import { Repository } from 'typeorm';
 import { LinksConUsuariosYCancionesConPaginacionPorUsuarioUUID } from 'src/common/consultas/LinksConUsuariosYCancionesConPaginacionPorUsuarioUUID';
+import { LinksConUsuarioYCancionesPorUsuarioUUIDYCancionUUID } from 'src/common/consultas/LinksConUsuarioYCancionesPorUsuarioUUIDYCancionUUID';
+import { LinkPorUsuarioYCancion } from './modelos/LinkPorUsuarioYCancion.model';
 //#endregion imports
 
 @Injectable()
@@ -44,7 +46,7 @@ export class LinkService extends erroresHandler {
   }
 
   //Todos los links de un usuario
-  async findAll(usuarioId: string) {
+  async EncontrarTodosLosLinksDeUnUsuario(usuarioId: string) {
     try {
       //Regresar solo los campos necesarios
       return await LinksConUsuariosYCancionesConPaginacionPorUsuarioUUID(usuarioId)
@@ -54,8 +56,18 @@ export class LinkService extends erroresHandler {
   }
 
   //Todos los links de un usuario y de una canción en especifico
-  async findOne(id: number) {
-    return `This action returns a #${id} link`;
+  async EncontrarTodosLosLinksPorUsuarioYCancion(linkPorUsuarioYCancion: LinkPorUsuarioYCancion) {
+    try {
+      const { UsuarioId, CancionId } = linkPorUsuarioYCancion
+  
+      const linksPorUsuarioYCancion = await LinksConUsuarioYCancionesPorUsuarioUUIDYCancionUUID(UsuarioId, CancionId)
+  
+      return linksPorUsuarioYCancion
+
+    } catch (error) {
+      this.handleExceptions(error)
+    }
+
   }
 
   async update(id: number, updateLinkDto: UpdateLinkDto) {
