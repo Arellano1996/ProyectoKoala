@@ -1,5 +1,4 @@
 import { ValidationArguments, ValidatorConstraint } from 'class-validator';
-import { CancionPorUUID } from '../consultas/CancionPorUUID';
 import { LinksConUsuarioYCancionePorUsuarioUUIDYCancionUUID } from '../consultas/LinksConUsuarioYCancionePorUsuarioUUIDYCancionUUID';
 
 

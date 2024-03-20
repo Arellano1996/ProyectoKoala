@@ -21,6 +21,7 @@ export class LinkService extends erroresHandler {
     super();
     this.logger = new Logger('Links Service')
   }
+  
   async create(createLinkDto: CreateLinkDto) {
     try {
       

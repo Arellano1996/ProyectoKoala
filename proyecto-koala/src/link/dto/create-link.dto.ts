@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsOptional, IsUUID, IsUrl, Validate } from "class-validator";
+import { IsOptional, IsUUID, IsUrl, Validate } from "class-validator";
+import { validarQueElLinkNoEsteRegitradoConLaMismaCancion } from "src/common/validaciones/validarQueElLinkNoEsteRegitradoConLaMismaCancion";
 import { validarQueElUuidCancionExista } from "src/common/validaciones/validarQueElUuidCancionExista";
 import { validarQueElUuidUsuarioExista } from "src/common/validaciones/validarQueElUuidUsuarioExista";
 import { validarSiEsPrimerLinkEnRegistrarse } from "src/common/validaciones/validarSiEsPrimerLinkEnRegistrarse";
@@ -6,6 +7,7 @@ import { validarSiEsPrimerLinkEnRegistrarse } from "src/common/validaciones/vali
 export class CreateLinkDto {
 
     @IsUrl()
+    @Validate( validarQueElLinkNoEsteRegitradoConLaMismaCancion )
     URL: string;
 
     //Validar que exista
