@@ -15,7 +15,7 @@ export class LinkController {
 
   
   @Get(':id')
-  findAll(@Param('id', ParseUUIDPipe) id: string) {
+  EncontrarTodosLosLinksDeUnUsuario(@Param('id', ParseUUIDPipe) id: string) {
     return this.linkService.EncontrarTodosLosLinksDeUnUsuario(id);
   }
   
@@ -24,9 +24,9 @@ export class LinkController {
     return this.linkService.EncontrarTodosLosLinksPorUsuarioYCancion(linkPorUsuarioYCancion);
   }
   
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLinkDto: UpdateLinkDto) {
-    return this.linkService.update(+id, updateLinkDto);
+  @Patch()
+  update(@Body() updateLinkDto: UpdateLinkDto) {
+    return this.linkService.update(updateLinkDto);
   }
 
   @Delete(':id')

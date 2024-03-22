@@ -67,11 +67,24 @@ export class LinkService extends erroresHandler {
     } catch (error) {
       this.handleExceptions(error)
     }
-
+    
   }
+  
+  //TODO: validar tokens para que otros usuario no puedan modificar los links de otros usuarios
+  async update( updateLinkDto: UpdateLinkDto) {
+    try {
 
-  async update(id: number, updateLinkDto: UpdateLinkDto) {
-    return `This action updates a #${id} link`;
+      const link = await this.repository.preload({
+        ...updateLinkDto
+      })
+
+      await this.repository.save(link)
+
+      return await this.repository.findOneBy({ LinkId: updateLinkDto.LinkId })
+
+    } catch (error) {
+      this.handleExceptions(error)
+    }
   }
 
   async remove(id: number) {
