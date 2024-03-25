@@ -1,4 +1,5 @@
 import { Equals, IsBoolean, IsOptional, IsUUID, IsUrl, Validate } from "class-validator";
+import { validarQueElLinkExista } from "src/common/validaciones/validarQueElLinkExista";
 import { validarQueElUuidCancionExista } from "src/common/validaciones/validarQueElUuidCancionExista";
 import { validarQueElUuidUsuarioExista } from "src/common/validaciones/validarQueElUuidUsuarioExista";
 
@@ -14,6 +15,7 @@ export class UpdateLinkDto {
     CancionId: string;
 
     @IsUUID()
+    @Validate( validarQueElLinkExista )
     LinkId: string;
 
     @IsUrl()

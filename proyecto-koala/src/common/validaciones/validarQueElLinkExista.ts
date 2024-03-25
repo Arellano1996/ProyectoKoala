@@ -1,10 +1,10 @@
 import { ValidationArguments, ValidatorConstraint } from 'class-validator';
-import { CancionPorUUIDYUsuarioUUID } from '../consultas/CancionPorUUIDYUsuarioUUID';
-import { CancionPorUUID } from '../consultas/CancionPorUUID';
+import { UsuarioPorUUID } from '../consultas/UsuarioPorUUID';
+import { LinkPorLinkUUID } from '../consultas/LinkPorLinkUUID';
 
 
 @ValidatorConstraint({ async: true })
-export class validarQueElUuidCancionExista {
+export class validarQueElLinkExista {
   
   async validate(value: any, args: ValidationArguments) {
     //En object tenemos las propiedades de nuestro DTO con sus respectivos valores
@@ -12,16 +12,16 @@ export class validarQueElUuidCancionExista {
     const { object, constraints } = args;
 
     //Las posibles respuestas son un usuario o null
-    const cancion = await CancionPorUUID(object['CancionId'])
+    const link = await LinkPorLinkUUID(object['LinkId'])
 
-    return !!cancion
+    return !!link
 
   }
 
   defaultMessage(args: ValidationArguments) {
-
+    
     const { object, constraints } = args;
 
-    return `No se encontró ninguna canción con el id ${ object['CancionId'] } en los links del usuario`;
+    return `No se encontró ningun link con el id ${ object['LinkId'] }`;
   }
 }

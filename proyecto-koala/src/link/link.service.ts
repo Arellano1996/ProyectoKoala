@@ -134,10 +134,15 @@ export class LinkService extends erroresHandler {
   async remove(linkId: string) {
     try {
       
-      const linkAEliminar = await this.repository.findOneByOrFail({ LinkId: linkId})
+      const linkAEliminar = await this.repository.createQueryBuilder('link')
+      .leftJoinAndSelect('link.Usuario', 'usuario')
+      .leftJoinAndSelect('link.Cancion', 'cancion')
+      .where('link.LinkId = :linkId', { linkId })
+      .getOneOrFail();
 
       const linkDeReferencia = await this.repository.createQueryBuilder('link')
       .leftJoinAndSelect('link.Cancion', 'cancion')
+      .leftJoinAndSelect('link.Usuario', 'usuario')
       .where('link.LinkId = :linkId', { linkId })
       .select([
         'cancion.Nombre',
@@ -147,7 +152,21 @@ export class LinkService extends erroresHandler {
 
       await this.repository.remove(linkAEliminar)
 
-      return linkDeReferencia
+      //Mandamos el número de links que hay en esa canción
+      const linksRestantesParaEsaCancion = await this.repository.createQueryBuilder('link')
+      .leftJoinAndSelect('link.Cancion', 'cancion')
+      .leftJoinAndSelect('link.Usuario', 'usuario')
+      .where('cancion.CancionId = :cancionId AND usuario.UsuarioId = :usuarioId', { 
+        cancionId: linkAEliminar.Cancion.CancionId, 
+        usuarioId: linkAEliminar.Usuario.UsuarioId 
+      })
+      .getCount()
+      
+      return { 
+        linkEliminado: linkDeReferencia, 
+        linksRestantes: linksRestantesParaEsaCancion,
+        seEliminoDefault: linkAEliminar.Default 
+      }
 
     } catch (error) {
       this.handleExceptions(error, 'El link que se intenta borrar no existe.')
