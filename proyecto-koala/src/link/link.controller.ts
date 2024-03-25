@@ -30,7 +30,7 @@ export class LinkController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.linkService.remove(+id);
+  remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.linkService.remove(id);
   }
 }

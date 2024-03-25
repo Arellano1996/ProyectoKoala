@@ -6,7 +6,7 @@ import { Link } from "src/link/entities/link.entity";
 import { Repository } from "typeorm";
 //#endregion imports
 
-export async function LinksConCancionYUsuarioPorCancionUUIDUsuarioUUIDURLYDiferenteALinkId(cancionId: string, usuarioId: string, url: string, linkId: string){
+export async function LinkDefaultPorUsuarioUUIDYCancionUUID(usuarioId: string, cancionId: string){
     
     //Se inyecta el contexto y después el repositorio que se va a consultar
     const context = await NestFactory.createApplicationContext(AppModule)
@@ -16,15 +16,9 @@ export async function LinksConCancionYUsuarioPorCancionUUIDUsuarioUUIDURLYDifere
     .createQueryBuilder('link')
     .leftJoinAndSelect('link.Usuario', 'usuario')
     .leftJoinAndSelect('link.Cancion', 'cancion')
-    .where(`usuario.UsuarioId = :usuarioId AND 
-    cancion.CancionId = :cancionId AND
-     link.URL = :url AND
-     link.LinkId != :linkId
-     `, {
+    .where(`usuario.UsuarioId = :usuarioId AND cancion.CancionId = :cancionId AND link.Default = true`, {
         usuarioId,
-        cancionId,
-        url,
-        linkId
+        cancionId
     })
-    .getManyAndCount()
+    .getOne()
 }

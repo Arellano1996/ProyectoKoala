@@ -1,5 +1,5 @@
 import { ValidationArguments, ValidatorConstraint } from 'class-validator';
-import { CancionPorUUID } from '../consultas/CancionPorUUID';
+import { CancionPorUUIDYUsuarioUUID } from '../consultas/CancionPorUUIDYUsuarioUUID';
 
 
 @ValidatorConstraint({ async: true })
@@ -11,7 +11,7 @@ export class validarQueElUuidCancionExista {
     const { object, constraints } = args;
 
     //Las posibles respuestas son un usuario o null
-    const cancion = await CancionPorUUID(object['CancionId'])
+    const cancion = await CancionPorUUIDYUsuarioUUID(object['CancionId'], object['UsuarioId'])
 
     return !!cancion
 
@@ -21,6 +21,6 @@ export class validarQueElUuidCancionExista {
 
     const { object, constraints } = args;
 
-    return `No se encontró ninguna canción con el id ${ object['CancionId'] }`;
+    return `No se encontró ninguna canción con el id ${ object['CancionId'] } en los links del usuario`;
   }
 }
