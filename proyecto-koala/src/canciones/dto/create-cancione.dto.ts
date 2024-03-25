@@ -1,8 +1,11 @@
 //#region imports
-import { IsArray, IsNotEmpty, IsOptional, IsString, IsUUID, MinLength, Validate } from "class-validator";
+import { Type } from "class-transformer";
+import { IsArray, IsInstance, IsNotEmpty, IsOptional, IsString, IsUUID, MinLength, Validate, ValidateNested } from "class-validator";
 import { Artista } from "src/artistas/entities/artistas.entity";
 import { validarQueElUuidUsuarioExista } from "src/common/validaciones/validarQueElUuidUsuarioExista";
 import { Genero } from "src/generos/entities/genero.entity";
+import { CreateLinkDto } from "src/link/dto/create-link.dto";
+import { Link } from "src/link/entities/link.entity";
 //#endregion imports
 
 export class CreateCancioneDto {
@@ -30,10 +33,10 @@ export class CreateCancioneDto {
     @IsOptional()
     Letra?: string;
 
-    @IsString()
-    @MinLength(1)
     @IsOptional()
-    Link?: string;
+    @ValidateNested({ each: true }) // Valida cada objeto dentro del array
+    @Type(() => CreateLinkDto) // Transforma cada objeto a CreateLinkDto
+    Links: CreateLinkDto[];
 
     // @ManyToMany(type => Usuario, Usuario => Usuario.Canciones)
     // Usuarios: Usuario[];

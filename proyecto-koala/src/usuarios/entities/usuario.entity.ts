@@ -1,5 +1,6 @@
 import { Cancion } from "src/canciones/entities/cancion.entity";
 import { formatearSlug } from "src/common/formatear-slug";
+import { Letra } from "src/letras/entities/letra.entity";
 import { Link } from "src/link/entities/link.entity";
 import { BeforeInsert, BeforeUpdate, Column, Entity, IsNull, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
@@ -64,6 +65,9 @@ export class Usuario {
     //Un usuario puede tener muchos links
     @OneToMany( type => Link, link => link.Usuario)
     Links: Link[] | null;
+
+    @OneToMany( type => Letra, link => link.Letra)
+    Letras: Letra[] | null;
 
     @BeforeInsert()
     generarSlug(){

@@ -2,6 +2,7 @@
 import { Artista } from "src/artistas/entities/artistas.entity";
 import { formatearSlug } from "src/common/formatear-slug";
 import { Genero } from "src/generos/entities/genero.entity";
+import { Letra } from "src/letras/entities/letra.entity";
 import { Link } from "src/link/entities/link.entity";
 import { BeforeInsert, BeforeUpdate, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 //#endregion imports
@@ -31,12 +32,12 @@ export class Cancion {
     })
     Acordes?: string;
 
-    @Column({
-        nullable: true
-    })
-    Letra?: string;
+    @OneToMany( type => Letra, letra => letra.Cancion)
+    Letras: Letra[];
 
-    @OneToMany( type => Link, link => link.Cancion)
+    @OneToMany( type => Link, link => link.Cancion, {
+        cascade: true
+    })
     Links: Link[];
 
     @ManyToMany( type => Artista, Artista => Artista.ArtistaId, {

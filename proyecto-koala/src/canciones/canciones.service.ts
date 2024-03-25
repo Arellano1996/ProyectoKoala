@@ -19,6 +19,7 @@ import { CancionesConArtistasYGenerosPorUUIDoTermino } from 'src/common/consulta
 import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { EditarCancionesUsuarioDto } from 'src/usuarios/dto/editar-canciones-usuario.dto';
 import { UsuariosModule } from 'src/usuarios/usuarios.module';
+import { Link } from 'src/link/entities/link.entity';
 //#endregion Importaciones
 
 @Injectable()
@@ -34,6 +35,9 @@ export class CancionesService extends erroresHandler {
     @InjectRepository(Artista)
     private readonly repositoryArtista: Repository<Artista>,
 
+    @InjectRepository(Link)
+    private readonly repositoryLink: Repository<Link>,
+
     @Inject(UsuariosService)
     private readonly usuariosService: UsuariosService
   ) { 
@@ -44,7 +48,7 @@ export class CancionesService extends erroresHandler {
   async create(createCancioneDto: CreateCancioneDto) {
     try {
 
-      const { Generos, Artistas, ...restoPropiedades } = createCancioneDto;
+      const { Generos, Artistas, Links, ...restoPropiedades } = createCancioneDto;
 
       //Revisamos si los artistas ya existen
       const artistas = await createOrGetExistingEntities(
@@ -70,10 +74,13 @@ export class CancionesService extends erroresHandler {
       const cancion = this.repository.create({
         ...restoPropiedades,
         Generos: generos,
-        Artistas: artistas
+        Artistas: artistas,
+        Links
       })
 
-      await this.repository.save(cancion)
+      console.log(cancion)
+      //TODO linkDTO para Link desde canción, solo agregar UsuarioId y CancionId se agrega en cascada automaticamente
+      //await this.repository.save(cancion)
       
       //Ahora agregamos la cancion al usuario
       const agregarCancionAUsuario : EditarCancionesUsuarioDto = {
@@ -88,6 +95,7 @@ export class CancionesService extends erroresHandler {
         ...restoPropiedades,
         Generos,
         Artistas,
+        Links
       })
       
       return _cancion;
