@@ -10,7 +10,6 @@ export class validarQueLosLinksSeAsignenAlMismoUsuarioQueEstaCreandoLaCancion {
     //En constraints se refiere a los parámetros adicionales que puedes proporcionar al utilizar el decorador @Validate
     const { object, constraints } = args;
 
-
     const usuarioId = object['UsuarioId']
     
     for (const link of object['Links']) {
@@ -32,6 +31,7 @@ export class validarQueLosLinksSeAsignenAlMismoUsuarioQueEstaCreandoLaCancion {
     
     const { object, constraints } = args;
 
+    if(this.mensaje === undefined) return `Todos los Links deben tener UsuarioId`
     return `No tienes permisos para asignar links al usuario con id ${ this.mensaje }`
   }
 }

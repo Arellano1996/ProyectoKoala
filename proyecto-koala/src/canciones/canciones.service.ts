@@ -49,6 +49,7 @@ export class CancionesService extends erroresHandler {
     this.logger = new Logger('Canciones Service')
   }
 
+  //Corroborar que todo funcioné bien
   //TODO Si se crea más de un link y no hay ninguno como default, se debe marcar el primer como default
   async create(createCancioneDto: CreateCancioneDto) {
     try {

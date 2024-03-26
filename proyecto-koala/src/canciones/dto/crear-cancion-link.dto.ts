@@ -1,6 +1,5 @@
 import { IsOptional, IsUUID, IsUrl, Validate } from "class-validator";
-import { validarQueElLinkNoEsteRegitradoConLaMismaCancion } from "src/common/validaciones/validarQueElLinkNoEsteRegitradoConLaMismaCancion";
-import { validarSiEsPrimerLinkEnRegistrarse } from "src/common/validaciones/validarSiEsPrimerLinkEnRegistrarse";
+import { validarQueElUuidUsuarioExista } from "src/common/validaciones/validarQueElUuidUsuarioExista";
 
 export class CreateCancioneLinkDto{
     
@@ -17,6 +16,5 @@ export class CreateCancioneLinkDto{
     Tono: string;
     
     @IsOptional()
-    @Validate( validarSiEsPrimerLinkEnRegistrarse )
     Default: boolean = false;
 }

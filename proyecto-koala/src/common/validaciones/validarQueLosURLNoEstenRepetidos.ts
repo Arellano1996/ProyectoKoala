@@ -32,6 +32,6 @@ export class validarQueLosURLNoEstenRepetidos {
     
     const { object, constraints } = args;
 
-    return `No puede haber URL's repetidas ${ this.mensaje }`
+    return `No puede haber URL's repetidos ${ this.mensaje }`
   }
 }

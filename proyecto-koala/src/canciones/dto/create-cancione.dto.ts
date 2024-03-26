@@ -1,12 +1,13 @@
 //#region imports
 import { Type } from "class-transformer";
-import { IsArray, IsNotEmpty, IsOptional, IsString, IsUUID, MinLength, Validate, ValidateNested } from "class-validator";
+import { IsArray, IsNotEmpty, IsOptional, IsString, IsUUID, MinLength, Validate } from "class-validator";
 import { Artista } from "src/artistas/entities/artistas.entity";
 import { validarQueElUuidUsuarioExista } from "src/common/validaciones/validarQueElUuidUsuarioExista";
 import { Genero } from "src/generos/entities/genero.entity";
 import { CreateCancioneLinkDto } from "./crear-cancion-link.dto";
 import { validarQueLosLinksSeAsignenAlMismoUsuarioQueEstaCreandoLaCancion } from "src/common/validaciones/validarQueLosLinksSeAsignenAlMismoUsuarioQueEstaCreandoLaCancion";
 import { validarQueLosURLNoEstenRepetidos } from "src/common/validaciones/validarQueLosURLNoEstenRepetidos";
+import { siNoHayLinkDefaultEstablecerElPrimerLinkComoDefault } from "src/common/validaciones/siNoHayLinkDefaultEstablecerElPrimerLinkComoDefault";
 //#endregion imports
 
 export class CreateCancioneDto {
@@ -38,10 +39,8 @@ export class CreateCancioneDto {
     @Type(() => CreateCancioneLinkDto) // Transforma cada objeto a CreateLinkDto
     @Validate( validarQueLosLinksSeAsignenAlMismoUsuarioQueEstaCreandoLaCancion )
     @Validate( validarQueLosURLNoEstenRepetidos )
+    @Validate( siNoHayLinkDefaultEstablecerElPrimerLinkComoDefault )
     Links: CreateCancioneLinkDto[];
-    
-    // @ManyToMany(type => Usuario, Usuario => Usuario.Canciones)
-    // Usuarios: Usuario[];
 
     @IsArray()
     @IsNotEmpty()
