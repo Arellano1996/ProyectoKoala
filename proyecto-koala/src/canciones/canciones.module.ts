@@ -8,6 +8,7 @@ import { Artista } from 'src/artistas/entities/artistas.entity';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { UsuariosModule } from 'src/usuarios/usuarios.module';
 import { Link } from 'src/link/entities/link.entity';
+import { LinkModule } from 'src/link/link.module';
 
 @Module({
   controllers: [CancionesController],
@@ -19,7 +20,8 @@ import { Link } from 'src/link/entities/link.entity';
       Artista,
       Link
      ]),
-     UsuariosModule
+     UsuariosModule,
+     LinkModule
   ],
 })
 export class CancionesModule {}

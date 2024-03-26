@@ -18,8 +18,9 @@ import { CancionConArtistasPorCancionNombreYArtistaNombre } from 'src/common/con
 import { CancionesConArtistasYGenerosPorUUIDoTermino } from 'src/common/consultas/CancionesConArtistasYGenerosPorUUIDoTermino';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { EditarCancionesUsuarioDto } from 'src/usuarios/dto/editar-canciones-usuario.dto';
-import { UsuariosModule } from 'src/usuarios/usuarios.module';
 import { Link } from 'src/link/entities/link.entity';
+import { CreateLinkDto } from 'src/link/dto/create-link.dto';
+import { LinkService } from 'src/link/link.service';
 //#endregion Importaciones
 
 @Injectable()
@@ -39,17 +40,22 @@ export class CancionesService extends erroresHandler {
     private readonly repositoryLink: Repository<Link>,
 
     @Inject(UsuariosService)
-    private readonly usuariosService: UsuariosService
+    private readonly usuariosService: UsuariosService,
+
+    @Inject(LinkService)
+    private readonly linkService: LinkService,
   ) { 
     super()
     this.logger = new Logger('Canciones Service')
   }
 
+  //TODO Si se crea más de un link y no hay ninguno como default, se debe marcar el primer como default
   async create(createCancioneDto: CreateCancioneDto) {
     try {
 
       const { Generos, Artistas, Links, ...restoPropiedades } = createCancioneDto;
 
+      //#region 1.- Guardar cancion con Artistas y Generos
       //Revisamos si los artistas ya existen
       const artistas = await createOrGetExistingEntities(
         this.repositoryArtista,
@@ -74,23 +80,33 @@ export class CancionesService extends erroresHandler {
       const cancion = this.repository.create({
         ...restoPropiedades,
         Generos: generos,
-        Artistas: artistas,
-        Links
+        Artistas: artistas
       })
 
-      console.log(cancion)
-      //TODO linkDTO para Link desde canción, solo agregar UsuarioId y CancionId se agrega en cascada automaticamente
-      //await this.repository.save(cancion)
+      //#endregion guardar canción con artistas y generos
       
-      //Ahora agregamos la cancion al usuario
+      await this.repository.save(cancion)
+      
+      //2.- Ahora agregamos la cancion a la lista de canciones del usuario
       const agregarCancionAUsuario : EditarCancionesUsuarioDto = {
         UsuarioId : createCancioneDto.UsuarioId,
         AgergarCanciones: [ cancion.CancionId ],
         EliminarCanciones: []
       }
-
       await this.usuariosService.editarCancionesUsuario(createCancioneDto.UsuarioId, agregarCancionAUsuario)
-      //Esta variable solo guarda la información necesaria para el usuario
+
+      //3.- Guardamos los links con su relación a la nueva canción y al usuario
+      Links.forEach(async link => {
+        const nuevoLinkConUsuarioYCancion : CreateLinkDto = {
+          CancionId: cancion.CancionId,
+          ...link
+        }
+
+        await this.linkService.create(nuevoLinkConUsuarioYCancion)
+
+      })
+
+      //4.- Mandar el resultado, esta variable solo guarda la información necesaria para el usuario
       const _cancion = this.repository.create({
         ...restoPropiedades,
         Generos,
@@ -105,6 +121,7 @@ export class CancionesService extends erroresHandler {
     }
   }
 
+  //TODO Agregar las instancias de links
   async findAll(paginationDto: PaginationDto) {
     try {
 
@@ -191,6 +208,7 @@ export class CancionesService extends erroresHandler {
   
   }
 
+  //TODO al momento de eliminar una canción se debe eliminar también los links
   async remove(cancionId: string) {
     try {
       //Para eliminar se necesita una instancia de la canción
