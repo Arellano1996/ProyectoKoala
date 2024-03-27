@@ -13,9 +13,9 @@ import { PaginationDto } from 'src/common/paginacion.dto';
 import '../common/extenciones/array.extensiones';
 import erroresHandler from 'src/common/errores.handler';
 import { Repository } from 'typeorm';
-import { CancionesConArtistasYGenerosConPaginacion } from 'src/common/consultas/CancionesConArtistasYGenerosConPaginacion';
+import { CancionesConEntidadesConPaginacion } from 'src/common/consultas/CancionesConEntidadesConPaginacion';
 import { CancionConArtistasPorCancionNombreYArtistaNombre } from 'src/common/consultas/CancionConArtistasPorCancionNombreYArtistaNombre';
-import { CancionesConArtistasYGenerosPorUUIDoTermino } from 'src/common/consultas/CancionesConArtistasYGenerosPorUUIDoTermino';
+import { CancionesConEntidadesPorUUIDoTermino } from 'src/common/consultas/CancionesConEntidadesPorUUIDoTermino';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { EditarCancionesUsuarioDto } from 'src/usuarios/dto/editar-canciones-usuario.dto';
 import { Link } from 'src/link/entities/link.entity';
@@ -122,13 +122,12 @@ export class CancionesService extends erroresHandler {
     }
   }
 
-  //TODO Agregar las instancias de links
   async findAll(paginationDto: PaginationDto) {
     try {
 
       const { limite = 0, skip = 0 } = paginationDto;
 
-      return await CancionesConArtistasYGenerosConPaginacion(limite, skip)
+      return await CancionesConEntidadesConPaginacion(limite, skip)
 
     } catch (error) { 
       this.handleExceptions(error)
@@ -140,7 +139,7 @@ export class CancionesService extends erroresHandler {
 
       let cancion: Cancion | [Cancion[], number];
 
-      cancion = await CancionesConArtistasYGenerosPorUUIDoTermino(termino);
+      cancion = await CancionesConEntidadesPorUUIDoTermino(termino);
       
       return cancion
 

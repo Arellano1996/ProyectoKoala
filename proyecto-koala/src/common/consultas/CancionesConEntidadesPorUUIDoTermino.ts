@@ -8,7 +8,7 @@ import { formatearSlug } from "../formatear-slug";
 import { isUUID } from "class-validator";
 //#endregion imports
 
-export async function CancionesConArtistasYGenerosPorUUIDoTermino(termino: string){
+export async function CancionesConEntidadesPorUUIDoTermino(termino: string){
     
     //Se inyecta el contexto y después el repositorio que se va a consultar
     const context = await NestFactory.createApplicationContext(AppModule)
@@ -20,7 +20,8 @@ export async function CancionesConArtistasYGenerosPorUUIDoTermino(termino: strin
             where: { CancionId: termino },
             relations: {
                 Artistas: true,
-                Generos: true
+                Generos: true,
+                Links: true
             }
         })
     }
@@ -30,6 +31,7 @@ export async function CancionesConArtistasYGenerosPorUUIDoTermino(termino: strin
         .createQueryBuilder('cancion')
         .leftJoinAndSelect('cancion.Artistas', 'artistas')//alias de las entidades
         .leftJoinAndSelect('cancion.Generos', 'generos')
+        .leftJoinAndSelect('cancion.Links', 'links')
         .where('cancion.Slug LIKE :cancionslug or artistas.Slug LIKE :artistanombre', { 
             cancionslug: `%${formatearSlug(termino)}%`, 
             artistanombre: `%${formatearSlug(termino)}%`

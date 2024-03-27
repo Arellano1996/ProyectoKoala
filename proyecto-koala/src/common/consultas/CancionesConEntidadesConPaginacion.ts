@@ -6,7 +6,7 @@ import { Cancion } from "src/canciones/entities/cancion.entity";
 import { Repository } from "typeorm";
 //#endregion imports
 
-export async function CancionesConArtistasYGenerosConPaginacion(limite: number, skip: number){
+export async function CancionesConEntidadesConPaginacion(limite: number, skip: number){
     
     //Se inyecta el contexto y después el repositorio que se va a consultar
     const context = await NestFactory.createApplicationContext(AppModule)
@@ -15,6 +15,7 @@ export async function CancionesConArtistasYGenerosConPaginacion(limite: number, 
     return await repository.createQueryBuilder('cancion')
     .leftJoinAndSelect('cancion.Artistas', 'artistas')//alias de las entidades
     .leftJoinAndSelect('cancion.Generos', 'generos')
+    .leftJoinAndSelect('cancion.Links', 'links')
     .take( limite )
     .skip( skip )
     .getManyAndCount()

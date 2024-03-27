@@ -29,6 +29,8 @@ export class Link {
     @ManyToOne( type => Usuario, usuario => usuario.Links)
     Usuario: Usuario;
 
-    @ManyToOne( type => Cancion, cancion => cancion.Links)
+    @ManyToOne( type => Cancion, cancion => cancion.Links, {
+        onDelete: 'CASCADE'
+    })
     Cancion: Cancion;
 }
