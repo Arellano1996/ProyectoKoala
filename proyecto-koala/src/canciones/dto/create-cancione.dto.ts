@@ -35,9 +35,10 @@ export class CreateCancioneDto {
     @IsOptional()
     Letra?: string;
     
+    //TODO Default
     @IsOptional()
     @Type(() => CreateCancioneLinkDto) // Transforma cada objeto a CreateLinkDto
-    @Validate( validarQueLosLinksSeAsignenAlMismoUsuarioQueEstaCreandoLaCancion )
+    // @Validate( validarQueLosLinksSeAsignenAlMismoUsuarioQueEstaCreandoLaCancion )
     @Validate( validarQueLosURLNoEstenRepetidos )
     @Validate( siNoHayLinkDefaultEstablecerElPrimerLinkComoDefault )
     Links: CreateCancioneLinkDto[];

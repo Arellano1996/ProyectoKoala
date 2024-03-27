@@ -32,7 +32,9 @@ export class Cancion {
     })
     Acordes?: string;
 
-    @OneToMany( type => Letra, letra => letra.Cancion)
+    @OneToMany( type => Letra, letra => letra.Cancion, {
+        cascade: true
+    })
     Letras: Letra[];
 
     @OneToMany( type => Link, link => link.Cancion, {

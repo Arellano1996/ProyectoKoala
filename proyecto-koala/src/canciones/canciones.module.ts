@@ -9,6 +9,7 @@ import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { UsuariosModule } from 'src/usuarios/usuarios.module';
 import { Link } from 'src/link/entities/link.entity';
 import { LinkModule } from 'src/link/link.module';
+import { Usuario } from 'src/usuarios/entities/usuario.entity';
 
 @Module({
   controllers: [CancionesController],
@@ -18,7 +19,8 @@ import { LinkModule } from 'src/link/link.module';
       Cancion, 
       Genero, 
       Artista,
-      Link
+      Link,
+      Usuario
      ]),
      UsuariosModule,
      LinkModule
