@@ -26,9 +26,14 @@ export class Letra {
     Usuario: Usuario;
     
     //Una letra puede tener muchos comentarios distintos, o bien los comentarios solo pueden ir relacionados a una letra
-    @OneToMany( type => ComentariosLetra, comentario => comentario.Letra)
-    Comentarios: ComentariosLetra[];
+    @OneToMany( type => ComentariosLetra, 
+        comentario => comentario.Letra, 
+        { cascade: true }
+    )
+    Comentarios?: ComentariosLetra[];
 
-    @OneToMany( type => ConfiguracionesLetra, configuracionesLetra => configuracionesLetra.Letra)
+    @OneToMany( type => ConfiguracionesLetra, configuracionesLetra => configuracionesLetra.Letra, {
+        cascade: true
+    })
     ConfiguracionesLetra: ConfiguracionesLetra[];
 }

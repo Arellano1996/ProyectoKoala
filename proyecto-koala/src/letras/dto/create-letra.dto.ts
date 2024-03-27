@@ -1,4 +1,5 @@
 import { IsArray, IsOptional, IsString, IsUUID, Validate } from "class-validator";
+import { CreateComentariosLetraDto } from "src/comentarios-letras/dto/create-comentarios-letra.dto";
 import { ComentariosLetra } from "src/comentarios-letras/entities/comentarios-letra.entity";
 import { validarQueElUuidCancionExista } from "src/common/validaciones/validarQueElUuidCancionExista";
 import { validarQueElUuidUsuarioExista } from "src/common/validaciones/validarQueElUuidUsuarioExista";
@@ -22,9 +23,10 @@ export class CreateLetraDto {
     @Validate( validarQueElUuidCancionExista )
     CancionId: string;
 
+    @IsString({ each: true })
     @IsArray()
     @IsOptional()
-    Comentarios: ComentariosLetra[];
+    Comentarios?: string[];
     
     @IsArray()
     @IsOptional()

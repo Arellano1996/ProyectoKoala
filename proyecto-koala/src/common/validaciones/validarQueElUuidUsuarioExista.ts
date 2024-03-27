@@ -20,7 +20,7 @@ export class validarQueElUuidUsuarioExista {
   defaultMessage(args: ValidationArguments) {
     
     const { object, constraints } = args;
-
+    if( object['UsuarioId'] === undefined) return `El campo UsuarioId es obligatorio`
     return `No se encontró ningun usuario con el id ${ object['UsuarioId'] }`;
   }
 }
