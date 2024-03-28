@@ -22,6 +22,7 @@ import { Link } from 'src/link/entities/link.entity';
 import { CreateLinkDto } from 'src/link/dto/create-link.dto';
 import { LinkService } from 'src/link/link.service';
 import { Usuario } from 'src/usuarios/entities/usuario.entity';
+import { Letra } from 'src/letras/entities/letra.entity';
 //#endregion Importaciones
 
 @Injectable()
@@ -43,6 +44,9 @@ export class CancionesService extends erroresHandler {
     @InjectRepository(Link)
     private readonly repositoryLink: Repository<Link>,
 
+    @InjectRepository(Letra)
+    private readonly repositoryLetra: Repository<Letra>,
+
     @Inject(UsuariosService)
     private readonly usuariosService: UsuariosService,
 
@@ -58,7 +62,7 @@ export class CancionesService extends erroresHandler {
   async create(createCancioneDto: CreateCancioneDto) {
     try {
 
-      const { Generos, Artistas, Links, UsuarioId, ...restoPropiedades } = createCancioneDto;
+      const { Generos, Artistas, Links, Letras, UsuarioId, ...restoPropiedades } = createCancioneDto;
 
       //#region 1.- Guardar cancion con Artistas y Generos
       //Revisamos si los artistas ya existen
@@ -81,21 +85,18 @@ export class CancionesService extends erroresHandler {
         'genero'//Nombre de la tabla
       );//Si en la base de datos ya existe un genero con el mismo nombre trae esa referencia, de lo contrario crea el nuevo dato
 
-      const usuarioParaReferenciarLink = await this.repositoryUsuario.findOneBy({ UsuarioId })
-       //Esta variable guarda todo el objeto de Cancion incluyendo uuid, es necesaria para guardar la información en la base de datos
+      //Esta variable guarda todo el objeto de Cancion incluyendo uuid, es necesaria para guardar la información en la base de datos
       const cancion = this.repository.create({
         ...restoPropiedades,
         UsuarioId,
         Generos: generos,
         Artistas: artistas,
-        Links: Links.map( link => this.repositoryLink.create({
-          Usuario: usuarioParaReferenciarLink,
-          ...link
-        }))
+        Links: Links.map( link => this.repositoryLink.create( link )),
+        Letras: Letras.map( letra => this.repositoryLetra.create( letra ))
       })
 
       //#endregion guardar canción con artistas y generos
-      
+      //return cancion
       await this.repository.save(cancion)
       
       //TODO Investigar si se puede ahorrar este save
@@ -107,24 +108,12 @@ export class CancionesService extends erroresHandler {
       }
       await this.usuariosService.editarCancionesUsuario(createCancioneDto.UsuarioId, agregarCancionAUsuario)
 
-      //TODO revisar que las relaciones se hagan de manera correcta, ahora se puede omitir este código
-      // //3.- Guardamos los links con su relación a la nueva canción y al usuario
-      // Links.forEach(async link => {
-      //   const nuevoLinkConUsuarioYCancion : CreateLinkDto = {
-      //     CancionId: cancion.CancionId,
-      //     ...link
-      //   }
-
-      //   await this.linkService.create(nuevoLinkConUsuarioYCancion)
-
-      // })
-
-      //4.- Mandar el resultado, esta variable solo guarda la información necesaria para el usuario
       const _cancion = this.repository.create({
         ...restoPropiedades,
         Generos,
         Artistas,
-        Links
+        Links,
+        Letras
       })
       
       return _cancion;

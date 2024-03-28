@@ -1,13 +1,16 @@
 //#region imports
 import { Type } from "class-transformer";
-import { IsArray, IsNotEmpty, IsOptional, IsString, IsUUID, MinLength, Validate } from "class-validator";
+import { IsArray, IsNotEmpty, IsOptional, IsString, IsUUID, MinLength, Validate, ValidateNested } from "class-validator";
 import { Artista } from "src/artistas/entities/artistas.entity";
 import { validarQueElUuidUsuarioExista } from "src/common/validaciones/validarQueElUuidUsuarioExista";
 import { Genero } from "src/generos/entities/genero.entity";
 import { CreateCancioneLinkDto } from "./crear-cancion-link.dto";
-import { validarQueLosLinksSeAsignenAlMismoUsuarioQueEstaCreandoLaCancion } from "src/common/validaciones/validarQueLosLinksSeAsignenAlMismoUsuarioQueEstaCreandoLaCancion";
 import { validarQueLosURLNoEstenRepetidos } from "src/common/validaciones/validarQueLosURLNoEstenRepetidos";
 import { siNoHayLinkDefaultEstablecerElPrimerLinkComoDefault } from "src/common/validaciones/siNoHayLinkDefaultEstablecerElPrimerLinkComoDefault";
+import { Letra } from "src/letras/entities/letra.entity";
+import { asignarUsuarioParaCancionLink } from "src/common/validaciones/asignarUsuarioParaCancionLink";
+import { CreateCancioneLetraDto } from "./crear-cancion-letra.dto";
+import { asignarUsuarioParaCancionLetra } from "src/common/validaciones/asignarUsuarioParaCancionLetra";
 //#endregion imports
 
 export class CreateCancioneDto {
@@ -30,17 +33,20 @@ export class CreateCancioneDto {
     @IsOptional()
     Acordes?: string;
     
-    @IsString()
-    @MinLength(1)
+    //Relaciones
+
     @IsOptional()
-    Letra?: string;
+    @Type(() => CreateCancioneLetraDto) // Transforma cada objeto al objeto especificado
+    @ValidateNested({ each: true })
+    @Validate( asignarUsuarioParaCancionLetra )
+    Letras: CreateCancioneLetraDto[];
     
-    //TODO Default
     @IsOptional()
     @Type(() => CreateCancioneLinkDto) // Transforma cada objeto a CreateLinkDto
-    // @Validate( validarQueLosLinksSeAsignenAlMismoUsuarioQueEstaCreandoLaCancion )
+    @ValidateNested({ each: true })
     @Validate( validarQueLosURLNoEstenRepetidos )
     @Validate( siNoHayLinkDefaultEstablecerElPrimerLinkComoDefault )
+    @Validate( asignarUsuarioParaCancionLink )
     Links: CreateCancioneLinkDto[];
 
     @IsArray()

@@ -15,11 +15,15 @@ export class Letra {
     @Column()
     Letra: string;
     
-    @Column()
-    Acordes: string;
+    @Column({
+        nullable: true
+    })
+    Acordes?: string;
 
     //Muchas letras diferentes pueden tener una canción, o bien una canción puede tener muchas letras
-    @ManyToOne( type => Cancion, cancion => cancion.Letras)
+    @ManyToOne( type => Cancion, cancion => cancion.Letras,{
+        onDelete: 'CASCADE'
+    })
     Cancion: Cancion;
     
     @ManyToOne( type => Usuario, usuario => usuario.Letras)

@@ -10,6 +10,8 @@ import { UsuariosModule } from 'src/usuarios/usuarios.module';
 import { Link } from 'src/link/entities/link.entity';
 import { LinkModule } from 'src/link/link.module';
 import { Usuario } from 'src/usuarios/entities/usuario.entity';
+import { Letra } from 'src/letras/entities/letra.entity';
+import { ComentariosLetra } from 'src/comentarios-letras/entities/comentarios-letra.entity';
 
 @Module({
   controllers: [CancionesController],
@@ -20,7 +22,9 @@ import { Usuario } from 'src/usuarios/entities/usuario.entity';
       Genero, 
       Artista,
       Link,
-      Usuario
+      Usuario,
+      Letra,
+      ComentariosLetra
      ]),
      UsuariosModule,
      LinkModule
