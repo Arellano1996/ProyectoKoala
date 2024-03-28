@@ -21,7 +21,8 @@ export async function CancionesConEntidadesPorUUIDoTermino(termino: string){
             relations: {
                 Artistas: true,
                 Generos: true,
-                Links: true
+                Links: true,
+                Letras: true
             }
         })
     }
@@ -32,6 +33,9 @@ export async function CancionesConEntidadesPorUUIDoTermino(termino: string){
         .leftJoinAndSelect('cancion.Artistas', 'artistas')//alias de las entidades
         .leftJoinAndSelect('cancion.Generos', 'generos')
         .leftJoinAndSelect('cancion.Links', 'links')
+        .leftJoinAndSelect('cancion.Letras', 'letras')
+        .leftJoinAndSelect('letras.Comentarios', 'comentarios')
+        .leftJoinAndSelect('letras.ConfiguracionesLetra', 'configuraciones')
         .where('cancion.Slug LIKE :cancionslug or artistas.Slug LIKE :artistanombre', { 
             cancionslug: `%${formatearSlug(termino)}%`, 
             artistanombre: `%${formatearSlug(termino)}%`

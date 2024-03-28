@@ -16,6 +16,9 @@ export async function CancionesConEntidadesConPaginacion(limite: number, skip: n
     .leftJoinAndSelect('cancion.Artistas', 'artistas')//alias de las entidades
     .leftJoinAndSelect('cancion.Generos', 'generos')
     .leftJoinAndSelect('cancion.Links', 'links')
+    .leftJoinAndSelect('cancion.Letras', 'letras')
+    .leftJoinAndSelect('letras.Comentarios', 'comentarios')
+    .leftJoinAndSelect('letras.ConfiguracionesLetra', 'configuraciones')
     .take( limite )
     .skip( skip )
     .getManyAndCount()

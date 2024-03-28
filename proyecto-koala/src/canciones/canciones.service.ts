@@ -165,11 +165,8 @@ export class CancionesService extends erroresHandler {
       //Si se cambia el nombre, este nuevo nombre no debe haber sido registrado con el mismo artista, y viseversa, se se cambia el artista
       //el artista no debe tener una canción con el nombre de la canción
 
-      //Comprobamos que el id que se va editar, es el mismo que el id que recibimos tanto por body como por parametro
-      if(cancionId != updateCancioneDto.CancionId) this.handleExceptions(null, 'Información invalida')
-      
       //Después vemos qué recibimos en nuestro objeto canción
-      const { Artistas, Generos, ...resto } = updateCancioneDto;
+      const { Artistas, Generos, Links, Letras, ...resto } = updateCancioneDto;
 
       let artistas, generos;
 
@@ -199,18 +196,29 @@ export class CancionesService extends erroresHandler {
 
       const cancion = await this.repository.preload({
         CancionId: cancionId,
+        ...resto,
         Artistas: artistas,
         Generos: generos,
-        ...resto
+        Links: Links.map( link => this.repositoryLink.create( link )),
+        Letras: Letras.map( ({ Comentarios, Configuraciones, ...restoLetras}) => this.repositoryLetra.create({
+          ...restoLetras,
+          Comentarios: Comentarios.map( comentario => this.repositoryComentariosLetra.create({ Comentario: comentario }) ),
+          ConfiguracionesLetra: Configuraciones.map( configuraciones => this.repositoryConfiguracionesLetra.create({ ConfiguracionJSON: configuraciones }) )
+        }))
       })
       
-      await this.repository.save(cancion)
+      //await this.repository.save(cancion)
 
       return await this.repository.findOne({
         where: { CancionId: cancionId },
         relations: {
           Generos: true,
-          Artistas: true
+          Artistas: true,
+          Links: true,
+          Letras: {
+            Comentarios: true,
+            ConfiguracionesLetra: true
+          },
         }
       })
       } catch (error) {
