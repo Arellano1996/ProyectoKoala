@@ -12,6 +12,7 @@ import { LinkModule } from 'src/link/link.module';
 import { Usuario } from 'src/usuarios/entities/usuario.entity';
 import { Letra } from 'src/letras/entities/letra.entity';
 import { ComentariosLetra } from 'src/comentarios-letras/entities/comentarios-letra.entity';
+import { ConfiguracionesLetra } from 'src/configuraciones-letras/entities/configuraciones-letra.entity';
 
 @Module({
   controllers: [CancionesController],
@@ -24,7 +25,8 @@ import { ComentariosLetra } from 'src/comentarios-letras/entities/comentarios-le
       Link,
       Usuario,
       Letra,
-      ComentariosLetra
+      ComentariosLetra,
+      ConfiguracionesLetra
      ]),
      UsuariosModule,
      LinkModule

@@ -18,9 +18,10 @@ export class CreateCancioneLetraDto{
     
     //Cancion se relaciona al momento de hacer save desde Canción
     //Usuario se relaciona al momento de validar
+    Usuario: Usuario;
 
-    // @IsOptional()
-    // Comentarios: string[];
-    // @IsOptional()
-    // Configuraciones: string[];
+    @IsOptional()
+    Comentarios: string[] = [];
+    @IsOptional()
+    Configuraciones: string[] = [];
 }

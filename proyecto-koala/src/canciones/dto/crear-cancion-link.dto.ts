@@ -1,6 +1,4 @@
-import { IsOptional, IsUUID, IsUrl, Validate } from "class-validator";
-import { validarQueElUuidUsuarioExista } from "src/common/validaciones/validarQueElUuidUsuarioExista";
-import { Usuario } from "src/usuarios/entities/usuario.entity";
+import { IsOptional, IsUrl } from "class-validator";
 
 export class CreateCancioneLinkDto{
     

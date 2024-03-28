@@ -23,6 +23,8 @@ import { CreateLinkDto } from 'src/link/dto/create-link.dto';
 import { LinkService } from 'src/link/link.service';
 import { Usuario } from 'src/usuarios/entities/usuario.entity';
 import { Letra } from 'src/letras/entities/letra.entity';
+import { ComentariosLetra } from 'src/comentarios-letras/entities/comentarios-letra.entity';
+import { ConfiguracionesLetra } from 'src/configuraciones-letras/entities/configuraciones-letra.entity';
 //#endregion Importaciones
 
 @Injectable()
@@ -47,6 +49,12 @@ export class CancionesService extends erroresHandler {
     @InjectRepository(Letra)
     private readonly repositoryLetra: Repository<Letra>,
 
+    @InjectRepository(ComentariosLetra)
+    private readonly repositoryComentariosLetra: Repository<ComentariosLetra>,
+
+    @InjectRepository(ConfiguracionesLetra)
+    private readonly repositoryConfiguracionesLetra: Repository<ConfiguracionesLetra>,
+    
     @Inject(UsuariosService)
     private readonly usuariosService: UsuariosService,
 
@@ -92,11 +100,15 @@ export class CancionesService extends erroresHandler {
         Generos: generos,
         Artistas: artistas,
         Links: Links.map( link => this.repositoryLink.create( link )),
-        Letras: Letras.map( letra => this.repositoryLetra.create( letra ))
+        Letras: Letras.map( ({ Comentarios, Configuraciones, ...resto}) => this.repositoryLetra.create({
+          ...resto,
+          Comentarios: Comentarios.map( comentario => this.repositoryComentariosLetra.create({ Comentario: comentario }) ),
+          ConfiguracionesLetra: Configuraciones.map( configuraciones => this.repositoryConfiguracionesLetra.create({ ConfiguracionJSON: configuraciones }) )
+        }))
       })
 
       //#endregion guardar canción con artistas y generos
-      //return cancion
+      
       await this.repository.save(cancion)
       
       //TODO Investigar si se puede ahorrar este save
@@ -112,8 +124,6 @@ export class CancionesService extends erroresHandler {
         ...restoPropiedades,
         Generos,
         Artistas,
-        Links,
-        Letras
       })
       
       return _cancion;

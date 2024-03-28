@@ -11,7 +11,7 @@ export class ComentariosLetra {
     Comentario: string;
 
     //Muchos comentarios pueden pertenecer a una letra, o bien una letra puede tener muchos comentarios
-    @ManyToOne( type => Letra, letra => letra.Comentarios,{
+    @ManyToOne( type => Letra, letra => letra.Comentarios, {
         onDelete: 'CASCADE'
     })
     Letra: Letra;

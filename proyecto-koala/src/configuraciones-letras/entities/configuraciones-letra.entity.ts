@@ -11,7 +11,9 @@ export class ConfiguracionesLetra {
     ConfiguracionJSON: string;
 
     //Muchas configuraciones pueden pertenecer a una misma letra, o bien una letra puede tener muchas configuraciones
-    @ManyToOne( type => Letra, letra => letra.ConfiguracionesLetra)
+    @ManyToOne( type => Letra, letra => letra.ConfiguracionesLetra, {
+        onDelete: 'CASCADE'
+    })
     Letra: Letra;
 
 }
