@@ -8,6 +8,9 @@ export class ComentariosLetra {
     ComentariosLetraId: string;
 
     @Column()
+    Nombre: string;
+
+    @Column()
     Comentario: string;
 
     //Muchos comentarios pueden pertenecer a una letra, o bien una letra puede tener muchos comentarios

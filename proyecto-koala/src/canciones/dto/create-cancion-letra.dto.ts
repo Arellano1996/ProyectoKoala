@@ -1,9 +1,12 @@
-import { IsNotEmpty, IsOptional, IsSemVer, IsString, IsUUID, IsUrl, MinLength, Validate, minLength } from "class-validator";
+import { IsNotEmpty, IsOptional, IsSemVer, IsString, IsUUID, IsUrl, MinLength, Validate, ValidateNested, minLength } from "class-validator";
 import { ComentariosLetra } from "src/comentarios-letras/entities/comentarios-letra.entity";
 import { validarQueElUuidUsuarioExista } from "src/common/validations/validarQueElUuidUsuarioExista";
 import { ConfiguracionesLetra } from "src/configuraciones-letras/entities/configuraciones-letra.entity";
 import { Letra } from "src/letras/entities/letra.entity";
 import { Usuario } from "src/usuarios/entities/usuario.entity";
+import { CreateCancioneLetraConfiguracionDto } from "./create-cancion-letra-configuracion.dto";
+import { Type } from "class-transformer";
+import { CreateCancioneLetraComentarioDto } from "./create-cancion-letra-comentarios.dto";
 
 export class CreateCancioneLetraDto{
     
@@ -21,7 +24,12 @@ export class CreateCancioneLetraDto{
     Usuario: Usuario;
 
     @IsOptional()
-    Comentarios: string[] = [];
+    @Type(() => CreateCancioneLetraComentarioDto) // Transforma cada objeto al objeto especificado
+    @ValidateNested({ each: true })
+    Comentarios: CreateCancioneLetraComentarioDto[] = [];
+    
     @IsOptional()
-    Configuraciones: string[] = [];
+    @Type(() => CreateCancioneLetraConfiguracionDto) // Transforma cada objeto al objeto especificado
+    @ValidateNested({ each: true })
+    Configuraciones: CreateCancioneLetraConfiguracionDto[] = [];
 }

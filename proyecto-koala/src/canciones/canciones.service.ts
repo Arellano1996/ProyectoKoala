@@ -102,13 +102,16 @@ export class CancionesService extends erroresHandler {
         Links: Links.map( link => this.repositoryLink.create( link )),
         Letras: Letras.map( ({ Comentarios, Configuraciones, ...resto}) => this.repositoryLetra.create({
           ...resto,
-          Comentarios: Comentarios.map( comentario => this.repositoryComentariosLetra.create({ Comentario: comentario }) ),
-          Configuraciones: Configuraciones.map( configuraciones => this.repositoryConfiguracionesLetra.create({ ConfiguracionJSON: configuraciones }) )
+          Comentarios: Comentarios.map( comentario => this.repositoryComentariosLetra.create({ 
+            ...comentario 
+          }) ),
+          Configuraciones: Configuraciones.map( configuracion => this.repositoryConfiguracionesLetra.create({ 
+            ...configuracion
+          }) )
         }))
       })
 
       //#endregion guardar canción con artistas y generos
-      
       await this.repository.save(cancion)
       
       //TODO Investigar si se puede ahorrar este save
@@ -199,18 +202,11 @@ export class CancionesService extends erroresHandler {
         ...resto,
         Artistas: artistas,
         Generos: generos
-        //Letras: Letras.map( letra => this.repository.create( letra ))
-        // Letras.map( ({ Comentarios, Configuraciones, ...restoLetras}) => this.repositoryLetra.create({
-        //   ...restoLetras,
-        //   Comentarios: Comentarios.map( comentario => this.repositoryComentariosLetra.create({ Comentario: comentario }) ),
-        //   ConfiguracionesLetra: Configuraciones.map( configuraciones => this.repositoryConfiguracionesLetra.create({ ConfiguracionJSON: configuraciones }) )
-        // }))
       })
       
-      //await this.repository.save(cancion)
+      await this.repository.save(cancion)
 
       return cancion
-      return await this.findByTerm(cancionId)
       } catch (error) {
         this.handleExceptions(error)
       }
