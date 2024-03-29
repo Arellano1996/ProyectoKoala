@@ -5,12 +5,18 @@ import { Type } from 'class-transformer';
 import { Genero } from 'src/generos/entities/genero.entity';
 import { CreateArtistaDto } from 'src/artistas/dto/create-artista.dto';
 import { CreateGeneroDto } from 'src/generos/dto/create-genero.dto';
-import { CreateCancioneLetraDto } from './crear-cancion-letra.dto';
-import { CreateCancioneLinkDto } from './crear-cancion-link.dto';
-import { asignarUsuarioIdParaEditarCancionLetra } from 'src/common/validaciones/asignarUsuarioIdParaEditarCancionLetra';
+import { CreateCancioneLetraDto } from './create-cancion-letra.dto';
+import { CreateCancioneLinkDto } from './create-cancion-link.dto';
+import { asignarUsuarioIdParaEditarCancionLetra } from 'src/common/validations/asignarUsuarioIdParaEditarCancionLetra';
+import { Cancion } from '../entities/cancion.entity';
+import { UpdateLinkDto } from 'src/link/dto/update-link.dto';
+import { UpdateLetraDto } from 'src/letras/dto/update-letra.dto';
+import { UpdateCancioneLinkDto } from './update-cancion-link.dto';
 //#endregion Imports
 
 export class UpdateCancioneDto {
+
+    Cancion: Cancion;
 
     @IsString({ message: 'Nombre debe ser tipo string.'})
     @MinLength(1,{ message: 'Nombre debe tener al menos 1 caracter.'})
@@ -23,21 +29,15 @@ export class UpdateCancioneDto {
     @IsOptional()
     Tono?: string;
 
-    @IsString()
-    @MinLength(1)
-    @IsOptional()
-    Acordes?: string;
+    // @IsOptional()
+    // @Type(() => UpdateLetraDto) // Transforma cada objeto al objeto especificado
+    // @ValidateNested({ each: true })
+    // Letras: UpdateLetraDto[] = [];
 
-    @IsOptional()
-    @Type(() => CreateCancioneLetraDto) // Transforma cada objeto al objeto especificado
-    @ValidateNested({ each: true })
-    @Validate( asignarUsuarioIdParaEditarCancionLetra )
-    Letras: CreateCancioneLetraDto[] = [];
-
-    @IsOptional()
-    @Type(() => CreateCancioneLinkDto) // Transforma cada objeto a CreateLinkDto
-    @ValidateNested({ each: true })
-    Links: CreateCancioneLinkDto[] = [];
+    // @IsOptional()
+    // @Type(() => UpdateCancioneLinkDto) // Transforma cada objeto a CreateLinkDto
+    // @ValidateNested({ each: true })
+    // Links: UpdateCancioneLinkDto[] = [];
 
     @IsArray({ message: 'Debe ser un arreglo.'})
     // @ArrayMinSize(1, { message: 'Debe haber al menos un artista.' })

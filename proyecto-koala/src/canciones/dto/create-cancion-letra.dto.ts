@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsOptional, IsSemVer, IsString, IsUUID, IsUrl, MinLength, Validate, minLength } from "class-validator";
 import { ComentariosLetra } from "src/comentarios-letras/entities/comentarios-letra.entity";
-import { validarQueElUuidUsuarioExista } from "src/common/validaciones/validarQueElUuidUsuarioExista";
+import { validarQueElUuidUsuarioExista } from "src/common/validations/validarQueElUuidUsuarioExista";
 import { ConfiguracionesLetra } from "src/configuraciones-letras/entities/configuraciones-letra.entity";
 import { Letra } from "src/letras/entities/letra.entity";
 import { Usuario } from "src/usuarios/entities/usuario.entity";

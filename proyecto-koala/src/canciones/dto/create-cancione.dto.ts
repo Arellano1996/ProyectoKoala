@@ -2,15 +2,15 @@
 import { Type } from "class-transformer";
 import { IsArray, IsNotEmpty, IsOptional, IsString, IsUUID, MinLength, Validate, ValidateNested } from "class-validator";
 import { Artista } from "src/artistas/entities/artistas.entity";
-import { validarQueElUuidUsuarioExista } from "src/common/validaciones/validarQueElUuidUsuarioExista";
+import { validarQueElUuidUsuarioExista } from "src/common/validations/validarQueElUuidUsuarioExista";
 import { Genero } from "src/generos/entities/genero.entity";
-import { CreateCancioneLinkDto } from "./crear-cancion-link.dto";
-import { validarQueLosURLNoEstenRepetidos } from "src/common/validaciones/validarQueLosURLNoEstenRepetidos";
-import { siNoHayLinkDefaultEstablecerElPrimerLinkComoDefault } from "src/common/validaciones/siNoHayLinkDefaultEstablecerElPrimerLinkComoDefault";
+import { CreateCancioneLinkDto } from "./create-cancion-link.dto";
+import { validarQueLosURLNoEstenRepetidos } from "src/common/validations/validarQueLosURLNoEstenRepetidos";
+import { siNoHayLinkDefaultEstablecerElPrimerLinkComoDefault } from "src/common/validations/siNoHayLinkDefaultEstablecerElPrimerLinkComoDefault";
 import { Letra } from "src/letras/entities/letra.entity";
-import { asignarUsuarioParaCancionLink } from "src/common/validaciones/asignarUsuarioParaCancionLink";
-import { CreateCancioneLetraDto } from "./crear-cancion-letra.dto";
-import { asignarUsuarioParaCancionLetra } from "src/common/validaciones/asignarUsuarioParaCancionLetra";
+import { asignarUsuarioParaCancionLink } from "src/common/validations/asignarUsuarioParaCancionLink";
+import { CreateCancioneLetraDto } from "./create-cancion-letra.dto";
+import { asignarUsuarioParaCancionLetra } from "src/common/validations/asignarUsuarioParaCancionLetra";
 //#endregion imports
 
 export class CreateCancioneDto {

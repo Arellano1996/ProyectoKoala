@@ -1,8 +1,8 @@
 import { IsOptional, IsUUID, IsUrl, Validate } from "class-validator";
-import { validarQueElLinkNoEsteRegitradoConLaMismaCancion } from "src/common/validaciones/validarQueElLinkNoEsteRegitradoConLaMismaCancion";
-import { validarQueElUuidCancionExista } from "src/common/validaciones/validarQueElUuidCancionExista";
-import { validarQueElUuidUsuarioExista } from "src/common/validaciones/validarQueElUuidUsuarioExista";
-import { validarSiEsPrimerLinkEnRegistrarse } from "src/common/validaciones/validarSiEsPrimerLinkEnRegistrarse";
+import { validarQueElLinkNoEsteRegitradoConLaMismaCancion } from "src/common/validations/validarQueElLinkNoEsteRegitradoConLaMismaCancion";
+import { validarQueElUuidCancionExista } from "src/common/validations/validarQueElUuidCancionExista";
+import { validarQueElUuidUsuarioExista } from "src/common/validations/validarQueElUuidUsuarioExista";
+import { validarSiEsPrimerLinkEnRegistrarse } from "src/common/validations/validarSiEsPrimerLinkEnRegistrarse";
 
 export class CreateLinkDto {
 

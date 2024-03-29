@@ -3,7 +3,7 @@ import { ConfiguracionesLetrasService } from './configuraciones-letras.service';
 import { CreateConfiguracionesLetraDto } from './dto/create-configuraciones-letra.dto';
 import { UpdateConfiguracionesLetraDto } from './dto/update-configuraciones-letra.dto';
 
-@Controller('configuraciones-letras')
+@Controller('configuraciones')
 export class ConfiguracionesLetrasController {
   constructor(private readonly configuracionesLetrasService: ConfiguracionesLetrasService) {}
 

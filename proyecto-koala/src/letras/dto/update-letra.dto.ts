@@ -1,4 +1,23 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateLetraDto } from './create-letra.dto';
+import { IsArray, IsOptional, IsString, IsUUID } from "class-validator";
 
-export class UpdateLetraDto extends PartialType(CreateLetraDto) {}
+export class UpdateLetraDto {
+
+    @IsUUID()
+    LetraId: string;
+
+    @IsString()
+    @IsOptional()
+    Letra: string;
+
+    @IsString()
+    @IsOptional()
+    Acordes: string;
+
+    @IsOptional()
+    @IsArray()
+    Comentarios: string[] = [];
+    
+    @IsOptional()
+    @IsArray()
+    Configuraciones: string[] = [];
+}

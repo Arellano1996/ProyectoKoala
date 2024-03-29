@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common';
 import { LetrasService } from './letras.service';
 import { CreateLetraDto } from './dto/create-letra.dto';
 import { UpdateLetraDto } from './dto/update-letra.dto';
+import { FindLetraDto } from './dto/find-letra.dto';
 
 @Controller('letras')
 export class LetrasController {
@@ -13,13 +14,15 @@ export class LetrasController {
   }
 
   @Get()
-  findAll() {
-    return this.letrasService.findAll();
+  findAll(
+    @Body() findLetraDto: FindLetraDto
+    ) {
+    return this.letrasService.findAll(findLetraDto);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.letrasService.findOne(+id);
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return this.letrasService.findOne(id);
   }
 
   @Patch(':id')

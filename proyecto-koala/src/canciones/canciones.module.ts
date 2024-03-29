@@ -13,10 +13,11 @@ import { Usuario } from 'src/usuarios/entities/usuario.entity';
 import { Letra } from 'src/letras/entities/letra.entity';
 import { ComentariosLetra } from 'src/comentarios-letras/entities/comentarios-letra.entity';
 import { ConfiguracionesLetra } from 'src/configuraciones-letras/entities/configuraciones-letra.entity';
+import { validarSiExisteCancionConstraint } from './validations/validarSiExisteCancionConstraint';
 
 @Module({
   controllers: [CancionesController],
-  providers: [CancionesService],
+  providers: [CancionesService, validarSiExisteCancionConstraint],
   imports: [
     TypeOrmModule.forFeature([ 
       Cancion, 

@@ -27,10 +27,10 @@ export class Cancion {
     })
     Tono?: string;
 
-    @Column({
-        nullable: true
-    })
-    Acordes?: string;
+    // @Column({
+    //     nullable: true
+    // })
+    // Acordes?: string;
 
     @OneToMany( type => Letra, letra => letra.Cancion, {
         cascade: true

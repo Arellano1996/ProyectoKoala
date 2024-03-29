@@ -103,7 +103,7 @@ export class CancionesService extends erroresHandler {
         Letras: Letras.map( ({ Comentarios, Configuraciones, ...resto}) => this.repositoryLetra.create({
           ...resto,
           Comentarios: Comentarios.map( comentario => this.repositoryComentariosLetra.create({ Comentario: comentario }) ),
-          ConfiguracionesLetra: Configuraciones.map( configuraciones => this.repositoryConfiguracionesLetra.create({ ConfiguracionJSON: configuraciones }) )
+          Configuraciones: Configuraciones.map( configuraciones => this.repositoryConfiguracionesLetra.create({ ConfiguracionJSON: configuraciones }) )
         }))
       })
 
@@ -166,7 +166,7 @@ export class CancionesService extends erroresHandler {
       //el artista no debe tener una canción con el nombre de la canción
 
       //Después vemos qué recibimos en nuestro objeto canción
-      const { Artistas, Generos, Links, Letras, ...resto } = updateCancioneDto;
+      const { Artistas, Generos, ...resto } = updateCancioneDto;
 
       let artistas, generos;
 
@@ -198,29 +198,19 @@ export class CancionesService extends erroresHandler {
         CancionId: cancionId,
         ...resto,
         Artistas: artistas,
-        Generos: generos,
-        Links: Links.map( link => this.repositoryLink.create( link )),
-        Letras: Letras.map( ({ Comentarios, Configuraciones, ...restoLetras}) => this.repositoryLetra.create({
-          ...restoLetras,
-          Comentarios: Comentarios.map( comentario => this.repositoryComentariosLetra.create({ Comentario: comentario }) ),
-          ConfiguracionesLetra: Configuraciones.map( configuraciones => this.repositoryConfiguracionesLetra.create({ ConfiguracionJSON: configuraciones }) )
-        }))
+        Generos: generos
+        //Letras: Letras.map( letra => this.repository.create( letra ))
+        // Letras.map( ({ Comentarios, Configuraciones, ...restoLetras}) => this.repositoryLetra.create({
+        //   ...restoLetras,
+        //   Comentarios: Comentarios.map( comentario => this.repositoryComentariosLetra.create({ Comentario: comentario }) ),
+        //   ConfiguracionesLetra: Configuraciones.map( configuraciones => this.repositoryConfiguracionesLetra.create({ ConfiguracionJSON: configuraciones }) )
+        // }))
       })
       
       //await this.repository.save(cancion)
 
-      return await this.repository.findOne({
-        where: { CancionId: cancionId },
-        relations: {
-          Generos: true,
-          Artistas: true,
-          Links: true,
-          Letras: {
-            Comentarios: true,
-            ConfiguracionesLetra: true
-          },
-        }
-      })
+      return cancion
+      return await this.findByTerm(cancionId)
       } catch (error) {
         this.handleExceptions(error)
       }
@@ -231,7 +221,7 @@ export class CancionesService extends erroresHandler {
   async remove(cancionId: string) {
     try {
       //Para eliminar se necesita una instancia de la canción
-      const cancion = await this.repository.findOneByOrFail({ CancionId: cancionId });
+      const cancion = await this.repository.findOneBy({ CancionId: cancionId });
 
       //Esta canción solo tiene la información necesaria para el usuario
       const _cancion = await this.repository.createQueryBuilder('cancion')

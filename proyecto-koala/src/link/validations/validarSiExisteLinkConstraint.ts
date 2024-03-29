@@ -1,29 +1,28 @@
+import { Injectable } from '@nestjs/common';
 import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
+import { CancionPorUUID } from 'src/common/consultas/CancionPorUUID';
+import { LinkPorLinkUUID } from 'src/common/consultas/LinkPorLinkUUID';
 
 @ValidatorConstraint({ async: true })
-export class asignarUsuarioIdParaEditarCancionLetra implements ValidatorConstraintInterface  {
+@Injectable()
+export class validarSiExisteLinkConstraint implements ValidatorConstraintInterface  {
 
   async validate(value: any, args) {
     //En object tenemos las propiedades de nuestro DTO con sus respectivos valores
     //En constraints se refiere a los parámetros adicionales que puedes proporcionar al utilizar el decorador @Validate
     const { object, constraints } = args;
     
-    const params = args.object['param'];
+    const cancion = await LinkPorLinkUUID( object['id'] )
 
-    console.log( params )
-    //const usuario = await UsuarioPorUUID( object['UsuarioId'] )
+    if(!cancion) return false
 
-    //if(!usuario) return false
-
-    //object['Letras'].forEach(letra => letra['Usuario'] = usuario)
-
-    return false
+    return true
   }
 
   defaultMessage(args: ValidationArguments) {
     
     const { object, constraints } = args;
 
-    return `Error en arreglo de Letras: No se puede asignar este usuario`
+    return `No se encontro ninguna link con este id.`
   }
 }
