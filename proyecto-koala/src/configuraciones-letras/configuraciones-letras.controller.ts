@@ -2,6 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ConfiguracionesLetrasService } from './configuraciones-letras.service';
 import { CreateConfiguracionesLetraDto } from './dto/create-configuraciones-letra.dto';
 import { UpdateConfiguracionesLetraDto } from './dto/update-configuraciones-letra.dto';
+import { ValidarSiExisteConfiguracion } from './validations/validarSiExisteConfiguracion';
+import { UpdateConfiguracionesLetraParamsDto } from './dto/update-configuraciones-letra-params.dto';
 
 @Controller('configuraciones')
 export class ConfiguracionesLetrasController {
@@ -18,17 +20,19 @@ export class ConfiguracionesLetrasController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.configuracionesLetrasService.findOne(+id);
+  findOne(@Param() { id } : UpdateConfiguracionesLetraParamsDto) {
+    return this.configuracionesLetrasService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateConfiguracionesLetraDto: UpdateConfiguracionesLetraDto) {
-    return this.configuracionesLetrasService.update(+id, updateConfiguracionesLetraDto);
+  update(
+    @Param() { id } : UpdateConfiguracionesLetraParamsDto, 
+    @Body() updateConfiguracionesLetraDto: UpdateConfiguracionesLetraDto) {
+    return this.configuracionesLetrasService.update(id, updateConfiguracionesLetraDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.configuracionesLetrasService.remove(+id);
+  remove(@Param() { id }: UpdateConfiguracionesLetraParamsDto) {
+    return this.configuracionesLetrasService.remove(id);
   }
 }
