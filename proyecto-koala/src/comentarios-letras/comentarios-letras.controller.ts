@@ -2,8 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ComentariosLetrasService } from './comentarios-letras.service';
 import { CreateComentariosLetraDto } from './dto/create-comentarios-letra.dto';
 import { UpdateComentariosLetraDto } from './dto/update-comentarios-letra.dto';
+import { UpdateComentariosLetraParamsDto } from './dto/update-comentarios-letra-params.dto';
 
-@Controller('comentarios-letras')
+@Controller('comentarios')
 export class ComentariosLetrasController {
   constructor(private readonly comentariosLetrasService: ComentariosLetrasService) {}
 
@@ -18,17 +19,19 @@ export class ComentariosLetrasController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.comentariosLetrasService.findOne(+id);
+  findOne(@Param() { id } : UpdateComentariosLetraParamsDto) {
+    return this.comentariosLetrasService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateComentariosLetraDto: UpdateComentariosLetraDto) {
-    return this.comentariosLetrasService.update(+id, updateComentariosLetraDto);
+  update(
+    @Param() { id } : UpdateComentariosLetraParamsDto, 
+  @Body() updateComentariosLetraDto: UpdateComentariosLetraDto) {
+    return this.comentariosLetrasService.update( id, updateComentariosLetraDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.comentariosLetrasService.remove(+id);
+  remove(@Param() { id } : UpdateComentariosLetraParamsDto) {
+    return this.comentariosLetrasService.remove(id);
   }
 }

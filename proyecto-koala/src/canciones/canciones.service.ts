@@ -40,9 +40,7 @@ export class CancionesService extends erroresHandler {
     @InjectRepository(Artista)
     private readonly repositoryArtista: Repository<Artista>,
 
-    @InjectRepository(Usuario)
-    private readonly repositoryUsuario: Repository<Usuario>,
-
+    
     @InjectRepository(Link)
     private readonly repositoryLink: Repository<Link>,
 
@@ -57,9 +55,6 @@ export class CancionesService extends erroresHandler {
     
     @Inject(UsuariosService)
     private readonly usuariosService: UsuariosService,
-
-    @Inject(LinkService)
-    private readonly linkService: LinkService,
   ) { 
     super()
     this.logger = new Logger('Canciones Service')
