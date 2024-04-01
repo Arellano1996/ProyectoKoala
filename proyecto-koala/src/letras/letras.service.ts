@@ -73,7 +73,11 @@ export class LetrasService extends erroresHandler {
   }
 
   async findOne(letraId: string) {
-    return await LetraConEntidadesPorUUID(letraId)
+    try {
+      return await LetraConEntidadesPorUUID(letraId)
+    } catch (error) {
+      this.handleExceptions(error)
+    }
   }
 
   update(id: number, updateLetraDto: UpdateLetraDto) {
