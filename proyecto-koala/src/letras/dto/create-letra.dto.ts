@@ -4,6 +4,9 @@ import { ComentariosLetra } from "src/comentarios-letras/entities/comentarios-le
 import { validarQueElUuidCancionExista } from "src/common/validations/validarQueElUuidCancionExista";
 import { validarQueElUuidUsuarioExista } from "src/common/validations/validarQueElUuidUsuarioExista";
 import { ConfiguracionesLetra } from "src/configuraciones-letras/entities/configuraciones-letra.entity";
+import { CreateLetraComentariosDto } from "./crear-letra-comentarios.dto";
+import { CreateLetraConfiguracionesDto } from "./crear-letra-configuraciones.dto";
+import { Type } from "class-transformer";
 
 export class CreateLetraDto {
 
@@ -11,6 +14,7 @@ export class CreateLetraDto {
     Letra: string;
 
     @IsString()
+    @IsOptional()
     Acordes: string;
     
     //Validar que exista
@@ -24,12 +28,12 @@ export class CreateLetraDto {
     CancionId: string;
 
     @IsArray()
-    @IsString({ each: true })
+    @Type(() => CreateLetraComentariosDto)
     @IsOptional()
-    Comentarios?: string[] = [];
+    Comentarios?: CreateLetraComentariosDto[] = [];
     
     @IsArray()
-    @IsString({ each: true })
+    @Type(() => CreateLetraConfiguracionesDto)
     @IsOptional()
-    Configuraciones?: string[] = [];
+    Configuraciones?: CreateLetraConfiguracionesDto[] = [];
 }

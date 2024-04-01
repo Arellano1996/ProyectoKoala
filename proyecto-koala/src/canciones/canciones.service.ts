@@ -1,4 +1,3 @@
-//#region Importaciones 
 import { ConflictException, Inject, Injectable, Logger } from '@nestjs/common';
 import { CreateCancioneDto } from './dto/create-cancione.dto';
 import { UpdateCancioneDto } from './dto/update-cancione.dto';
@@ -25,7 +24,6 @@ import { Usuario } from 'src/usuarios/entities/usuario.entity';
 import { Letra } from 'src/letras/entities/letra.entity';
 import { ComentariosLetra } from 'src/comentarios-letras/entities/comentarios-letra.entity';
 import { ConfiguracionesLetra } from 'src/configuraciones-letras/entities/configuraciones-letra.entity';
-//#endregion Importaciones
 
 @Injectable()
 export class CancionesService extends erroresHandler {

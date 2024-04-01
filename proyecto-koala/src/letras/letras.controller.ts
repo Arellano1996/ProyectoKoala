@@ -3,6 +3,7 @@ import { LetrasService } from './letras.service';
 import { CreateLetraDto } from './dto/create-letra.dto';
 import { UpdateLetraDto } from './dto/update-letra.dto';
 import { FindLetraDto } from './dto/find-letra.dto';
+import { UpdateLetraParamsDto } from './dto/update-letra-params.dto';
 
 @Controller('letras')
 export class LetrasController {
@@ -26,12 +27,13 @@ export class LetrasController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLetraDto: UpdateLetraDto) {
-    return this.letrasService.update(+id, updateLetraDto);
+  update(@Param() { id } : UpdateLetraParamsDto, 
+  @Body() updateLetraDto: UpdateLetraDto) {
+    return this.letrasService.update(id, updateLetraDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.letrasService.remove(+id);
+  remove(@Param() { id } : UpdateLetraParamsDto) {
+    return this.letrasService.remove(id);
   }
 }

@@ -1,12 +1,11 @@
-import { IsArray, IsOptional, IsString, IsUUID } from "class-validator";
+import { IsArray, IsOptional, IsString, IsUUID, ValidateNested } from "class-validator";
+import { CreateLetraComentariosDto } from "./crear-letra-comentarios.dto";
+import { CreateLetraConfiguracionesDto } from "./crear-letra-configuraciones.dto";
+import { Type } from "class-transformer";
 
 export class UpdateLetraDto {
 
-    @IsUUID()
-    LetraId: string;
-
     @IsString()
-    @IsOptional()
     Letra: string;
 
     @IsString()
@@ -14,10 +13,14 @@ export class UpdateLetraDto {
     Acordes: string;
 
     @IsOptional()
+    @Type(() => CreateLetraComentariosDto)
     @IsArray()
-    Comentarios: string[] = [];
+    @ValidateNested({ each: true })
+    Comentarios: CreateLetraComentariosDto[] = [];
     
     @IsOptional()
+    @Type(() => CreateLetraConfiguracionesDto)
     @IsArray()
-    Configuraciones: string[] = [];
+    @ValidateNested({ each: true })
+    Configuraciones: CreateLetraConfiguracionesDto[] = [];
 }

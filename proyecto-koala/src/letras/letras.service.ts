@@ -1,4 +1,3 @@
-//#region Imports
 import { Injectable, Logger } from '@nestjs/common';
 import { CreateLetraDto } from './dto/create-letra.dto';
 import { UpdateLetraDto } from './dto/update-letra.dto';
@@ -14,7 +13,6 @@ import { LetrasConEntidades } from 'src/common/consultas/LetrasConEntidades';
 import { FindLetraDto } from './dto/find-letra.dto';
 import { LetrasConEntidadesPorUsuarioYCancion } from 'src/common/consultas/LetrasConEntidadesPorUsuarioYCancion';
 import { LetraConEntidadesPorUUID } from 'src/common/consultas/LetraConEntidadesPorUUID';
-//#endregion imports
 
 @Injectable()
 export class LetrasService extends erroresHandler {
@@ -50,8 +48,14 @@ export class LetrasService extends erroresHandler {
       ...restoPropiedades,
       Usuario: usuario,
       Cancion: cancion,
-      Comentarios: Comentarios.map( comentario => this.repositoryComentarios.create({Comentario: comentario}) ),
-      Configuraciones: Configuraciones.map( configuracion => this.repositoryConfiguraciones.create({ConfiguracionJSON: configuracion}) )
+      Comentarios: Comentarios.map( comentario => this.repositoryComentarios.create({
+        Nombre: comentario.Nombre,
+        Comentario: comentario.Comentario
+      }) ),
+      Configuraciones: Configuraciones.map( configuracion => this.repositoryConfiguraciones.create({
+        Nombre: configuracion.Nombre,
+        ConfiguracionJSON: configuracion.Configuracion
+      }) )
     })
     
     await this.repository.save( nuevaLetra )
@@ -80,11 +84,40 @@ export class LetrasService extends erroresHandler {
     }
   }
 
-  update(id: number, updateLetraDto: UpdateLetraDto) {
-    return `This action updates a #${id} letra`;
+  //TODO validar que comentarios y configuraciones pertenecen a Letra
+  //Llenar el campo de referencia de letra, en comentarios y configuraciones
+  async update(letraId: string, updateLetraDto: UpdateLetraDto) {
+    try {
+      const { Comentarios, Configuraciones, ...resto } = updateLetraDto
+
+      const letra = await this.repository.preload({
+        LetraId: letraId,
+        ...resto,
+        Comentarios: Comentarios.map( comentario => this.repositoryComentarios.create({
+          ComentariosLetraId: comentario.ComentarioId,
+          Nombre: comentario.Nombre,
+          Comentario: comentario.Comentario
+        })),
+        Configuraciones: Configuraciones.map( configuracion => this.repositoryConfiguraciones.create({
+          ConfiguracionesLetraId: configuracion.ConfiguracionId,
+          Nombre: configuracion.Nombre,
+          ConfiguracionJSON: configuracion.Configuracion
+        }))
+      })
+
+      await this.repository.save( letra )
+
+      return letra
+    } catch (error) {
+      this.handleExceptions(error)
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} letra`;
+  async remove(letraId: string) {
+    try {
+      
+    } catch (error) {
+      this.handleExceptions(error)
+    }
   }
 }
