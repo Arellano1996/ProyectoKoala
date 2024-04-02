@@ -1,4 +1,3 @@
-//#region Imports
 import { Injectable, Logger } from '@nestjs/common';
 import { CreateConfiguracionesLetraDto } from './dto/create-configuraciones-letra.dto';
 import { UpdateConfiguracionesLetraDto } from './dto/update-configuraciones-letra.dto';
@@ -9,7 +8,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Letra } from 'src/letras/entities/letra.entity';
 import { ConfiguracionesConPaginacion } from 'src/common/consultas/ConfiguracionesConPaginacion';
 import { ConfiguracionesPorUUID } from 'src/common/consultas/ConfiguracionesPorUUID';
-//#endregion imports
 
 @Injectable()
 export class ConfiguracionesLetrasService extends erroresHandler{

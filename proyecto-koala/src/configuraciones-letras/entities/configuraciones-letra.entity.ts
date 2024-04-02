@@ -15,7 +15,8 @@ export class ConfiguracionesLetra {
 
     //Muchas configuraciones pueden pertenecer a una misma letra, o bien una letra puede tener muchas configuraciones
     @ManyToOne( type => Letra, letra => letra.Configuraciones, {
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
     })
     Letra: Letra;
 

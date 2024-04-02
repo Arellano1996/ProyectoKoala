@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { ConflictException, Injectable, Logger } from '@nestjs/common';
 import { CreateLetraDto } from './dto/create-letra.dto';
 import { UpdateLetraDto } from './dto/update-letra.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,11 +13,11 @@ import { LetrasConEntidades } from 'src/common/consultas/LetrasConEntidades';
 import { FindLetraDto } from './dto/find-letra.dto';
 import { LetrasConEntidadesPorUsuarioYCancion } from 'src/common/consultas/LetrasConEntidadesPorUsuarioYCancion';
 import { LetraConEntidadesPorUUID } from 'src/common/consultas/LetraConEntidadesPorUUID';
+import { CreateLetraComentariosDto } from './dto/crear-letra-comentarios.dto';
+import { CreateLetraConfiguracionesDto } from './dto/crear-letra-configuraciones.dto';
 
 @Injectable()
 export class LetrasService extends erroresHandler {
-
-  
   constructor(
     @InjectRepository(Letra)
     private readonly repository: Repository<Letra>,
@@ -34,53 +34,62 @@ export class LetrasService extends erroresHandler {
     @InjectRepository(ConfiguracionesLetra)
     private readonly repositoryConfiguraciones: Repository<ConfiguracionesLetra>,
   ) {
-    super()
-    this.logger = new Logger('Links Service')
+    super();
+    this.logger = new Logger('Links Service');
   }
   async create(createLetraDto: CreateLetraDto) {
+    const {
+      Comentarios,
+      Configuraciones,
+      UsuarioId,
+      CancionId,
+      ...restoPropiedades
+    } = createLetraDto;
 
-    const { Comentarios, Configuraciones, UsuarioId, CancionId, ...restoPropiedades } = createLetraDto
-    
-    const usuario = await this.repositoryUsuario.findOneByOrFail({ UsuarioId })
-    const cancion = await this.repositoryCancion.findOneBy({ CancionId })
-    
+    const usuario = await this.repositoryUsuario.findOneByOrFail({ UsuarioId });
+    const cancion = await this.repositoryCancion.findOneBy({ CancionId });
+
     const nuevaLetra = this.repository.create({
       ...restoPropiedades,
       Usuario: usuario,
       Cancion: cancion,
-      Comentarios: Comentarios.map( comentario => this.repositoryComentarios.create({
-        Nombre: comentario.Nombre,
-        Comentario: comentario.Comentario
-      }) ),
-      Configuraciones: Configuraciones.map( configuracion => this.repositoryConfiguraciones.create({
-        Nombre: configuracion.Nombre,
-        ConfiguracionJSON: configuracion.Configuracion
-      }) )
-    })
-    
-    await this.repository.save( nuevaLetra )
-    
-    return nuevaLetra
+      Comentarios: Comentarios.map((comentario) =>
+        this.repositoryComentarios.create({
+          Nombre: comentario.Nombre,
+          Comentario: comentario.Comentario,
+        }),
+      ),
+      Configuraciones: Configuraciones.map((configuracion) =>
+        this.repositoryConfiguraciones.create({
+          Nombre: configuracion.Nombre,
+          ConfiguracionJSON: configuracion.Configuracion,
+        }),
+      ),
+    });
+
+    await this.repository.save(nuevaLetra);
+
+    return nuevaLetra;
   }
 
   async findAll(findLetraDto: FindLetraDto) {
     try {
+      const { UsuarioId, CancionId } = findLetraDto;
 
-      const { UsuarioId, CancionId } = findLetraDto
+      if (UsuarioId === undefined || CancionId === undefined)
+        return await LetrasConEntidades();
 
-      if( UsuarioId === undefined || CancionId === undefined) return await LetrasConEntidades()
-
-      return await LetrasConEntidadesPorUsuarioYCancion(UsuarioId, CancionId)
+      return await LetrasConEntidadesPorUsuarioYCancion(UsuarioId, CancionId);
     } catch (error) {
-      this.handleExceptions(error)
+      this.handleExceptions(error);
     }
   }
 
   async findOne(letraId: string) {
     try {
-      return await LetraConEntidadesPorUUID(letraId)
+      return await LetraConEntidadesPorUUID(letraId);
     } catch (error) {
-      this.handleExceptions(error)
+      this.handleExceptions(error);
     }
   }
 
@@ -88,36 +97,104 @@ export class LetrasService extends erroresHandler {
   //Llenar el campo de referencia de letra, en comentarios y configuraciones
   async update(letraId: string, updateLetraDto: UpdateLetraDto) {
     try {
-      const { Comentarios, Configuraciones, ...resto } = updateLetraDto
+      const { Comentarios, Configuraciones, ...resto } = updateLetraDto;
+
+      await this.RevisarQueLosComentariosPertenezcanAEsaLetra(Comentarios, letraId,)
+      await this.RevisarQueLasConfiguracionesPertenezcanAEsaLetra(Configuraciones, letraId,)
 
       const letra = await this.repository.preload({
         LetraId: letraId,
         ...resto,
-        Comentarios: Comentarios.map( comentario => this.repositoryComentarios.create({
-          ComentariosLetraId: comentario.ComentarioId,
-          Nombre: comentario.Nombre,
-          Comentario: comentario.Comentario
-        })),
-        Configuraciones: Configuraciones.map( configuracion => this.repositoryConfiguraciones.create({
-          ConfiguracionesLetraId: configuracion.ConfiguracionId,
-          Nombre: configuracion.Nombre,
-          ConfiguracionJSON: configuracion.Configuracion
-        }))
-      })
+        Comentarios: Comentarios.map((comentario) =>
+          this.repositoryComentarios.create({
+            ComentariosLetraId: comentario.ComentarioId,
+            Nombre: comentario.Nombre,
+            Comentario: comentario.Comentario,
+          }),
+        ),
+        Configuraciones: Configuraciones.map((configuracion) =>
+          this.repositoryConfiguraciones.create({
+            ConfiguracionesLetraId: configuracion.ConfiguracionId,
+            Nombre: configuracion.Nombre,
+            ConfiguracionJSON: configuracion.Configuracion,
+          }),
+        ),
+      });
 
-      await this.repository.save( letra )
+      await this.repository.save(letra);
 
-      return letra
+      return letra;
     } catch (error) {
-      this.handleExceptions(error)
+      this.handleExceptions(error);
     }
   }
 
   async remove(letraId: string) {
     try {
-      
     } catch (error) {
-      this.handleExceptions(error)
+      this.handleExceptions(error);
     }
+  }
+
+  async RevisarQueLosComentariosPertenezcanAEsaLetra( comentarios: CreateLetraComentariosDto[], letraId ) {
+    const validacion = await Promise.allSettled( comentarios.map(async (comentario) => {
+        if (comentario.ComentarioId) {
+          const { ComentariosLetraId, Letra } = await this.repositoryComentarios.findOne({
+            where: {
+              ComentariosLetraId: comentario.ComentarioId,
+            },
+            relations: {
+              Letra: true,
+            },
+            select: {
+              Letra: {
+                LetraId: true,
+              },
+              ComentariosLetraId: true,
+            },
+          });
+
+          const { LetraId } = Letra;
+
+          if (letraId !== LetraId) throw new ConflictException( null, `No puedes editar el comentario con id: ${ComentariosLetraId}` )
+        }
+      })
+    );
+
+    validacion.forEach((resultado) => {
+      if (resultado.status === 'rejected')
+        throw new ConflictException(resultado.reason);
+    });
+  }
+
+  async RevisarQueLasConfiguracionesPertenezcanAEsaLetra( configuraciones: CreateLetraConfiguracionesDto[], letraId) {
+    const validacion = await Promise.allSettled( configuraciones.map(async (configuracion) => {
+        if (configuracion.ConfiguracionId) {
+          const { ConfiguracionesLetraId, Letra } = await await this.repositoryConfiguraciones.findOne({
+              where: {
+                ConfiguracionesLetraId: configuracion.ConfiguracionId,
+              },
+              relations: {
+                Letra: true,
+              },
+              select: {
+                Letra: {
+                  LetraId: true,
+                },
+                ConfiguracionesLetraId: true,
+              },
+            });
+
+          const { LetraId } = Letra;
+
+          if (letraId !== LetraId)
+            throw new ConflictException( null, `No puedes editar la configuracion con id: ${ ConfiguracionesLetraId }` );
+        }
+      }),
+    );
+
+    validacion.forEach((resultado) => {
+      if (resultado.status === 'rejected') throw new ConflictException(resultado.reason);
+    });
   }
 }
