@@ -131,6 +131,14 @@ export class LetrasService extends erroresHandler {
 
   async remove(letraId: string) {
     try {
+      
+      const letra = await this.repository.findOneBy({
+        LetraId: letraId
+      })
+
+      await this.repository.remove(letra)
+
+      return letra
     } catch (error) {
       this.handleExceptions(error);
     }
