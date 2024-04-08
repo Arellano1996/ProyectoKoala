@@ -1,16 +1,20 @@
-//#region imports
 import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, Query } from '@nestjs/common';
 import { ArtistasService } from './artistas.service';
 import { CreateArtistaDto } from './dto/create-artista.dto';
 import { UpdateArtistaDto } from './dto/update-artista.dto';
 import { PaginationDto } from 'src/common/paginacion.dto';
-//#endregion imports
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Artista } from './entities/artistas.entity';
 
+
+@ApiTags('Artistas')
 @Controller('artistas')
 export class ArtistasController {
   constructor(private readonly artistasService: ArtistasService) {}
 
   @Post()
+  @ApiResponse({ status: 201, description: 'Artista creado', type: Artista })
+  @ApiResponse({ status: 409, description: 'El nombre del artista ya existe' })
   create(@Body() createArtistaDto: CreateArtistaDto) {
     return this.artistasService.create(createArtistaDto);
   }

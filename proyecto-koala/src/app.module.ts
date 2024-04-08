@@ -9,8 +9,6 @@ import { CancionesModule } from './canciones/canciones.module';
 import { LinkModule } from './link/link.module';
 import { ArtistasModule } from './artistas/artistas.module';
 import { GenerosModule } from './generos/generos.module';
-import { UsuariosCancionesLetrasModule } from './usuarios-canciones-letras/usuarios-canciones-letras.module';
-import { UsuariosCancionesLinksModule } from './usuarios-canciones-links/usuarios-canciones-links.module';
 import { LetrasModule } from './letras/letras.module';
 import { ComentariosLetrasModule } from './comentarios-letras/comentarios-letras.module';
 import { ConfiguracionesLetrasModule } from './configuraciones-letras/configuraciones-letras.module';
@@ -37,8 +35,6 @@ import { ConfiguracionesLetrasModule } from './configuraciones-letras/configurac
     LinkModule,
     ArtistasModule,
     GenerosModule,
-    UsuariosCancionesLetrasModule,
-    UsuariosCancionesLinksModule,
     LetrasModule,
     ComentariosLetrasModule,
     ConfiguracionesLetrasModule

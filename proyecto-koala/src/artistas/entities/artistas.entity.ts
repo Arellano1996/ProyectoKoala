@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { Cancion } from "src/canciones/entities/cancion.entity";
 import { formatearSlug } from "src/common/formatear-slug";
 import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
@@ -8,6 +9,11 @@ export class Artista
     @PrimaryGeneratedColumn('uuid')
     ArtistaId: string;
 
+    @ApiProperty({
+        example: 'Ariel Camacho',
+        description: 'Nombre del artista',
+        uniqueItems: true
+    })
     @Column('text', {
         unique: true
     })
