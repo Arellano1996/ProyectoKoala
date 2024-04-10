@@ -3,7 +3,9 @@ import { ComentariosLetrasService } from './comentarios-letras.service';
 import { CreateComentariosLetraDto } from './dto/create-comentarios-letra.dto';
 import { UpdateComentariosLetraDto } from './dto/update-comentarios-letra.dto';
 import { UpdateComentariosLetraParamsDto } from './dto/update-comentarios-letra-params.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Comentarios')
 @Controller('comentarios')
 export class ComentariosLetrasController {
   constructor(private readonly comentariosLetrasService: ComentariosLetrasService) {}

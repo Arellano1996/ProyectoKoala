@@ -4,7 +4,9 @@ import { CreateLetraDto } from './dto/create-letra.dto';
 import { UpdateLetraDto } from './dto/update-letra.dto';
 import { FindLetraDto } from './dto/find-letra.dto';
 import { UpdateLetraParamsDto } from './dto/update-letra-params.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Letras')
 @Controller('letras')
 export class LetrasController {
   constructor(private readonly letrasService: LetrasService) {}

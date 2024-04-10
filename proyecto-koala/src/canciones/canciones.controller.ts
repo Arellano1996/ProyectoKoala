@@ -4,7 +4,9 @@ import { CreateCancioneDto } from './dto/create-cancione.dto';
 import { UpdateCancioneDto } from './dto/update-cancione.dto';
 import { PaginationDto } from 'src/common/paginacion.dto';
 import { updateCancionParamsDto } from './dto/update.cancion.params.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Canciones')
 @Controller('canciones')
 export class CancionesController {
   constructor(private readonly cancionesService: CancionesService) {}

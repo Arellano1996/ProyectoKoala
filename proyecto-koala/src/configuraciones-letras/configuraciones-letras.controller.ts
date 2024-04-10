@@ -3,7 +3,9 @@ import { ConfiguracionesLetrasService } from './configuraciones-letras.service';
 import { CreateConfiguracionesLetraDto } from './dto/create-configuraciones-letra.dto';
 import { UpdateConfiguracionesLetraDto } from './dto/update-configuraciones-letra.dto';
 import { UpdateConfiguracionesLetraParamsDto } from './dto/update-configuraciones-letra-params.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Configuración')
 @Controller('configuraciones')
 export class ConfiguracionesLetrasController {
   constructor(private readonly configuracionesLetrasService: ConfiguracionesLetrasService) {}

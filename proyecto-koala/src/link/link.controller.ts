@@ -3,7 +3,9 @@ import { LinkService } from './link.service';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { UpdateLinkDto } from './dto/update-link.dto';
 import { LinkPorUsuarioYCancion } from './modelos/LinkPorUsuarioYCancion.model';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Links')
 @Controller('link')
 export class LinkController {
   constructor(private readonly linkService: LinkService) {}
