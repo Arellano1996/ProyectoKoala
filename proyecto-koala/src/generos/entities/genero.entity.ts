@@ -1,3 +1,4 @@
+import { ApiProperty } from "@nestjs/swagger";
 import { Cancion } from "src/canciones/entities/cancion.entity";
 import { formatearSlug } from "src/common/formatear-slug";
 import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
@@ -5,17 +6,21 @@ import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToMany, PrimaryGenerate
 @Entity()
 export class Genero
 {
+    @ApiProperty()
     @PrimaryGeneratedColumn('uuid')
     GeneroId: string;
 
+    @ApiProperty()
     @Column('text', {
         unique: true
     })
     Nombre: string;
 
+    @ApiProperty()
     @Column()
     Slug: string;
 
+    @ApiProperty()
     @ManyToMany( type => Cancion, cancion => cancion.Generos )
     canciones: Cancion[]
 

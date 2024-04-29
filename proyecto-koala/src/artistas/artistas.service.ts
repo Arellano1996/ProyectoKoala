@@ -1,12 +1,10 @@
 //#region Import
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateArtistaDto } from './dto/create-artista.dto';
 import { UpdateArtistaDto } from './dto/update-artista.dto';
 import { Artista } from './entities/artistas.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { isUUID } from 'class-validator';
-import { formatearSlug } from 'src/common/formatear-slug';
 import erroresHandler from 'src/common/errores.handler';
 import { ArtistasConPaginacion } from 'src/common/consultas/ArtistasConPaginacion';
 import { PaginationDto } from 'src/common/paginacion.dto';

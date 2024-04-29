@@ -1,9 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsString, MinLength } from "class-validator";
+import { IsString, MinLength } from "class-validator";
 
 export class CreateArtistaDto {
     
     @ApiProperty({
+        example: 'Ariel Camacho',
         description: 'Nombre del artista',
         nullable: false,
         minLength: 1,

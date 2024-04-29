@@ -6,6 +6,11 @@ import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToMany, PrimaryGenerate
 @Entity()
 export class Artista
 {
+    @ApiProperty({
+        example: '87399f03-881a-41c7-b239-0557ceabc492',
+        description: 'Artista Id',
+        uniqueItems: true
+    })
     @PrimaryGeneratedColumn('uuid')
     ArtistaId: string;
 
@@ -19,9 +24,18 @@ export class Artista
     })
     Nombre: string;
 
+    @ApiProperty({
+        example: 'ariel_camacho',
+        description: 'Slug del artista',
+        uniqueItems: true
+    })
     @Column()
     Slug: string;
 
+    @ApiProperty({
+        example: [Cancion],
+        description: 'Estas son las canciones que están relacionadas con este Artista'
+    })
     @ManyToMany( type => Cancion, cancion => cancion.Artistas)
     Canciones: Cancion[]
 
@@ -29,7 +43,7 @@ export class Artista
     generarSlug(){
         this.Slug = formatearSlug( this.Nombre )
     }
-
+    
     @BeforeUpdate()
     generarSlugActualizado(){
         this.Slug = formatearSlug( this.Nombre )
