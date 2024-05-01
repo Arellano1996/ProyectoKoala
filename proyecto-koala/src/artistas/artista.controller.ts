@@ -14,7 +14,7 @@ export class ArtistasController {
 
   @Post()
   @ApiResponse({ status: 201, description: 'Artista creado', type: Artista })
-  // @ApiResponse({ status: 201, description: 'Artista creado', type: CreateArtistaDto })
+  //@ApiResponse({ status: 201, description: 'Artista creado', type: CreateArtistaDto })
   @ApiResponse({ status: 409, description: 'El nombre del artista ya existe' })
   create(@Body() createArtistaDto: CreateArtistaDto) {
     return this.artistasService.create(createArtistaDto);

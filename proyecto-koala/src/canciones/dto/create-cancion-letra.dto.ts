@@ -7,27 +7,33 @@ import { Usuario } from "src/usuarios/entities/usuario.entity";
 import { CreateCancioneLetraConfiguracionDto } from "./create-cancion-letra-configuracion.dto";
 import { Type } from "class-transformer";
 import { CreateCancioneLetraComentarioDto } from "./create-cancion-letra-comentarios.dto";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateCancioneLetraDto{
     
+    @ApiProperty()
     @IsString()
     Letra: string;
 
+    @ApiProperty()
     @IsString()
     @IsOptional()
     Acordes: string;
 
     //Relaciones
     
+    @ApiProperty()
     //Cancion se relaciona al momento de hacer save desde Canción
     //Usuario se relaciona al momento de validar
     Usuario: Usuario;
 
+    @ApiProperty()
     @IsOptional()
     @Type(() => CreateCancioneLetraComentarioDto) // Transforma cada objeto al objeto especificado
     @ValidateNested({ each: true })
     Comentarios: CreateCancioneLetraComentarioDto[] = [];
     
+    @ApiProperty()
     @IsOptional()
     @Type(() => CreateCancioneLetraConfiguracionDto) // Transforma cada objeto al objeto especificado
     @ValidateNested({ each: true })

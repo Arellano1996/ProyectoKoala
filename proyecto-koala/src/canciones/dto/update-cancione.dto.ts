@@ -12,18 +12,22 @@ import { Cancion } from '../entities/cancion.entity';
 import { UpdateLinkDto } from 'src/link/dto/update-link.dto';
 import { UpdateLetraDto } from 'src/letras/dto/update-letra.dto';
 import { UpdateCancioneLinkDto } from './update-cancion-link.dto';
+import { ApiProperty } from '@nestjs/swagger';
 //#endregion Imports
 
 export class UpdateCancioneDto {
 
+    @ApiProperty()
     Cancion: Cancion;
 
+    @ApiProperty()
     @IsString({ message: 'Nombre debe ser tipo string.'})
     @MinLength(1,{ message: 'Nombre debe tener al menos 1 caracter.'})
     // @IsNotEmpty({ message: 'Nombre es obligatorio.'})
     @IsOptional()
     Nombre: string;
 
+    @ApiProperty()
     @IsString()
     @MinLength(1)
     @IsOptional()
@@ -39,12 +43,14 @@ export class UpdateCancioneDto {
     // @ValidateNested({ each: true })
     // Links: UpdateCancioneLinkDto[] = [];
 
+    @ApiProperty()
     @IsArray({ message: 'Debe ser un arreglo.'})
     // @ArrayMinSize(1, { message: 'Debe haber al menos un artista.' })
     @ValidateNested({ each: true }) // Validar cada objeto del arreglo
     @Type(() => CreateArtistaDto) // Tipo del objeto que se espera en el arreglo
     Artistas: Artista[] = [];
 
+    @ApiProperty()
     @IsArray({ message: 'Debe ser un arreglo.'})
     // @ArrayMinSize(1, { message: 'Debe haber al menos un genero.' })
     @ValidateNested({ each: true }) // Validar cada objeto del arreglo

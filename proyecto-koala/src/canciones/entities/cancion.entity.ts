@@ -19,11 +19,19 @@ export class Cancion {
     @PrimaryGeneratedColumn('uuid')
     CancionId: string;
     
-    @ApiProperty()
+    @ApiProperty({
+        example: '87399f03-881a-41c7-b239-0557ceabc492',
+        description: 'Id del usuario que creo la canción',
+        uniqueItems: true
+    })
     @Column()
     UsuarioId: string;
     
-    @ApiProperty()
+    @ApiProperty({
+        example: 'Total ya se fue',
+        description: 'Nombre de la canción',
+        uniqueItems: true
+    })
     @Column()
     Nombre: string;
     
