@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LayoutPageComponent } from './paginas/layout-page/layout-page.component';
+import { CrearComponent } from './crear/crear.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: LayoutPageComponent
+    component: CrearComponent
   }
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AutentificacionRoutingModule { }
+export class CancionesRoutingModule { }
