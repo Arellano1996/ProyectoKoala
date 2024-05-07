@@ -15,10 +15,6 @@ const routes: Routes = [
     path: '',
     component: InicioComponent,
     pathMatch: 'full'
-  },
-  {
-    path: '**',
-    redirectTo: '404'
   }
 ];
 
