@@ -5,13 +5,15 @@ import { ArtistasRoutingModule } from './artistas-routing.module';
 import { CrearComponent } from './crear/crear.component';
 import { EditarComponent } from './editar/editar.component';
 import { IndiceComponent } from './indice/indice.component';
+import { ArtistaComponent } from './artista/artista.component';
 
 
 @NgModule({
   declarations: [
     CrearComponent,
     EditarComponent,
-    IndiceComponent
+    IndiceComponent,
+    ArtistaComponent
   ],
   imports: [
     CommonModule,
