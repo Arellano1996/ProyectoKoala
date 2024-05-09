@@ -1,5 +1,4 @@
-//#region imports
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,7 +10,9 @@ import { UsuariosConPaginacion } from 'src/common/consultas/UsuariosConPaginacio
 import { Cancion } from 'src/canciones/entities/cancion.entity';
 import { EditarCancionesUsuarioDto } from './dto/editar-canciones-usuario.dto';
 import { UsuariosConCancionesPorTermino } from 'src/common/consultas/UsuariosConCancionesPorTermino';
-//#endregion imports
+
+import * as bcrypt from 'bcrypt'
+import { iniciarSesion } from './dto/inisiar-sesion.dto';
 
 @Injectable()
 export class UsuariosService extends erroresHandler {
@@ -28,11 +29,41 @@ export class UsuariosService extends erroresHandler {
 
   async create(createUsuarioDto: CreateUsuarioDto) {
     try {
-      const usuario = this.repository.create(createUsuarioDto);
+      
+      const { Contrasena, ...resto } = createUsuarioDto
+
+      const usuario = this.repository.create({
+        ...resto,
+        Contrasena: bcrypt.hashSync( Contrasena, 5 )
+      });
 
       await this.repository.save(usuario);
 
       return usuario;
+    } catch (error) {
+      this.handleExceptions(error);
+    }
+  }
+  
+  async iniciarSesion(loginDto : iniciarSesion){
+    try {
+      
+      const { Correo, Contrasena } = loginDto
+  
+      const usuario = await this.repository.findOne({
+        where: { Correo },
+        select: { Correo: true, Contrasena: true }
+      })
+
+      if( !usuario ) 
+        throw new UnauthorizedException('Credenciales invalidas (correo)')
+      
+      if( !bcrypt.compareSync( Contrasena, usuario.Contrasena ) ) 
+        throw new UnauthorizedException('Credenciales invalidas (contraseña)')
+      
+       
+      return usuario
+
     } catch (error) {
       this.handleExceptions(error);
     }

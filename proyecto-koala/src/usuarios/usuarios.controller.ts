@@ -4,6 +4,8 @@ import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { PaginationDto } from 'src/common/paginacion.dto';
 import { EditarCancionesUsuarioDto } from './dto/editar-canciones-usuario.dto';
+import { Tracing } from 'trace_events';
+import { iniciarSesion } from './dto/inisiar-sesion.dto';
 
 @Controller('usuarios')
 export class UsuariosController {
@@ -12,6 +14,11 @@ export class UsuariosController {
   @Post()
   create(@Body() createUsuarioDto: CreateUsuarioDto) {
     return this.usuariosService.create(createUsuarioDto);
+  }
+
+  @Post('iniciar-sesion')
+  iniciarSesion(@Body() loginDto: iniciarSesion) {
+    return this.usuariosService.iniciarSesion(loginDto);
   }
 
   @Get()

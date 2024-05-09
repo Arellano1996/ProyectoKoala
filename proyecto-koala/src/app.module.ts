@@ -12,6 +12,7 @@ import { GenerosModule } from './generos/generos.module';
 import { LetrasModule } from './letras/letras.module';
 import { ComentariosLetrasModule } from './comentarios-letras/comentarios-letras.module';
 import { ConfiguracionesLetrasModule } from './configuraciones-letras/configuraciones-letras.module';
+import { AutentificacionModule } from './autentificacion/autentificacion.module';
 
 @Module({
   imports: [
@@ -37,7 +38,8 @@ import { ConfiguracionesLetrasModule } from './configuraciones-letras/configurac
     GenerosModule,
     LetrasModule,
     ComentariosLetrasModule,
-    ConfiguracionesLetrasModule
+    ConfiguracionesLetrasModule,
+    AutentificacionModule
   ],
   controllers: [],
   providers: [],
