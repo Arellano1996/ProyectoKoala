@@ -13,6 +13,8 @@ import { UsuariosConCancionesPorTermino } from 'src/common/consultas/UsuariosCon
 
 import * as bcrypt from 'bcrypt'
 import { iniciarSesion } from './dto/inisiar-sesion.dto';
+import { JwtPayload } from './interface/jwt-payload.interface';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsuariosService extends erroresHandler {
@@ -22,6 +24,8 @@ export class UsuariosService extends erroresHandler {
 
     @InjectRepository(Cancion)
     private readonly repositoryCancion: Repository<Cancion>,
+
+    private readonly jwtService : JwtService
   ) {
     super();
     this.logger = new Logger('Usuarios Service');
@@ -39,7 +43,11 @@ export class UsuariosService extends erroresHandler {
 
       await this.repository.save(usuario);
 
-      return usuario;
+      // return usuario;
+      return {
+        ...usuario,
+        token: this.getJwtToken({ Correo: usuario.Correo })
+      }
     } catch (error) {
       this.handleExceptions(error);
     }
@@ -51,7 +59,7 @@ export class UsuariosService extends erroresHandler {
       const { Correo, Contrasena } = loginDto
   
       const usuario = await this.repository.findOne({
-        where: { Correo },
+        where: { Correo: Correo.toLocaleLowerCase().trim() },
         select: { Correo: true, Contrasena: true }
       })
 
@@ -62,7 +70,10 @@ export class UsuariosService extends erroresHandler {
         throw new UnauthorizedException('Credenciales invalidas (contraseña)')
       
        
-      return usuario
+      return {
+        ...usuario,
+        token: this.getJwtToken({ Correo: usuario.Correo })
+      }
 
     } catch (error) {
       this.handleExceptions(error);
@@ -181,5 +192,12 @@ export class UsuariosService extends erroresHandler {
     } catch (error) {
       this.handleExceptions(error, 'El usuario que intenta borrar no existe')
     }
+  }
+
+  private getJwtToken( payload : JwtPayload ){
+
+    const token = this.jwtService.sign( payload )
+
+    return token
   }
 }

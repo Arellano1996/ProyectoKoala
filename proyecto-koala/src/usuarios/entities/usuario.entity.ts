@@ -72,10 +72,12 @@ export class Usuario {
     @BeforeInsert()
     generarSlug(){
         this.Slug = formatearSlug( this.Nombre )
+        this.Correo = this.Correo.toLocaleLowerCase().trim()
     }
     
     @BeforeUpdate()
     generarSlugActualizado(){
         this.Slug = formatearSlug( this.Nombre )
+        this.Correo = this.Correo.toLocaleLowerCase().trim()
     }
 }
