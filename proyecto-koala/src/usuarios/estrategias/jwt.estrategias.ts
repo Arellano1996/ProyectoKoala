@@ -21,15 +21,34 @@ export class JwtEstrategias extends PassportStrategy( Strategy ) {
     });
         
     }
-    async validate( payload : JwtPayload ) : Promise<Usuario> {
+    // async validate( payload : JwtPayload ) : Promise<Usuario> {
+    async validate( payload : JwtPayload ) {
         
-        const { Correo } = payload
+        const { Id } = payload
 
-        const usuario = await this.usuarioRepositorio.findOneBy({ Correo })
+        const usuario = await this.usuarioRepositorio.findOneBy({ UsuarioId: Id })
 
         if( !usuario ) throw new UnauthorizedException('Token not valid')
         
-        return usuario
+            
+        // console.log(usuario)
+
+        //Lo que se regrese aqui sera tomado como user en el request
+        //return 'hola123'
+         return usuario
+
+        /*
+         *
+        export const RawHeader = createParamDecorator(
+    ( data: string, ctx: ExecutionContext) => {
+
+        const req = ctx.switchToHttp().getRequest()
+
+        const usuario = req.user
+    }
+) 
+         */
+
     }
 
 }

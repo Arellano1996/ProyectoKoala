@@ -46,7 +46,7 @@ export class UsuariosService extends erroresHandler {
       // return usuario;
       return {
         ...usuario,
-        token: this.getJwtToken({ Correo: usuario.Correo })
+        token: this.getJwtToken({ Id: usuario.UsuarioId })
       }
     } catch (error) {
       this.handleExceptions(error);
@@ -60,7 +60,7 @@ export class UsuariosService extends erroresHandler {
   
       const usuario = await this.repository.findOne({
         where: { Correo: Correo.toLocaleLowerCase().trim() },
-        select: { Correo: true, Contrasena: true }
+        select: { Correo: true, Contrasena: true, UsuarioId: true }
       })
 
       if( !usuario ) 
@@ -69,10 +69,11 @@ export class UsuariosService extends erroresHandler {
       if( !bcrypt.compareSync( Contrasena, usuario.Contrasena ) ) 
         throw new UnauthorizedException('Credenciales invalidas (contraseña)')
       
+      const { Contrasena: pass  ,...usuarioSinContrasena} = usuario
        
       return {
-        ...usuario,
-        token: this.getJwtToken({ Correo: usuario.Correo })
+        ...usuarioSinContrasena,
+        token: this.getJwtToken({ Id: usuario.UsuarioId })
       }
 
     } catch (error) {
