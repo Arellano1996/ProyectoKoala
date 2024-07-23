@@ -6,6 +6,7 @@ import { CrearComponent } from './crear/crear.component';
 import { EditarComponent } from './editar/editar.component';
 import { IndiceComponent } from './indice/indice.component';
 import { ArtistaComponent } from './artista/artista.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ArtistaComponent } from './artista/artista.component';
   ],
   imports: [
     CommonModule,
-    ArtistasRoutingModule
+    ArtistasRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class ArtistasModule { }

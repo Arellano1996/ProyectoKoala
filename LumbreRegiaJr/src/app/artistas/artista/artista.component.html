@@ -1,1 +1,13 @@
-<p>artista works!</p>
+
+<div *ngIf="artistaResponse.ArtistaId">
+    <p>{{ artistaResponse.ArtistaId }}</p>
+    <p>{{ artistaResponse.Nombre }}</p>
+    <p>{{ artistaResponse.Slug }}</p>
+</div>
+
+<div *ngIf="uuidValido && !artistaResponse.ArtistaId">
+    <p>No se encontró un artista con ese Id</p>
+</div>
+<div *ngIf="!uuidValido">
+    <p>Página no encontrada</p>
+</div>

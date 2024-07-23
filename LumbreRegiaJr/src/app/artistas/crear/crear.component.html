@@ -1,1 +1,22 @@
 <p>Aqui se puede crear un artista</p>
+
+<!-- autocomplete off sirve para indicar al fron que las validaciones se haran del
+ lado de javascript -->
+<form [formGroup]="formularioArtista" (ngSubmit)="onSave()"
+autocomplete="off">
+    <div>
+        <label>Nombre del Artista</label>
+        <br>
+        <input type="" 
+        formControlName="Nombre"
+        placeholder="nombre del artista">
+        <br>
+        <span class="text-red-500"
+        *ngIf="isValidField('Nombre')">
+            Nombre está vacío</span>
+    </div>
+    <div>
+        <button type="submit">Guardar</button>
+
+    </div>
+</form>

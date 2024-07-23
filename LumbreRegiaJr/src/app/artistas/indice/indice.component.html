@@ -1,2 +1,11 @@
 <p>indice works!</p>
-<p>Aqui se listan todos los artistas registrados</p>
+<p>Aqui se listan todos los artistas registradosss</p>
+
+<h1>Listado de Artistas</h1>
+<ul>
+    <li *ngFor="let artista of artistaResponse.Artistas">
+        {{ artista.ArtistaId }} - {{ artista.Nombre }} - {{ artista.Slug }}
+    </li>
+</ul>
+
+<p *ngIf="artistaResponse.Artistas.length === 0">No hay artistas registrados.</p>
