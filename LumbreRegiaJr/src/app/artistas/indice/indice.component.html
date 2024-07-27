@@ -1,10 +1,9 @@
-<p>indice works!</p>
-<p>Aqui se listan todos los artistas registradosss</p>
-
 <h1>Listado de Artistas</h1>
+<hr>
+<span>Artistas totales: {{ artistaResponse.Total }}</span>
 <ul>
     <li *ngFor="let artista of artistaResponse.Artistas">
-        {{ artista.ArtistaId }} - {{ artista.Nombre }} - {{ artista.Slug }}
+        <a routerLink="/artistas/{{ artista.ArtistaId }}">{{ artista.Nombre }} - {{ artista.Slug }}</a>
     </li>
 </ul>
 

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Error404Component } from './error404/error404.component';
 import { MensajeEmergenteComponent } from './mensaje-emergente/mensaje-emergente.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { AppRoutingModule } from '../app-routing.module';
 
 @NgModule({
   declarations: [
@@ -11,10 +12,12 @@ import { NavbarComponent } from './navbar/navbar.component';
     NavbarComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    AppRoutingModule
   ],
   exports: [
-    Error404Component
+    Error404Component,
+    NavbarComponent
   ]
 })
 export class SharedModule { }

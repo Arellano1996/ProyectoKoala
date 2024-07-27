@@ -31,9 +31,7 @@ export class ArtistaComponent {
       //console.log(artistas)
       if(artistasResponse != null){
         //this.artistaResponse = artistasResponse
-        console.log('asd')
         this.artistaResponse = artistasResponse
-        console.log(this.artistaResponse)
       }
     });
   }

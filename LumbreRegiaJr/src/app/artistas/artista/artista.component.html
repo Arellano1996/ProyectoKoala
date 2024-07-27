@@ -1,8 +1,14 @@
 
 <div *ngIf="artistaResponse.ArtistaId">
-    <p>{{ artistaResponse.ArtistaId }}</p>
-    <p>{{ artistaResponse.Nombre }}</p>
-    <p>{{ artistaResponse.Slug }}</p>
+    <div class="flex">
+        <p class="mr-4">UUID: {{ artistaResponse.ArtistaId }}</p>
+        <a routerLink="/artistas/editar/{{ uuid }}" 
+        class="bg-sky-500 hover:bg-sky-700 
+        px-5 py-2.5 text-sm leading-3 rounded-md font-semibold text-white">
+            Editar</a>
+    </div>
+    <p>Nombre: {{ artistaResponse.Nombre }}</p>
+    <p>Slug: {{ artistaResponse.Slug }}</p>
 </div>
 
 <div *ngIf="uuidValido && !artistaResponse.ArtistaId">

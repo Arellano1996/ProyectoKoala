@@ -13,3 +13,12 @@ export interface ArtistaResponse {
 export interface CrearArtista {
     Nombre:    string;
 }
+//Editar Artisa
+export interface EditarArtista {
+    ArtistaId: string;
+    Nombre:    string;
+}
+//Borrar Artista
+export interface BorrarArtista {
+    Nombre:    string;
+}

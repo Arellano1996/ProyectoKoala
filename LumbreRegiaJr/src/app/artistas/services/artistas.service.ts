@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { Artista, ArtistaResponse, CrearArtista } from '../interfaces/artistas.interface';
+import { Artista, ArtistaResponse, BorrarArtista, CrearArtista, EditarArtista } from '../interfaces/artistas.interface';
 import { environments } from '../../../environments/environments';
 import { RespuestaError } from '../../shared/interfaces/respuesta.interface';
 
@@ -29,6 +29,14 @@ export class ArtistasService {
 
   postCrearArtista(artista: CrearArtista):Observable<CrearArtista | RespuestaError>{
     return this.http.post<Artista | RespuestaError>(`${ this.baseUrl }/artistas`, artista)
+  }
+  
+  patchEditarArtista(artista: EditarArtista, uuid: string): Observable<Artista | RespuestaError>{
+    return this.http.patch<Artista | RespuestaError>(`${ this.baseUrl }/artistas/${ uuid }`, artista)
+  }
+
+  deleteEliminarArtista(uuid: string): Observable<BorrarArtista | RespuestaError>{
+    return this.http.delete<BorrarArtista | RespuestaError>(`${ this.baseUrl }/artistas/${ uuid }`)
   }
 
 }

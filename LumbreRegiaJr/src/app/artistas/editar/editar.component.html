@@ -1,1 +1,40 @@
 <p>editar works!</p>
+<hr>
+<form [formGroup]="formularioArtista" (ngSubmit)="onSave()"
+autocomplete="off">
+    <div>
+        <div>
+            <label>Id: </label>
+            <br>
+            <label>{{ formularioArtista.controls['ArtistaId'].value }}</label>
+            <hr>
+        </div>
+        <div>
+            <label>Nombre del Artista: </label>
+            <br>
+            <input
+            class=""
+            type="text" 
+            formControlName="Nombre"
+            placeholder="nombre del artista">
+        </div>
+        <hr>
+        <span class="text-red-500"
+        *ngIf="isValidField('Nombre')">
+            Nombre está vacío</span>
+    </div>
+    <div class="flex">
+        
+        <button
+        (click)="eliminar()"
+        type="button"
+        class="bg-red-500 hover:bg-red-700 
+        px-5 py-2.5 text-sm mt-2 me-2 leading-3 rounded-md font-semibold text-white">
+        Eliminar</button>
+
+        <button 
+        class="bg-sky-500 hover:bg-sky-700 
+        px-5 py-2.5 text-sm mt-2 leading-3 rounded-md font-semibold text-white">
+        Guardar</button>
+    </div>
+</form>

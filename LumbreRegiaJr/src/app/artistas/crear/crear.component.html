@@ -1,7 +1,5 @@
-<p>Aqui se puede crear un artista</p>
-
-<!-- autocomplete off sirve para indicar al fron que las validaciones se haran del
- lado de javascript -->
+<p>Crear un artista</p>
+<hr>
 <form [formGroup]="formularioArtista" (ngSubmit)="onSave()"
 autocomplete="off">
     <div>
@@ -15,8 +13,12 @@ autocomplete="off">
         *ngIf="isValidField('Nombre')">
             Nombre está vacío</span>
     </div>
+    <hr>
     <div>
-        <button type="submit">Guardar</button>
+        <button 
+        class="bg-sky-500 hover:bg-sky-700 
+        px-5 py-2.5 text-sm mt-2 leading-3 rounded-md font-semibold text-white"
+        >Guardar</button>
 
     </div>
 </form>
