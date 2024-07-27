@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Proyecto Koala';
-  color = 'bg-gray-400'
+  background = 'bg-blue-400'
 }
