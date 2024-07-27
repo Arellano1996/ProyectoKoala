@@ -34,5 +34,5 @@ export class Letra {
     Comentarios?: ComentariosLetra[];
 
     @OneToMany( type => ConfiguracionesLetra, configuracionesLetra => configuracionesLetra.Letra, { cascade: true } )
-    Configuraciones: ConfiguracionesLetra[];
+    Configuraciones?: ConfiguracionesLetra[];
 }

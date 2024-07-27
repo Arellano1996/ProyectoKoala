@@ -18,9 +18,6 @@ import { CancionesConEntidadesPorUUIDoTermino } from 'src/common/consultas/Canci
 import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { EditarCancionesUsuarioDto } from 'src/usuarios/dto/editar-canciones-usuario.dto';
 import { Link } from 'src/link/entities/link.entity';
-import { CreateLinkDto } from 'src/link/dto/create-link.dto';
-import { LinkService } from 'src/link/link.service';
-import { Usuario } from 'src/usuarios/entities/usuario.entity';
 import { Letra } from 'src/letras/entities/letra.entity';
 import { ComentariosLetra } from 'src/comentarios-letras/entities/comentarios-letra.entity';
 import { ConfiguracionesLetra } from 'src/configuraciones-letras/entities/configuraciones-letra.entity';
@@ -38,7 +35,6 @@ export class CancionesService extends erroresHandler {
     @InjectRepository(Artista)
     private readonly repositoryArtista: Repository<Artista>,
 
-    
     @InjectRepository(Link)
     private readonly repositoryLink: Repository<Link>,
 

@@ -18,7 +18,7 @@ export async function CancionesConEntidadesConPaginacion(limite: number, skip: n
     .leftJoinAndSelect('cancion.Links', 'links')
     .leftJoinAndSelect('cancion.Letras', 'letras')
     .leftJoinAndSelect('letras.Comentarios', 'comentarios')
-    .leftJoinAndSelect('letras.ConfiguracionesLetra', 'configuraciones')
+    .leftJoinAndSelect('letras.Configuraciones', 'configuraciones')
     .take( limite )
     .skip( skip )
     .getManyAndCount()
