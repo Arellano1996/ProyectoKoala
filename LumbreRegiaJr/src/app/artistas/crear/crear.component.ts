@@ -36,18 +36,14 @@ export class CrearComponent {
       return
     }
 
-    
-    
-    //console.log(this.formularioArtista.value)
-
       this.artistasService.postCrearArtista(this.formularioArtista.value).pipe(
         tap(artistasResponse => {
           console.log(artistasResponse);
           //TODO Mensaje de Artista Creado
+          this.router.navigate(['/artistas'])
         }),
         catchError(error => {
           console.log(error.error.message);
-          this.router.navigate(['/artistas'])
           return of(null); // Retorna un observable vacío para que el flujo continúe
         })
       ).subscribe()

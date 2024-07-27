@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   // styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'Lumbre Regia Jr';
+  title = 'Proyecto Koala';
+  color = 'bg-gray-400'
 }

@@ -14,7 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     IniciarSesionComponent,
     RegistrarseComponent,
-    InicioComponent
+    InicioComponent,
   ],
   imports: [
     BrowserModule,
