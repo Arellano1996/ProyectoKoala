@@ -26,6 +26,11 @@ export class Cancion {
         nullable: true
     })
     Tono?: string;
+    
+    @Column({
+        nullable: true
+    })
+    Duracion?: string;
 
     // @Column({
     //     nullable: true

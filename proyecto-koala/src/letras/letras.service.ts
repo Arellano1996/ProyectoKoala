@@ -47,7 +47,7 @@ export class LetrasService extends erroresHandler {
     } = createLetraDto;
 
     const usuario = await this.repositoryUsuario.findOneByOrFail({ UsuarioId });
-    const cancion = await this.repositoryCancion.findOneBy({ CancionId });
+    const cancion = await this.repositoryCancion.findOneByOrFail({ CancionId });
 
     const nuevaLetra = this.repository.create({
       ...restoPropiedades,

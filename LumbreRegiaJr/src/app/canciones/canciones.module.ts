@@ -6,6 +6,7 @@ import { CancionComponent } from './cancion/cancion.component';
 import { CrearComponent } from './crear/crear.component';
 import { EditarComponent } from './editar/editar.component';
 import { IndiceComponent } from './indice/indice.component';
+import { MenuDespleglableComponent } from './indice/menu-despleglable/menu-despleglable.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { IndiceComponent } from './indice/indice.component';
     CancionComponent,
     CrearComponent,
     EditarComponent,
-    IndiceComponent
+    IndiceComponent,
+    MenuDespleglableComponent
   ],
   imports: [
     CommonModule,

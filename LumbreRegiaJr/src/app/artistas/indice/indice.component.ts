@@ -18,8 +18,7 @@ export class IndiceComponent implements OnInit{
     .subscribe( artistasResponse => {
       //console.log(artistas)
       this.artistaResponse = artistasResponse
-      console.log( this.artistaResponse
-       )
+      console.log( this.artistaResponse)
 
     });
 

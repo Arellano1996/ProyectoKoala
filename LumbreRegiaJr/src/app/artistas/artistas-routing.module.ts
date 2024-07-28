@@ -6,7 +6,6 @@ import { EditarComponent } from './editar/editar.component';
 import { ArtistaComponent } from './artista/artista.component';
 
 const routes: Routes = [
-
   {
     path: '',
     children: [

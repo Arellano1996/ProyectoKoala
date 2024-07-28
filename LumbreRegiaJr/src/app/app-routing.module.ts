@@ -22,6 +22,10 @@ const routes: Routes = [
         loadChildren: () => import('./artistas/artistas.module').then(m => m.ArtistasModule)
       },
       {
+        path: 'canciones',
+        loadChildren: () => import('./canciones/canciones.module').then(m => m.CancionesModule)
+      },
+      {
         path: '',
         component: InicioComponent,
         pathMatch: 'full'
