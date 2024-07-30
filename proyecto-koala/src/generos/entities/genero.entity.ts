@@ -1,3 +1,4 @@
+import { Bateria } from "src/baterias/entities/bateria.entity";
 import { Cancion } from "src/canciones/entities/cancion.entity";
 import { formatearSlug } from "src/common/formatear-slug";
 import { BeforeInsert, BeforeUpdate, Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
@@ -16,8 +17,8 @@ export class Genero
     @Column()
     Slug: string;
 
-    @ManyToMany( type => Cancion, cancion => cancion.Generos )
-    canciones: Cancion[]
+    // @ManyToMany( type => Cancion, cancion => cancion.Generos )
+    // canciones: Cancion[]
 
     @BeforeInsert()
     generarSlug(){

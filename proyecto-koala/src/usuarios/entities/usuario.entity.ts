@@ -1,3 +1,4 @@
+import { Bateria } from "src/baterias/entities/bateria.entity";
 import { Cancion } from "src/canciones/entities/cancion.entity";
 import { formatearSlug } from "src/common/formatear-slug";
 import { Letra } from "src/letras/entities/letra.entity";
@@ -65,9 +66,17 @@ export class Usuario {
     //Un usuario puede tener muchos links
     @OneToMany( type => Link, link => link.Usuario)
     Links: Link[] | null;
-
-    @OneToMany( type => Letra, link => link.Letra)
+    
+    @OneToMany( type => Letra, letra => letra.Usuario)
     Letras: Letra[] | null;
+    
+    //Un usuario puede tener muchas baterias
+    //Si se usa OneToMany() es obligatorio usar tambien ManyToOne() 
+    //@JoinTable() se puede omitir en estas dos relaciones 
+    //OneToMany y ManyToOne
+    @OneToMany( type => Bateria, bateria => bateria.Usuario)
+    Baterias: Bateria[];
+    
 
     @BeforeInsert()
     generarSlug(){

@@ -1,5 +1,6 @@
 //#region imports
 import { Artista } from "src/artistas/entities/artistas.entity";
+import { Bateria } from "src/baterias/entities/bateria.entity";
 import { formatearSlug } from "src/common/formatear-slug";
 import { Genero } from "src/generos/entities/genero.entity";
 import { Letra } from "src/letras/entities/letra.entity";
@@ -58,6 +59,12 @@ export class Cancion {
     })
     @JoinTable()
     Generos: Genero[];
+    
+    @ManyToMany( type => Bateria, {
+        cascade: true
+    })
+    @JoinTable()
+    Baterias: Bateria[];
 
     @BeforeInsert()
     generarSlug(){

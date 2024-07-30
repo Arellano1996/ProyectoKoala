@@ -13,6 +13,7 @@ import { LetrasModule } from './letras/letras.module';
 import { ComentariosLetrasModule } from './comentarios-letras/comentarios-letras.module';
 import { ConfiguracionesLetrasModule } from './configuraciones-letras/configuraciones-letras.module';
 import { AutentificacionModule } from './autentificacion/autentificacion.module';
+import { BateriasModule } from './baterias/baterias.module';
 
 @Module({
   imports: [
@@ -39,7 +40,8 @@ import { AutentificacionModule } from './autentificacion/autentificacion.module'
     LetrasModule,
     ComentariosLetrasModule,
     ConfiguracionesLetrasModule,
-    AutentificacionModule
+    AutentificacionModule,
+    BateriasModule
   ],
   controllers: [],
   providers: [],
