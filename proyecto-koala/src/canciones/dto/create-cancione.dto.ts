@@ -7,10 +7,11 @@ import { Genero } from "src/generos/entities/genero.entity";
 import { CreateCancioneLinkDto } from "./create-cancion-link.dto";
 import { validarQueLosURLNoEstenRepetidos } from "src/common/validations/validarQueLosURLNoEstenRepetidos";
 import { siNoHayLinkDefaultEstablecerElPrimerLinkComoDefault } from "src/common/validations/siNoHayLinkDefaultEstablecerElPrimerLinkComoDefault";
-import { Letra } from "src/letras/entities/letra.entity";
 import { asignarUsuarioParaCancionLink } from "src/common/validations/asignarUsuarioParaCancionLink";
 import { CreateCancioneLetraDto } from "./create-cancion-letra.dto";
 import { asignarUsuarioParaCancionLetra } from "src/common/validations/asignarUsuarioParaCancionLetra";
+import { CreateCancionBateriaDto } from "./create-cancion-bateria.dto";
+import { asignarUsuarioParaCancionBateria } from "../validations/asignarUsuarioParaCancionBateria";
 //#endregion imports
 
 export class CreateCancioneDto {
@@ -48,12 +49,18 @@ export class CreateCancioneDto {
     @Validate( siNoHayLinkDefaultEstablecerElPrimerLinkComoDefault )
     @Validate( asignarUsuarioParaCancionLink )
     Links: CreateCancioneLinkDto[];
-
+    
     @IsArray()
     @IsNotEmpty()
     Artistas: Artista[];
-
+    
     @IsArray()
     @IsNotEmpty()
     Generos: Genero[];
+    
+    @IsOptional()
+    @IsArray()
+    @IsNotEmpty()
+    @Validate( asignarUsuarioParaCancionBateria )
+    Baterias: CreateCancionBateriaDto[];
 }

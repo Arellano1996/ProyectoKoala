@@ -22,6 +22,7 @@ export async function CancionesConEntidadesPorUUIDoTermino(termino: string){
                 Artistas: true,
                 Generos: true,
                 Links: true,
+                Baterias: true,
                 Letras: {
                     Comentarios: true,
                     Configuraciones: true

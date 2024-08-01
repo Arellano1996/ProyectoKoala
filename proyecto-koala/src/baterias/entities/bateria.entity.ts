@@ -9,9 +9,10 @@ export class Bateria {
     BateriaId: string;
     
     @Column({
-        nullable: true
+        unique: false,
+        nullable: false
     })
-    Nombre?: string;
+    Nombre: string;
     
     @Column({
         nullable: true
@@ -31,5 +32,4 @@ export class Bateria {
     //Muchas baterias pertenecen a un solo usuario
     @ManyToOne( type => Usuario, usuario => usuario.Baterias)
     Usuario: Usuario;
-    
 }

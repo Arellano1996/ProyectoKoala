@@ -13,6 +13,7 @@ import { Letra } from 'src/letras/entities/letra.entity';
 import { ComentariosLetra } from 'src/comentarios-letras/entities/comentarios-letra.entity';
 import { ConfiguracionesLetra } from 'src/configuraciones-letras/entities/configuraciones-letra.entity';
 import { validarSiExisteCancionConstraint } from './validations/validarSiExisteCancionConstraint';
+import { Bateria } from 'src/baterias/entities/bateria.entity';
 
 @Module({
   controllers: [CancionesController],
@@ -26,7 +27,8 @@ import { validarSiExisteCancionConstraint } from './validations/validarSiExisteC
       Usuario,
       Letra,
       ComentariosLetra,
-      ConfiguracionesLetra
+      ConfiguracionesLetra,
+      Bateria
      ]),
      UsuariosModule,
      LinkModule

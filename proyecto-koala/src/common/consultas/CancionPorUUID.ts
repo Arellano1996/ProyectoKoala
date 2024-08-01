@@ -12,7 +12,7 @@ export async function CancionPorUUID(cancionId: string){
     //Se inyecta el contexto y después el repositorio que se va a consultar
     const context = await NestFactory.createApplicationContext(AppModule)
     const repository: Repository<Cancion> = context.get(getRepositoryToken(Cancion));
-
+      
     return await repository.findOne({ 
         where: {
             CancionId: cancionId 

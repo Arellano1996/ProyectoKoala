@@ -21,6 +21,8 @@ import { Link } from 'src/link/entities/link.entity';
 import { Letra } from 'src/letras/entities/letra.entity';
 import { ComentariosLetra } from 'src/comentarios-letras/entities/comentarios-letra.entity';
 import { ConfiguracionesLetra } from 'src/configuraciones-letras/entities/configuraciones-letra.entity';
+import { Bateria } from 'src/baterias/entities/bateria.entity';
+import { CreateBateriaDto } from 'src/baterias/dto/create-bateria.dto';
 
 @Injectable()
 export class CancionesService extends erroresHandler {
@@ -47,6 +49,9 @@ export class CancionesService extends erroresHandler {
     @InjectRepository(ConfiguracionesLetra)
     private readonly repositoryConfiguracionesLetra: Repository<ConfiguracionesLetra>,
     
+    @InjectRepository(Bateria)
+    private readonly repositoryBateria: Repository<Bateria>,
+
     @Inject(UsuariosService)
     private readonly usuariosService: UsuariosService,
   ) { 
@@ -59,7 +64,7 @@ export class CancionesService extends erroresHandler {
   async create(createCancioneDto: CreateCancioneDto) {
     try {
 
-      const { Generos, Artistas, Links, Letras, UsuarioId, ...restoPropiedades } = createCancioneDto;
+      const { Generos, Artistas, Links, Letras, Baterias, UsuarioId, ...restoPropiedades } = createCancioneDto;
 
       //#region 1.- Guardar cancion con Artistas y Generos
       //Revisamos si los artistas ya existen
@@ -82,6 +87,14 @@ export class CancionesService extends erroresHandler {
         'genero'//Nombre de la tabla
       );//Si en la base de datos ya existe un genero con el mismo nombre trae esa referencia, de lo contrario crea el nuevo dato
 
+      //Revisar si ya existen las baterias
+      const baterias = await createOrGetExistingEntities(
+        this.repositoryBateria,//Se envia el repositorio
+        Baterias.map(bateria => ({ ...bateria } as CreateBateriaDto)),//Se manda uno por uno el objeto tipo DTO; *Se usa operador de propagación
+        bateria => ({ Nombre: bateria.Nombre, UsuarioId: bateria.Usuario.UsuarioId }),//Criterio por el cuál se va a comprar si hay otro resultado con el mismo valor, en este caso si hay otro resultado con el mismo nomnbre
+        'bateria'//Nombre de la tabla
+      );//Si en la base de datos ya existe un genero con el mismo nombre trae esa referencia, de lo contrario crea el nuevo dato
+
       //Esta variable guarda todo el objeto de Cancion incluyendo uuid, es necesaria para guardar la información en la base de datos
       const cancion = this.repository.create({
         ...restoPropiedades,
@@ -97,7 +110,8 @@ export class CancionesService extends erroresHandler {
           Configuraciones: Configuraciones.map( configuracion => this.repositoryConfiguracionesLetra.create({ 
             ...configuracion
           }) )
-        }))
+        })),
+        Baterias: baterias
       })
 
       //#endregion guardar canción con artistas y generos
@@ -116,11 +130,13 @@ export class CancionesService extends erroresHandler {
         ...restoPropiedades,
         Generos,
         Artistas,
+        Baterias
       })
       
       return _cancion;
 
     } catch (error) {
+      console.log(error)
       this.handleExceptions(error, `La canción con el nombre: ${createCancioneDto.Nombre}, ya existe`)
     }
   }
@@ -151,6 +167,7 @@ export class CancionesService extends erroresHandler {
     }
   }
 
+  //TODO: Editar baterias
   async update(cancionId: string, updateCancioneDto: UpdateCancioneDto) {
     try {
       //Lo que se debe tomar en cuenta al momento de editar una canción, deber ser lo mismo que cuando se crea

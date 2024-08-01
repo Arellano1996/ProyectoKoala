@@ -18,11 +18,25 @@ export const createOrGetExistingEntity: CreateOrGetExistingEntity<any> = async (
     entityName
 ) => {
     
-    searchCriteria.Nombre = formatearSlug( searchCriteria.Nombre )
+    //Este método es llamado por Genero, Artistas y Baterias
+    let existingEntity;
 
-    const existingEntity = await repository.createQueryBuilder(entityName)
-    .where(`${entityName}.Slug = :Nombre`, searchCriteria)
-    .getOne();
+    if(entityName === "bateria"){
+        //Cuando se llama por Baterias se buscao que el Nombre y el UsuarioId no esten registrados ya
+        //Puede haber un mismos Nombre pero con diferente UsuarioId
+        existingEntity = await repository.createQueryBuilder(entityName)
+        .where(`${entityName}.Nombre = :Nombre AND ${entityName}.usuarioUsuarioId = :UsuarioId`, searchCriteria)
+        .getOne();
+    }
+    else
+    {
+        //Cuando se llama por Generos o Artistas no importa el UsuarioId, simplemente no puede haber
+        //un artista o un genero repetido, por eso se creo una propiedad llama slug
+        searchCriteria.Nombre = formatearSlug( searchCriteria.Nombre )
+        existingEntity = await repository.createQueryBuilder(entityName)
+        .where(`${entityName}.Slug = :Nombre`, searchCriteria)
+        .getOne();
+    }
 
     // Si la entidad existe, devuélvela
     if (existingEntity) return existingEntity;

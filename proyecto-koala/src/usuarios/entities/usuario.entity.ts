@@ -75,7 +75,7 @@ export class Usuario {
     //@JoinTable() se puede omitir en estas dos relaciones 
     //OneToMany y ManyToOne
     @OneToMany( type => Bateria, bateria => bateria.Usuario)
-    Baterias: Bateria[];
+    Baterias: Bateria[] | null;
     
 
     @BeforeInsert()

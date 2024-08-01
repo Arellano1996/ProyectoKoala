@@ -1,14 +1,9 @@
 import { Type } from "class-transformer";
 import { IsArray, IsNumber, IsOptional, IsString, IsUUID, MinLength, Validate, ValidateNested } from "class-validator";
-import { validarQueElUuidUsuarioExista } from "src/common/validations/validarQueElUuidUsuarioExista";
-import { CreateBateriaCancionDto } from "./create-bateria-cancion.dto";
-import { validarQueCancionesNoTengaIdRepetidos } from "../validations/validarQueCancionesNoTengaIdRepetidos";
+import { CreateBateriaCancionDto } from "src/baterias/dto/create-bateria-cancion.dto";
+import { validarQueCancionesNoTengaIdRepetidos } from "src/baterias/validations/validarQueCancionesNoTengaIdRepetidos";
 
-export class CreateBateriaDto {
-
-    @IsUUID()
-    @Validate( validarQueElUuidUsuarioExista )
-    UsuarioId: string;
+export class CreateCancionBateriaDto {
     
     @IsString()
     @MinLength(1)
