@@ -1,27 +1,26 @@
 import { ValidationArguments, ValidatorConstraint } from 'class-validator';
 import { UsuarioPorUUID } from 'src/common/consultas/UsuarioPorUUID';
 
-@ValidatorConstraint({ async: true })
-export class asignarUsuarioParaCancionBateria {
 
+@ValidatorConstraint({ async: true })
+export class validarQueElUuidUsuarioUsuarioIdExista {
+  
   async validate(value: any, args: ValidationArguments) {
     //En object tenemos las propiedades de nuestro DTO con sus respectivos valores
     //En constraints se refiere a los parámetros adicionales que puedes proporcionar al utilizar el decorador @Validate
     const { object, constraints } = args;
-    
-    const usuario = await UsuarioPorUUID( object['UsuarioId'] )
 
-    if(!usuario) return false
+    //Las posibles respuestas son un usuario o null
+    const usuario = await UsuarioPorUUID(object['Usuario'].UsuarioId)
 
-    object['Baterias'].forEach(bateria => bateria['Usuario'] = usuario)
+    return !!usuario
 
-    return true
   }
 
   defaultMessage(args: ValidationArguments) {
     
     const { object, constraints } = args;
-
-    return `Error en arreglo de Baterias: No se puede asignar este usuario`
+    if( object['Usuario'].UsuarioId === undefined) return `El campo Usuario.UsuarioId es obligatorio`
+    return `No se encontró ningun usuario con el id ${ object['Usuario'].UsuarioId }`;
   }
 }

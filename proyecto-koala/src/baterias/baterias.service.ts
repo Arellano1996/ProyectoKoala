@@ -23,10 +23,11 @@ export class BateriasService extends erroresHandler{
   
   async create(createBateriaDto: CreateBateriaDto) {
     try {
-      const { UsuarioId, Canciones, ...restoPropiedades } = createBateriaDto;
+      // const { UsuarioId, Canciones, ...restoPropiedades } = createBateriaDto;
+      const { Usuario, ...restoPropiedades } = createBateriaDto;
 
       //Primero necesitamos nuestras instancias a relacionar Usuario y Cancion[]
-      const usuario = await UsuarioPorUUID(UsuarioId);
+      const usuario = await UsuarioPorUUID(Usuario.UsuarioId);
 
       const bateria = this.repository.create({
         ...restoPropiedades,

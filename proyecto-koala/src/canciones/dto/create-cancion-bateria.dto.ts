@@ -1,7 +1,4 @@
-import { Type } from "class-transformer";
-import { IsArray, IsNumber, IsOptional, IsString, IsUUID, MinLength, Validate, ValidateNested } from "class-validator";
-import { CreateBateriaCancionDto } from "src/baterias/dto/create-bateria-cancion.dto";
-import { validarQueCancionesNoTengaIdRepetidos } from "src/baterias/validations/validarQueCancionesNoTengaIdRepetidos";
+import { IsNumber, IsOptional, IsString, MinLength } from "class-validator";
 
 export class CreateCancionBateriaDto {
     
@@ -23,11 +20,11 @@ export class CreateCancionBateriaDto {
     @IsOptional()
     URL?: string;
     
-    //Si se relaciona las canciones
-    @IsOptional()
-    @IsArray({ message: 'Debe ser un arreglo.'})
-    @Type( () => CreateBateriaCancionDto) // Transforma cada objeto a CreateLinkDto
-    @ValidateNested({ each: true })
-    @Validate( validarQueCancionesNoTengaIdRepetidos )
-    Canciones: CreateBateriaCancionDto[];
+    // //Si se relaciona las canciones
+    // @IsOptional()
+    // @IsArray({ message: 'Debe ser un arreglo.'})
+    // @Type( () => CreateBateriaCancionDto) // Transforma cada objeto a CreateLinkDto
+    // @ValidateNested({ each: true })
+    // @Validate( validarQueCancionesNoTengaIdRepetidos )
+    // Canciones: CreateBateriaCancionDto[];
 }

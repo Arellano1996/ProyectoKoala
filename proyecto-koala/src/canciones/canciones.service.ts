@@ -91,7 +91,7 @@ export class CancionesService extends erroresHandler {
       const baterias = await createOrGetExistingEntities(
         this.repositoryBateria,//Se envia el repositorio
         Baterias.map(bateria => ({ ...bateria } as CreateBateriaDto)),//Se manda uno por uno el objeto tipo DTO; *Se usa operador de propagación
-        bateria => ({ Nombre: bateria.Nombre, UsuarioId: bateria.Usuario.UsuarioId }),//Criterio por el cuál se va a comprar si hay otro resultado con el mismo valor, en este caso si hay otro resultado con el mismo nomnbre
+        bateria => ({ Nombre: bateria.Nombre, UsuarioId: bateria.Usuario.UsuarioId }),//Criterio por el cuál se va a comprar si hay otro resultado con el mismo valor, en este caso si hay otro resultado con el mismo Nomnbre y UsuarioId
         'bateria'//Nombre de la tabla
       );//Si en la base de datos ya existe un genero con el mismo nombre trae esa referencia, de lo contrario crea el nuevo dato
 
@@ -202,6 +202,7 @@ export class CancionesService extends erroresHandler {
           'genero'//Nombre de la tabla
         );//Si en la base de datos ya existe un genero con el mismo nombre trae esa referencia, de lo contrario crea el nuevo dato
       }
+
 
       const cancion = await this.repository.preload({
         CancionId: cancionId,

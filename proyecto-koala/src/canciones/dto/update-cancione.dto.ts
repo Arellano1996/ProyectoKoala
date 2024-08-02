@@ -6,6 +6,8 @@ import { Genero } from 'src/generos/entities/genero.entity';
 import { CreateArtistaDto } from 'src/artistas/dto/create-artista.dto';
 import { CreateGeneroDto } from 'src/generos/dto/create-genero.dto';
 import { Cancion } from '../entities/cancion.entity';
+import { Bateria } from 'src/baterias/entities/bateria.entity';
+import { CreateBateriaDto } from 'src/baterias/dto/create-bateria.dto';
 //#endregion Imports
 
 export class UpdateCancioneDto {
@@ -44,4 +46,10 @@ export class UpdateCancioneDto {
     @ValidateNested({ each: true }) // Validar cada objeto del arreglo
     @Type(() => CreateGeneroDto) // Tipo del objeto que se espera en el arreglo
     Generos: Genero[] = [];
+
+    @IsArray({ message: 'Debe ser un arreglo.'})
+    // @ArrayMinSize(1, { message: 'Debe haber al menos un genero.' })
+    @ValidateNested({ each: true }) // Validar cada objeto del arreglo
+    @Type(() => CreateBateriaDto) // Tipo del objeto que se espera en el arreglo
+    Baterias: Bateria[] = [];
 }

@@ -141,7 +141,6 @@ export class UsuariosService extends erroresHandler {
         usuario.Canciones = usuario.Canciones.filter( x => !editarCancionesUsuarioDto.EliminarCanciones.includes(x.CancionId) )
 
       if (editarCancionesUsuarioDto.AgergarCanciones.any()) {
-
         //Recorremos uno por uno en la lista de AgregarCanciones
         editarCancionesUsuarioDto.AgergarCanciones.forEach((cancionId) => {
 
