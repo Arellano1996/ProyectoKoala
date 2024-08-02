@@ -26,6 +26,14 @@ const routes: Routes = [
         loadChildren: () => import('./canciones/canciones.module').then(m => m.CancionesModule)
       },
       {
+        path: 'usuarios',
+        loadChildren: () => import('./usuarios/usuarios.module').then(u => u.UsuariosModule)
+      },
+      {
+        path: 'cuenta',
+        loadChildren: () => import('./usuario/usuario.module').then(u => u.UsuarioModule)
+      },
+      {
         path: '',
         component: InicioComponent,
         pathMatch: 'full'
