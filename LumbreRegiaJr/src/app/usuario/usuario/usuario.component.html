@@ -48,8 +48,9 @@
                     <div class="mr-4 p-3 text-center">
                         <span
                         class="text-xl font-bold block uppercase tracking-wide text-gray-700"
-                        >22</span
-                        ><span class="text-sm text-gray-500">Canciones</span>
+                        >{{ usuario.Canciones.length }}</span
+                        >
+                        <a routerLink="/canciones" class="text-sm text-gray-500">Canciones</a>
                     </div>
                     <div class="mr-4 p-3 text-center">
                         <span
@@ -71,8 +72,9 @@
             <h3
             class="text-4xl font-semibold leading-normal mb-2 text-gray-800"
             >
-                Luis Arellano
+                {{ usuario.Nombre }}
             </h3>
+            <small> {{ usuario.UsuarioId }}</small>
             <div
                 class="text-sm leading-normal mt-0 mb-2 text-gray-500 font-bold uppercase"
             >

@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, OnInit, Renderer2 } from '@angular
 import { CancionResponse } from '../interfaces/canciones.interfaces';
 import { CancionesService } from '../services/canciones.service';
 import { AppComponent } from '../../app.component';
+import { TablaCanciones } from './menu-despleglable/interfaces/tabla-canciones.interfaces';
 
 @Component({
   selector: 'app-indice',
@@ -12,6 +13,13 @@ export class IndiceComponent extends AppComponent implements OnInit {
   
   public cancionesReponse: CancionResponse = { Canciones: [], Total: 0 };
   
+  mostrarOpciones: TablaCanciones = {
+    Artistas: true,
+    Generos: false,
+    Tono: true,
+    Duracion: true,
+    BPM: true
+  }
 
   constructor(private cancionesService: CancionesService,
   ) {
@@ -28,6 +36,8 @@ export class IndiceComponent extends AppComponent implements OnInit {
   
   }
 
-
+  recibirOpcionesDeHijo(opciones: TablaCanciones): void {
+    this.mostrarOpciones = opciones
+  }
 
 }

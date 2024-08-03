@@ -1,20 +1,31 @@
-import { Component, ElementRef, HostListener } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { TablaCanciones } from './interfaces/tabla-canciones.interfaces';
 
 @Component({
   selector: 'app-menu-despleglable',
   templateUrl: './menu-despleglable.component.html',
 })
-export class MenuDespleglableComponent {
+export class MenuDespleglableComponent implements OnInit{
+  
   isMenuOpen = false;
+
+  @Output()
+  opcionesAPadre : EventEmitter<TablaCanciones> = new EventEmitter();
+  
   opciones : TablaCanciones = {
     Artistas: true,
     Generos: true,
+    Tono: true,
+    BPM: true,
     Duracion: true
   }
 
   constructor(private elementRef: ElementRef) {
     this.initializeConfig();
+  }
+
+  ngOnInit(): void {
+    this.opcionesAPadre.emit(this.opciones)
   }
 
   private initializeConfig(): void {
@@ -26,6 +37,8 @@ export class MenuDespleglableComponent {
       this.opciones = {
         Artistas: true,
         Generos: true,
+        Tono: true,
+        BPM: true,
         Duracion: true,
       };
       const newConfig = {
@@ -36,13 +49,15 @@ export class MenuDespleglableComponent {
   }
 
   onCheckboxChange(event: Event, option: keyof TablaCanciones): void {
-    console.log(this.opciones)
+    //console.log(this.opciones)
     const inputElement = event.target as HTMLInputElement;
     this.opciones[option] = inputElement.checked;
     const updatedConfig = {
       tablaCanciones: this.opciones
     };
     localStorage.setItem('config', JSON.stringify(updatedConfig));
+
+    this.opcionesAPadre.emit(this.opciones)
   }
 
   toggleMenu() {

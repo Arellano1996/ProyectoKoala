@@ -16,7 +16,9 @@
         </svg>
         </button>
     </div>
-    <div *ngIf="isMenuOpen" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+    <div *ngIf="isMenuOpen" 
+    class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg 
+    bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
       <div class="p-4 text-sm text-slate-600 dark:text-white">
         <div class="font-medium truncate">Mostrar en la tabla:</div>
       </div>
@@ -36,6 +38,24 @@
               <input type="checkbox" value="" class="sr-only peer" [checked]="opciones.Generos" (change)="onCheckboxChange($event, 'Generos')">
               <div class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-blue-600"></div>
               <span class="ms-3 text-sm font-medium text-slate-500 dark:text-slate-200">Generos</span>
+            </label>
+          </div>
+        </li>
+        <li>
+          <div class="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+            <label class="inline-flex items-center w-full cursor-pointer">
+              <input type="checkbox" value="" class="sr-only peer" [checked]="opciones.Tono" (change)="onCheckboxChange($event, 'Tono')">
+              <div class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-blue-600"></div>
+              <span class="ms-3 text-sm font-medium text-slate-500 dark:text-slate-200">Tono</span>
+            </label>
+          </div>
+        </li>
+        <li>
+          <div class="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+            <label class="inline-flex items-center w-full cursor-pointer">
+              <input type="checkbox" value="" class="sr-only peer" [checked]="opciones.BPM" (change)="onCheckboxChange($event, 'BPM')">
+              <div class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-blue-600"></div>
+              <span class="ms-3 text-sm font-medium text-slate-500 dark:text-slate-200">BPM</span>
             </label>
           </div>
         </li>

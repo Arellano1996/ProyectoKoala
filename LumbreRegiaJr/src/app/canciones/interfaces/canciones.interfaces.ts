@@ -9,10 +9,11 @@ export interface Cancion {
     Nombre:    string;
     Slug:      string;
     Tono:      null;
+    Duracion:  string;
     Artistas:  Artista[];
     Generos:   Genero[];
-    Links:     Link[];
-    Letras:    Letra[];
+    // Links:     Link[];
+    // Letras:    Letra[];
 }
 //index resoponse
 export interface CancionResponse {
