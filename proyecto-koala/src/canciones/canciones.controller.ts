@@ -35,4 +35,10 @@ export class CancionesController {
   remove(@Param() { id }: updateCancionParamsDto) {
     return this.cancionesService.remove(id);
   }
+
+  //Canciones por UsuarioId
+  @Get('usuario/:id')
+  traerCancionesDeUsuario(@Param('id') id: string) {
+    return this.cancionesService.traerCancionesDeUsuario(id);
+  }
 }

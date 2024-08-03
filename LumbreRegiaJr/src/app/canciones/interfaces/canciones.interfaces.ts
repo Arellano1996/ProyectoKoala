@@ -8,7 +8,7 @@ export interface Cancion {
     UsuarioId: string;
     Nombre:    string;
     Slug:      string;
-    Tono:      null;
+    Tono:      string;
     Duracion:  string;
     Artistas:  Artista[];
     Generos:   Genero[];

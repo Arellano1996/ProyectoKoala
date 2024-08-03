@@ -200,4 +200,19 @@ export class UsuariosService extends erroresHandler {
 
     return token
   }
+
+  async getCancionesUsuario(usuarioId: string){
+    let usuario = await this.repository.findOne({
+      where: {
+        UsuarioId: usuarioId,
+      },
+      relations: {
+        Canciones: true,
+      },
+      select: ['Canciones']
+    });
+
+    console.log( 'hola' )
+    return usuario
+  }
 }

@@ -8,6 +8,15 @@
                     <span class="dark:border-slate-600 font-bold p-4 text-slate-400 dark:text-slate-200 text-left">Canciones totales: {{ cancionesReponse.Total }}</span>
                     <app-menu-despleglable class="" (opcionesAPadre)="recibirOpcionesDeHijo($event)"></app-menu-despleglable>
                 </div>
+                <div class="flex items-center px-4 mx-4">
+                    <input checked id="checked-checkbox" type="checkbox"
+                    (change)="onCheckboxChange($event)" 
+                    [checked]="configuracion.OcultarCancionesDeOtrosUsuarios"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="checked-checkbox" class="ms-2 text-sm font-medium text-slate-400 dark:text-gray-300">
+                    Ocultar canciones de otros usuarios
+                    </label>
+                </div>
                 <div class="overflow-x-auto" *ngIf="cancionesReponse.Total > 0">
                     <table class="border-collapse table-auto w-full text-sm">
                     <thead>
@@ -16,27 +25,27 @@
                             <td class="border-b dark:border-slate-600 font-medium p-4 text-slate-400 dark:text-slate-200 text-left">Nombre</td>
                             <td class="border-b dark:border-slate-600 font-medium p-4 
                             text-slate-400 dark:text-slate-200 text-left"
-                            [hidden]="!mostrarOpciones.Artistas"
+                            [hidden]="!configuracion.Tabla_Canciones.Artistas"
                             >
                                 Artistas
                             </td>
                             <td class="border-b dark:border-slate-600 font-medium p-4 text-slate-400 dark:text-slate-200 text-left"
-                            [hidden]="!mostrarOpciones.Generos"
+                            [hidden]="!configuracion.Tabla_Canciones.Generos"
                             >
                                 Generos
                             </td>
                             <td class="border-b dark:border-slate-600 font-medium p-4 text-slate-400 dark:text-slate-200 text-left"
-                            [hidden]="!mostrarOpciones.Tono"
+                            [hidden]="!configuracion.Tabla_Canciones.Tono"
                             >
                             Tono
                             </td>
                             <td class="border-b dark:border-slate-600 font-medium p-4 text-slate-400 dark:text-slate-200 text-left"
-                            [hidden]="!mostrarOpciones.BPM"
+                            [hidden]="!configuracion.Tabla_Canciones.BPM"
                             >
                             BPM
                             </td>
                             <td class="border-b dark:border-slate-600 font-medium p-4 text-slate-400 dark:text-slate-200 text-left"
-                            [hidden]="!mostrarOpciones.Duracion"
+                            [hidden]="!configuracion.Tabla_Canciones.Duracion"
                             >
                             Duración
                             </td>
@@ -47,24 +56,24 @@
                             <th class="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ i + 1 }}</th>
                             <td class="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400">{{ cancion.Nombre }}</td>
                             <td class="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400"
-                            [hidden]="!mostrarOpciones.Artistas"
+                            [hidden]="!configuracion.Tabla_Canciones.Artistas"
                             >
-                                <span *ngFor="let artista of cancion.Artistas; index as i">{{ artista.Nombre }}{{ cancion.Artistas.length !== (i +1) ? ', ' : '' }}</span>
+                                <span *ngFor="let artista of cancion.Artistas; index as i">{{ artista.Nombre }}{{ cancion.Artistas.length !== (i + 1) ? ', ' : '' }}</span>
                             </td>
                             <td class="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400"
-                            [hidden]="!mostrarOpciones.Generos">
-                                <span *ngFor="let genero of cancion.Generos">{{ genero.Nombre }}{{ cancion.Generos.length !== (i +1) ? ', ' : '' }}</span>
+                            [hidden]="!configuracion.Tabla_Canciones.Generos">
+                                <span *ngFor="let genero of cancion.Generos; index as i">{{ genero.Nombre }}{{ cancion.Generos.length !== (i + 1) ? ', ' : '' }}</span>
                             </td>
                             <td class="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400"
-                            [hidden]="!mostrarOpciones.Tono">
+                            [hidden]="!configuracion.Tabla_Canciones.Tono">
                                 {{ cancion.Tono }}
                             </td>
                             <td class="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400"
-                            [hidden]="!mostrarOpciones.BPM">
+                            [hidden]="!configuracion.Tabla_Canciones.BPM">
                                 120
                             </td>
                             <td class="border-b border-slate-100 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400"
-                            [hidden]="!mostrarOpciones.Duracion">
+                            [hidden]="!configuracion.Tabla_Canciones.Duracion">
                                 1min 30seg
                             </td>
                         </tr>

@@ -21,4 +21,13 @@ export class CancionesService {
       })
     )
   }
+
+  getCancionesPorUsuarioId(usuarioId: string):Observable<CancionResponse>{
+    return this.http.get<[Cancion[], number]>(`${ this.baseUrl }/canciones/usuario/${ usuarioId }`)
+    .pipe(
+      map(res => {
+        return { Canciones: res[0], Total: res[1] }
+      })
+    )
+  }
 }

@@ -5,6 +5,7 @@ import { formatearSlug } from "src/common/formatear-slug";
 import { Genero } from "src/generos/entities/genero.entity";
 import { Letra } from "src/letras/entities/letra.entity";
 import { Link } from "src/link/entities/link.entity";
+import { Usuario } from "src/usuarios/entities/usuario.entity";
 import { BeforeInsert, BeforeUpdate, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 //#endregion imports
 
@@ -65,6 +66,10 @@ export class Cancion {
     })
     @JoinTable()
     Baterias: Bateria[];
+
+    @ManyToMany(type => Usuario, usuario => usuario.Canciones)
+    @JoinTable()
+    Usuarios: Usuario[] | null;
 
     @BeforeInsert()
     generarSlug(){

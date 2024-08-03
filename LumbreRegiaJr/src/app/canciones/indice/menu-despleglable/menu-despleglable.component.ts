@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
-import { TablaCanciones } from './interfaces/tabla-canciones.interfaces';
+import { ConfiguracionPaginaService } from '../../../shared/services/configuracion-pagina.service';
+import { Configuracion, Tabla_Canciones } from '../../../shared/services/interfaces/tabla-canciones.interfaces';
 
 @Component({
   selector: 'app-menu-despleglable',
@@ -10,63 +11,22 @@ export class MenuDespleglableComponent implements OnInit{
   isMenuOpen = false;
 
   @Output()
-  opcionesAPadre : EventEmitter<TablaCanciones> = new EventEmitter();
+  opcionesAPadre : EventEmitter<Configuracion> = new EventEmitter();
   
-  opciones : TablaCanciones = {
-    Artistas: true,
-    Generos: true,
-    Tono: true,
-    BPM: true,
-    Duracion: true
-  }
+  configuracion : Configuracion;
 
-  constructor(private elementRef: ElementRef) {
-    this.initializeConfig();
+  constructor(private elementRef: ElementRef,
+    private configuracionPaginaService: ConfiguracionPaginaService
+  ) {
+    this.configuracion = this.configuracionPaginaService.obtenerConfiguracion();
   }
 
   ngOnInit(): void {
-    this.opcionesAPadre.emit(this.opciones)
-  }
-
-  private initializeConfig(): void {
-    const config = localStorage.getItem('config');
-    if (config) {
-      const parsedConfig = JSON.parse(config);
-      this.opciones = parsedConfig.tablaCanciones;
-    } else {
-      this.opciones = {
-        Artistas: true,
-        Generos: true,
-        Tono: true,
-        BPM: true,
-        Duracion: true,
-      };
-      const newConfig = {
-        tablaCanciones: this.opciones
-      };
-      localStorage.setItem('config', JSON.stringify(newConfig));
-    }
-  }
-
-  onCheckboxChange(event: Event, option: keyof TablaCanciones): void {
-    //console.log(this.opciones)
-    const inputElement = event.target as HTMLInputElement;
-    this.opciones[option] = inputElement.checked;
-    const updatedConfig = {
-      tablaCanciones: this.opciones
-    };
-    localStorage.setItem('config', JSON.stringify(updatedConfig));
-
-    this.opcionesAPadre.emit(this.opciones)
+    this.opcionesAPadre.emit(this.configuracion)
   }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
-  }
-
-  logout() {
-    console.log('Logout');
-    // Implementa la lógica de logout aquí
   }
 
   @HostListener('document:click', ['$event'])
@@ -74,6 +34,22 @@ export class MenuDespleglableComponent implements OnInit{
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.isMenuOpen = false;
     }
+  }
+
+  onCheckboxChange(event: Event, option: keyof Tabla_Canciones): void {
+    //console.log(this.opciones)
+    const inputElement = event.target as HTMLInputElement;
+      //Aquí se sabe que solo puedo modificar las opciones de la tabla
+      //por eso hago referencia a this.configuracion.Tabla_Canciones
+      
+      //Actualizamos nuestra cofiguracion
+      this.configuracion.Tabla_Canciones[option] = inputElement.checked;
+
+      //Llamamos al servicio para que guarde nuestra configuracion
+      this.configuracionPaginaService.actualizarConfiguracion(this.configuracion)
+      
+      //Emitimos al padre
+      this.opcionesAPadre.emit(this.configuracion)
   }
 }
 

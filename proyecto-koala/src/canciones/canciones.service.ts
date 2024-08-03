@@ -23,6 +23,7 @@ import { ComentariosLetra } from 'src/comentarios-letras/entities/comentarios-le
 import { ConfiguracionesLetra } from 'src/configuraciones-letras/entities/configuraciones-letra.entity';
 import { Bateria } from 'src/baterias/entities/bateria.entity';
 import { CreateBateriaDto } from 'src/baterias/dto/create-bateria.dto';
+import { Usuario } from 'src/usuarios/entities/usuario.entity';
 
 @Injectable()
 export class CancionesService extends erroresHandler {
@@ -51,6 +52,9 @@ export class CancionesService extends erroresHandler {
     
     @InjectRepository(Bateria)
     private readonly repositoryBateria: Repository<Bateria>,
+
+    @InjectRepository(Usuario)
+    private readonly repositoryUsuario: Repository<Usuario>,
 
     @Inject(UsuariosService)
     private readonly usuariosService: UsuariosService,
@@ -95,6 +99,7 @@ export class CancionesService extends erroresHandler {
         'bateria'//Nombre de la tabla
       );//Si en la base de datos ya existe un genero con el mismo nombre trae esa referencia, de lo contrario crea el nuevo dato
 
+      const usuario = await this.repositoryUsuario.findOneBy({ UsuarioId }) 
       //Esta variable guarda todo el objeto de Cancion incluyendo uuid, es necesaria para guardar la información en la base de datos
       const cancion = this.repository.create({
         ...restoPropiedades,
@@ -111,7 +116,8 @@ export class CancionesService extends erroresHandler {
             ...configuracion
           }) )
         })),
-        Baterias: baterias
+        Baterias: baterias,
+        Usuarios: [ usuario ]
       })
 
       //#endregion guardar canción con artistas y generos
@@ -267,6 +273,21 @@ export class CancionesService extends erroresHandler {
       ArtistaQueYaTienenUnaCancionConnombreCancion.forEach(resultado => {
         if (resultado.status === 'rejected') throw new ConflictException(resultado.reason)
       })
+  }
+
+  async traerCancionesDeUsuario(usuarioId: string){
+    const _cancion = await this.repository.createQueryBuilder('cancion')
+      .leftJoinAndSelect('cancion.Artistas', 'artistas')
+      .leftJoinAndSelect('cancion.Generos', 'generos')//Necesito mostrar esta tabla
+      .leftJoin('cancion.Usuarios', 'usuarios')//No necesito mostrar esta tabla
+      .where('usuarios.UsuarioId = :usuarioId', { usuarioId })
+      //.select([
+        // 'cancion.Nombre',
+        // 'artistas.Nombre'
+      //])
+      .getManyAndCount();
+
+      return _cancion
   }
 
 }

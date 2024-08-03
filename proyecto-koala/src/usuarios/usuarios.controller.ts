@@ -65,4 +65,12 @@ export class UsuariosController {
   remove(@Param('id', ParseUUIDPipe) id: string) {
     return this.usuariosService.remove(id);
   }
+
+  //Canciones del usuario
+  @Get('canciones/:id')
+  getCancionesUsuario(
+    @Param('id', ParseUUIDPipe) usuarioId: string,
+) {
+    return this.usuariosService.getCancionesUsuario( usuarioId );
+  }
 }

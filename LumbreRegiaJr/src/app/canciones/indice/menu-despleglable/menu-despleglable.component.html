@@ -26,7 +26,7 @@
         <li>
           <div class="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
             <label class="inline-flex items-center w-full cursor-pointer">
-              <input type="checkbox" class="sr-only peer" [checked]="opciones.Artistas" (change)="onCheckboxChange($event, 'Artistas')">
+              <input type="checkbox" class="sr-only peer" [checked]="configuracion.Tabla_Canciones.Artistas" (change)="onCheckboxChange($event, 'Artistas')">
               <div class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-blue-600"></div>
               <span class="ms-3 text-sm font-medium text-slate-500 dark:text-slate-200">Artistas</span>
             </label>
@@ -35,7 +35,7 @@
         <li>
           <div class="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
             <label class="inline-flex items-center w-full cursor-pointer">
-              <input type="checkbox" value="" class="sr-only peer" [checked]="opciones.Generos" (change)="onCheckboxChange($event, 'Generos')">
+              <input type="checkbox" value="" class="sr-only peer" [checked]="configuracion.Tabla_Canciones.Generos" (change)="onCheckboxChange($event, 'Generos')">
               <div class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-blue-600"></div>
               <span class="ms-3 text-sm font-medium text-slate-500 dark:text-slate-200">Generos</span>
             </label>
@@ -44,7 +44,7 @@
         <li>
           <div class="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
             <label class="inline-flex items-center w-full cursor-pointer">
-              <input type="checkbox" value="" class="sr-only peer" [checked]="opciones.Tono" (change)="onCheckboxChange($event, 'Tono')">
+              <input type="checkbox" value="" class="sr-only peer" [checked]="configuracion.Tabla_Canciones.Tono" (change)="onCheckboxChange($event, 'Tono')">
               <div class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-blue-600"></div>
               <span class="ms-3 text-sm font-medium text-slate-500 dark:text-slate-200">Tono</span>
             </label>
@@ -53,7 +53,7 @@
         <li>
           <div class="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
             <label class="inline-flex items-center w-full cursor-pointer">
-              <input type="checkbox" value="" class="sr-only peer" [checked]="opciones.BPM" (change)="onCheckboxChange($event, 'BPM')">
+              <input type="checkbox" value="" class="sr-only peer" [checked]="configuracion.Tabla_Canciones.BPM" (change)="onCheckboxChange($event, 'BPM')">
               <div class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-blue-600"></div>
               <span class="ms-3 text-sm font-medium text-slate-500 dark:text-slate-200">BPM</span>
             </label>
@@ -62,7 +62,7 @@
         <li>
           <div class="flex p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
             <label class="inline-flex items-center w-full cursor-pointer">
-              <input type="checkbox" value="" class="sr-only peer" [checked]="opciones.Duracion" (change)="onCheckboxChange($event, 'Duracion')">
+              <input type="checkbox" value="" class="sr-only peer" [checked]="configuracion.Tabla_Canciones.Duracion" (change)="onCheckboxChange($event, 'Duracion')">
               <div class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-blue-600"></div>
               <span class="ms-3 text-sm font-medium text-slate-500 dark:text-slate-200">Duración</span>
             </label>
