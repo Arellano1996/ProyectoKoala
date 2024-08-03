@@ -24,6 +24,7 @@ import { ConfiguracionesLetra } from 'src/configuraciones-letras/entities/config
 import { Bateria } from 'src/baterias/entities/bateria.entity';
 import { CreateBateriaDto } from 'src/baterias/dto/create-bateria.dto';
 import { Usuario } from 'src/usuarios/entities/usuario.entity';
+import { formatearSlug } from 'src/common/formatear-slug';
 
 @Injectable()
 export class CancionesService extends erroresHandler {
@@ -275,8 +276,8 @@ export class CancionesService extends erroresHandler {
       })
   }
 
-  async traerCancionesDeUsuario(usuarioId: string){
-    const _cancion = await this.repository.createQueryBuilder('cancion')
+  async findAllByUsuarioId(usuarioId: string){
+    const cancion = await this.repository.createQueryBuilder('cancion')
       .leftJoinAndSelect('cancion.Artistas', 'artistas')
       .leftJoinAndSelect('cancion.Generos', 'generos')//Necesito mostrar esta tabla
       .leftJoin('cancion.Usuarios', 'usuarios')//No necesito mostrar esta tabla
@@ -287,7 +288,29 @@ export class CancionesService extends erroresHandler {
       //])
       .getManyAndCount();
 
-      return _cancion
+      return cancion
+  }
+
+  async findAllByUsuarioIdAndTerm(usuarioId: string, termino: string){
+
+    const cancion = await this.repository.createQueryBuilder('cancion')
+      .leftJoinAndSelect('cancion.Artistas', 'artistas')
+      .leftJoinAndSelect('cancion.Generos', 'generos')//Necesito mostrar esta tabla
+      .leftJoin('cancion.Usuarios', 'usuarios')//No necesito mostrar esta tabla
+      .where('usuarios.UsuarioId = :usuarioId', { usuarioId })
+      .andWhere(`( 
+        cancion.Slug like :termino 
+        OR artistas.Slug like :termino
+        OR generos.Slug like :termino
+        )`, 
+        {  termino: `${formatearSlug(termino)}%` })
+      //.select([
+        // 'cancion.Nombre',
+        // 'artistas.Nombre'
+      //])
+      .getManyAndCount();
+
+      return cancion
   }
 
 }

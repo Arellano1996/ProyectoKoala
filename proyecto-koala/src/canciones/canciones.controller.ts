@@ -38,7 +38,17 @@ export class CancionesController {
 
   //Canciones por UsuarioId
   @Get('usuario/:id')
-  traerCancionesDeUsuario(@Param('id') id: string) {
-    return this.cancionesService.traerCancionesDeUsuario(id);
+  findAllByUsuarioId(
+    @Param('id') id: string
+  ) {
+    return this.cancionesService.findAllByUsuarioId(id);
+  }
+
+  @Get('usuario/:id/:termino')
+  findAllByUsuarioIdAndTerm(
+    @Param('id') id: string,
+    @Param('termino') termino: string,
+  ) {
+    return this.cancionesService.findAllByUsuarioIdAndTerm(id, termino);
   }
 }

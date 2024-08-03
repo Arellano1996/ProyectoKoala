@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { CancionResponse } from '../interfaces/canciones.interfaces';
 import { CancionesService } from '../services/canciones.service';
 import { AppComponent } from '../../app.component';
 import { Configuracion } from '../../shared/services/interfaces/tabla-canciones.interfaces';
 import { ConfiguracionPaginaService } from '../../shared/services/configuracion-pagina.service';
+import { BuscarComponent } from './buscar/buscar.component';
 
 @Component({
   selector: 'app-indice',
@@ -13,7 +14,7 @@ import { ConfiguracionPaginaService } from '../../shared/services/configuracion-
 export class IndiceComponent extends AppComponent implements OnInit {
   
   public cancionesReponse: CancionResponse = { Canciones: [], Total: 0 };
-  
+  @ViewChild('buscar') buscarComponent!: BuscarComponent;
   configuracion: Configuracion;
 
   constructor(private cancionesService: CancionesService,
@@ -27,18 +28,40 @@ export class IndiceComponent extends AppComponent implements OnInit {
     this.buscarCanciones()
   }
 
-  buscarCanciones(){
-    if(this.configuracion.OcultarCancionesDeOtrosUsuarios){
-      this.cancionesService.getCancionesPorUsuarioId('160ef76b-ad5a-464a-ad73-514eb1d0c8ca')
-      .subscribe( res => {
-        this.cancionesReponse = res;
-      })
+  buscarCanciones(termino?: string){
+    if(termino)
+    {
+      if(this.configuracion.OcultarCancionesDeOtrosUsuarios)
+        {
+          this.cancionesService.getCancionesPorUsuarioIdYTermino('160ef76b-ad5a-464a-ad73-514eb1d0c8ca', termino)
+          .subscribe( res => {
+            this.cancionesReponse = res;
+          })
+        }
+        else
+        {
+          this.cancionesService.getCancionesPorTermino( termino )
+          .subscribe( res => {
+            this.cancionesReponse = res;
+          })
+        }
     }
-    else{
-      this.cancionesService.getCanciones()
-      .subscribe( res => {
-        this.cancionesReponse = res;
-      })
+    else
+    {
+      if(this.configuracion.OcultarCancionesDeOtrosUsuarios)
+      {
+        this.cancionesService.getCancionesPorUsuarioId('160ef76b-ad5a-464a-ad73-514eb1d0c8ca')
+        .subscribe( res => {
+          this.cancionesReponse = res;
+        })
+      }
+      else
+      {
+        this.cancionesService.getCanciones()
+        .subscribe( res => {
+          this.cancionesReponse = res;
+        })
+      }
     }
   }
 
@@ -47,6 +70,9 @@ export class IndiceComponent extends AppComponent implements OnInit {
   }
 
   onCheckboxChange(event: Event): void {
+    //Limpiamos el elemento hijo input para buscar
+    this.buscarComponent.limpiarDesdePadre()
+
     const inputElement = event.target as HTMLInputElement;
     //Actualizamos nuestra cofiguracion
     this.configuracion.OcultarCancionesDeOtrosUsuarios = inputElement.checked;
@@ -56,6 +82,10 @@ export class IndiceComponent extends AppComponent implements OnInit {
 
     
     this.buscarCanciones()
+  }
+
+  recibirTermino(termino: string): void {
+    this.buscarCanciones( termino )
   }
 
 }

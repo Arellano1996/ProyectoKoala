@@ -22,8 +22,27 @@ export class CancionesService {
     )
   }
 
+  getCancionesPorTermino(termino: string):Observable<CancionResponse>{
+    return this.http.get<[Cancion[], number]>(`${ this.baseUrl }/canciones/${ termino }`)
+    .pipe(
+      map(res => {
+        return { Canciones: res[0], Total: res[1] }
+      })
+    )
+  }
+
+  //Por UsuarioId
   getCancionesPorUsuarioId(usuarioId: string):Observable<CancionResponse>{
     return this.http.get<[Cancion[], number]>(`${ this.baseUrl }/canciones/usuario/${ usuarioId }`)
+    .pipe(
+      map(res => {
+        return { Canciones: res[0], Total: res[1] }
+      })
+    )
+  }
+
+  getCancionesPorUsuarioIdYTermino(usuarioId: string, termino: string):Observable<CancionResponse>{
+    return this.http.get<[Cancion[], number]>(`${ this.baseUrl }/canciones/usuario/${ usuarioId }/${ termino }`)
     .pipe(
       map(res => {
         return { Canciones: res[0], Total: res[1] }
