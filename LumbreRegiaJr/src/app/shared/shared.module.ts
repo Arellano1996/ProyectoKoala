@@ -17,7 +17,8 @@ import { AppRoutingModule } from '../app-routing.module';
   ],
   exports: [
     Error404Component,
-    NavbarComponent
+    NavbarComponent,
+    MensajeEmergenteComponent
   ]
 })
 export class SharedModule { }

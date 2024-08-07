@@ -8,6 +8,7 @@ import { EditarComponent } from './editar/editar.component';
 import { IndiceComponent } from './indice/indice.component';
 import { MenuDespleglableComponent } from './indice/menu-despleglable/menu-despleglable.component';
 import { BuscarComponent } from './indice/buscar/buscar.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { BuscarComponent } from './indice/buscar/buscar.component';
   ],
   imports: [
     CommonModule,
-    CancionesRoutingModule
+    CancionesRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class CancionesModule { }

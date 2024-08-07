@@ -24,7 +24,7 @@ export class IndiceComponent extends AppComponent implements OnInit {
     this.configuracion = this.configuracionPaginaService.obtenerConfiguracion();
   }
   
-  ngOnInit(): void {
+  override ngOnInit(): void {
     this.buscarCanciones()
   }
 

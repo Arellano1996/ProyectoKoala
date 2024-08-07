@@ -8,6 +8,7 @@ import { IniciarSesionComponent } from './iniciar-sesion/iniciar-sesion.componen
 import { RegistrarseComponent } from './registrarse/registrarse.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MensajeEmergenteComponent } from './shared/mensaje-emergente/mensaje-emergente.component';
 
 @NgModule({
   declarations: [

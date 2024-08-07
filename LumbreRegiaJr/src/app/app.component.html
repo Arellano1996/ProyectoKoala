@@ -1,3 +1,9 @@
-<h1>Raiz de la aplicacion</h1>
-<app-navbar></app-navbar>
+
+<app-mensaje-emergente *ngIf="showAlert"
+[message]="alertNotification.message"
+[notificationType]="alertNotification.notificationType"/>
+
+<app-navbar></app-navbar>    
+
 <router-outlet></router-outlet>
+  

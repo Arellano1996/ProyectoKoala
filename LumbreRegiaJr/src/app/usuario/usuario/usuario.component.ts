@@ -28,7 +28,8 @@ export class UsuarioComponent extends AppComponent implements OnInit {
     super();
 
   }
-  ngOnInit(): void {
+
+  override ngOnInit(): void {
     this.usuarioService.getUsuarioPorId('160ef76b-ad5a-464a-ad73-514eb1d0c8ca')
     .subscribe( res => {
       this.usuario = res.Usuarios[0]
