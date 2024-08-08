@@ -84,7 +84,44 @@ autocomplete="off">
             formControlName="Letra"
             placeholder="Letra de la canción...">
         </textarea>
-        <div>Hola</div>
+
+        <div *ngIf="menuCrearCancion.opcion === 1">
+            <div class="flex hover:bg-sky-50 p-2"
+            *ngFor="let lineas of cancion.Lineas; index as i">
+                <div class="h-4" *ngIf="lineas.SaltoLinea"></div>
+
+                <div *ngIf="!lineas.SeEstaEditando"
+                class="flex grow hover:bg-sky-50 flex-wrap">
+                    <div class="mr-1 text-center content-center" *ngFor="let linea of lineas.Palabras">
+                            {{ linea.Palabra }}
+                    </div>
+                </div>
+
+                
+                <span (click)="modificarLinea(i)" 
+                *ngIf="!lineas.SaltoLinea && !lineas.SeEstaEditando && !seEstaEditantoUnaLinea.bool"
+                class="material-symbols-outlined ml-2 text-gray-500 bg-gray-200 text-sm cursor-pointer p-1 rounded-lg hover:bg-blue-200 hover:text-blue-500">edit</span>
+                
+                <span *ngIf="seEstaEditantoUnaLinea.bool && seEstaEditantoUnaLinea.linea != i"
+                class="material-symbols-outlined ml-2 text-gray-300 bg-gray-100 text-sm p-1 rounded-lg">edit</span>
+                <form class="flex w-full" *ngIf="lineas.SeEstaEditando"
+                [formGroup]="formularioEditarLinea" 
+                (ngSubmit)="guardarLineaModificada(i)" autocomplete="off">
+                    <input *ngIf="lineas.SeEstaEditando"
+                    formControlName="Letra"
+                    class="grow border border-gray-300 text-sm rounded-lg px-2
+                    focus:ring-blue-500 focus:border-blue-500" 
+                    type="text" value="{{ unirPalabras( lineas.Palabras )}}" />
+                    <button *ngIf="!lineas.SaltoLinea && lineas.SeEstaEditando"
+                    class="material-symbols-outlined
+                    ml-2
+                    text-gray-500 bg-gray-200 
+                    text-sm cursor-pointer p-1 rounded-lg 
+                    hover:bg-green-200 hover:text-green-500">check</button>
+                </form>
+
+            </div>
+        </div>
         
     </div>
     <span class="text-red-500"
