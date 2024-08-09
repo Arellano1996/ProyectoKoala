@@ -1,17 +1,16 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CrearCancion, Lineas, MenuCrearCancion, PalabrasCrearCancion } from '../interfaces/crear.cancion.interfaces';
-import { AppComponent } from '../../app.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MensajeEmergenteService } from '../../shared/mensaje-emergente/mensaje-emergente.service';
-import { NotificationType } from '../../shared/mensaje-emergente/interfaces/mensaje-alerta.interfaces';
+//import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: 'app-crear',
   templateUrl: './crear.component.html',
   styles: ``
 })
-export class CrearComponent {
-
+export class CrearComponent implements OnInit {
+  
   private notificationService = inject(MensajeEmergenteService);
   HoverButtons = 'hover:text-blue-400'
   //Esta variable sirve para manejar el estado de mi menu, para saber qué opcion está seleccionada al momento de crear una canción; se inicializa en el contructor en la primera opción Letra = 0
@@ -34,6 +33,13 @@ Por el cielo busco mi estrella, q la luna quiero subir`, [
   public formularioEditarLinea: FormGroup = this.fb.group({
     Letra: []
   })
+  
+  activePopover: string = ''
+  togglePopover(index: string, index2: string): void {
+    const intexNumber = index + index2
+    console.log( intexNumber )
+    this.activePopover = this.activePopover === intexNumber ? '' : intexNumber;
+  }
 
   //Esto sirve para ocultar los botones que permiten editar y mostrar los botones de editar pero que estan deshabilitados, la propiedad linea sirve para ocultar el boton deshabilitado
   //de mi actual div en el cuál estoy haciendo la edición, entonces el boton deshabilitado se muetra en todos los div o lineas menos en la que estoy editando actualmente
@@ -50,6 +56,11 @@ Por el cielo busco mi estrella, q la luna quiero subir`, [
       opcion: 0
     }
   }
+  ngOnInit(): void {
+    //initFlowbite()
+  }
+
+  
 
   //Cuando doy click en Editar en alguna Linea
   seleccionarOpcion(opcion: number){
