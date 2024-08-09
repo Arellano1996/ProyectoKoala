@@ -19,7 +19,13 @@ export class CrearComponent {
 
   public formularioCrearCancion: FormGroup = this.fb.group({
     //valor inicial, validador sinconos, valor asyncronos
-    Letra: ['', [
+    Letra: [`Será fe que yo encontré, una voz de ternura
+Que me llena de placer, cuando la oigo hablar
+Con ella me enamoré, que nunca la conocí
+Sueño en su querer, y en sus brazos quiero dormir
+
+Escucho cada día la radio, seguro que la vuelvo a oír
+Por el cielo busco mi estrella, q la luna quiero subir`, [
       Validators.required,
       Validators.minLength(1)
     ], []]

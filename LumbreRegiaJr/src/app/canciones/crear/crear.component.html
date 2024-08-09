@@ -92,7 +92,10 @@ autocomplete="off">
 
                 <div *ngIf="!lineas.SeEstaEditando"
                 class="flex grow hover:bg-sky-50 flex-wrap">
-                    <div class="mr-1 text-center content-center" *ngFor="let linea of lineas.Palabras">
+                    <div 
+                    class="mr-1 text-center content-center cursor-pointer
+                    hover:bg-blue-300 hover:p-1 hover:rounded-lg hover:font-semibold hover:text-white" 
+                    *ngFor="let linea of lineas.Palabras">
                             {{ linea.Palabra }}
                     </div>
                 </div>
@@ -104,6 +107,7 @@ autocomplete="off">
                 
                 <span *ngIf="seEstaEditantoUnaLinea.bool && seEstaEditantoUnaLinea.linea != i"
                 class="material-symbols-outlined ml-2 text-gray-300 bg-gray-100 text-sm p-1 rounded-lg">edit</span>
+                
                 <form class="flex w-full" *ngIf="lineas.SeEstaEditando"
                 [formGroup]="formularioEditarLinea" 
                 (ngSubmit)="guardarLineaModificada(i)" autocomplete="off">
