@@ -8,7 +8,10 @@ import { EditarComponent } from './editar/editar.component';
 import { IndiceComponent } from './indice/indice.component';
 import { MenuDespleglableComponent } from './indice/menu-despleglable/menu-despleglable.component';
 import { BuscarComponent } from './indice/buscar/buscar.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MenuCrearCancionComponent } from './crear/menu-crear-cancion/menu-crear-cancion.component';
+import { TextareaLetraCrearCancionComponent } from './crear/textarea-letra-crear-cancion/textarea-letra-crear-cancion.component';
+import { DivAgregarAcordesCrearCancionComponent } from './crear/div-agregar-acordes-crear-cancion/div-agregar-acordes-crear-cancion.component';
 
 
 @NgModule({
@@ -18,12 +21,16 @@ import { ReactiveFormsModule } from '@angular/forms';
     EditarComponent,
     IndiceComponent,
     MenuDespleglableComponent,
-    BuscarComponent
+    BuscarComponent,
+    MenuCrearCancionComponent,
+    TextareaLetraCrearCancionComponent,
+    DivAgregarAcordesCrearCancionComponent
   ],
   imports: [
     CommonModule,
     CancionesRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class CancionesModule { }

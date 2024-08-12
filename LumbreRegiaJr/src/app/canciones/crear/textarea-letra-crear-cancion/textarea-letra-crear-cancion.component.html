@@ -1,0 +1,13 @@
+<!-- (ngSubmit)="onSubmit()" -->
+<form [formGroup]="formularioLetra">
+      <textarea
+      formControlName="Letra"
+      (ngModelChange)="onSubmit()"
+      rows="24" 
+      class="block w-full px-0 text-sm text-gray-800 bg-white border-0 
+      dark:bg-gray-800 focus:ring-2 focus:ring-transparent
+      focus:outline-none focus:border-transparent focus:shadow-none dark:text-white dark:placeholder-gray-400" 
+      placeholder="Letra de la canción...">
+    </textarea>
+    <!-- <button class="p-2 bg-blue-500 hover:bg-blue-400 rounded-lg px-8 text-white">ver</button> -->
+</form>

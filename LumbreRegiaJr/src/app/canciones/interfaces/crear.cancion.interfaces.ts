@@ -23,5 +23,5 @@ export interface PalabrasCrearCancion {
 
 export interface Acorde {
     Acorde: string
-    Posicion: string
+    Posicion: number
 }

@@ -1,0 +1,57 @@
+<div class="flex items-center justify-between px-3 py-2 border-b dark:border-gray-600">
+    <div class="flex flex-wrap items-center divide-gray-200 sm:divide-x sm:rtl:divide-x-reverse dark:divide-gray-600">
+        <div class="flex items-center space-x-1 rtl:space-x-reverse sm:pe-4">
+            
+            <button type="button" 
+            (click)="seleccionarOpcion(0)"
+            class="p-2 rounded cursor-pointer flex
+            {{ menuCrearCancion.opcion === 0 ? 'text-blue-500' : 'text-gray-500' }}  
+            {{ HoverButtons }} hover:bg-gray-100
+            dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                <span class="material-symbols-outlined">lyrics</span>
+                <span *ngIf="menuCrearCancion.opcion === 0"
+                class="ml-2 font-semibold text-center">Letra</span>
+            </button>
+
+            <button type="button" 
+            (click)="seleccionarOpcion(1)"
+            class="p-2 rounded cursor-pointer flex
+            {{ menuCrearCancion.opcion === 1 ? 'text-blue-500' : 'text-gray-500' }}
+            {{ HoverButtons }} hover:bg-gray-100 
+            dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+            <span class="material-symbols-outlined">music_note</span>
+            <span *ngIf="menuCrearCancion.opcion === 1"
+                class="ml-2 font-semibold text-center">Acordes</span>
+            </button>
+        
+            <button type="button" 
+            (click)="seleccionarOpcion(2)"
+            class="p-2 rounded cursor-pointer flex
+            {{ menuCrearCancion.opcion === 2 ? 'text-blue-500' : 'text-gray-500' }}
+            {{ HoverButtons }} hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                <span class="material-symbols-outlined">link</span>
+                <span *ngIf="menuCrearCancion.opcion === 2" class="ml-2 font-semibold text-center">Links</span>
+            </button>
+        
+            <button type="button" 
+            (click)="seleccionarOpcion(3)"
+            class="p-2 rounded cursor-pointer flex
+            {{ menuCrearCancion.opcion === 3 ? 'text-blue-500' : 'text-gray-500' }}
+            {{ HoverButtons }} hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                <span class="material-symbols-outlined">speed</span>
+                <span *ngIf="menuCrearCancion.opcion === 3"
+                class="ml-2 font-semibold text-center">Baterias</span>
+            </button>
+            
+            <button type="button" 
+            (click)="seleccionarOpcion(4)"
+            class="p-2 rounded cursor-pointer flex
+            {{ menuCrearCancion.opcion === 4 ? 'text-blue-500' : 'text-gray-500' }}
+            {{ HoverButtons }} hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                <span class="material-symbols-outlined">comedy_mask</span>
+                <span *ngIf="menuCrearCancion.opcion === 4"
+                class="ml-2 font-semibold text-center">Comentarios</span>
+            </button>
+        </div>
+    </div>
+</div>
