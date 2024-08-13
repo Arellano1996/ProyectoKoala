@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { CrearCancion, Lineas, PalabrasCrearCancion } from '../../interfaces/crear.cancion.interfaces';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { CrearCancion } from '../../interfaces/crear.cancion.interfaces';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormatearLetraService } from '../../services/formatear-letra.service';
 
 @Component({
   selector: 'app-div-agregar-acordes-crear-cancion',
@@ -20,101 +21,62 @@ export class DivAgregarAcordesCrearCancionComponent {
     linea: 0
   }
 
-  public formularioCancion: FormGroup = this.fb.group({
-    Lineas: this.fb.array([])
-  })
+  colorAcorde: string = 'text-blue-500'
+  
 
-  get Lineas(){
-    return this.formularioCancion.get('Lineas') as FormArray;
-  }
+  public formularioCancion: FormGroup = this.fb.group({
+    Linea: ['', []]
+  })
 
   activePopover: string = ''
   togglePopover(index: string, index2: string): void {
     const intexNumber = index + index2
-    console.log( intexNumber )
     this.activePopover = this.activePopover === intexNumber ? '' : intexNumber;
   }
 
-  constructor(private fb: FormBuilder,) {
-  }
-
-  unirPalabras(palabras: PalabrasCrearCancion[]){
-    return palabras.map(p => p.Palabra).join(' ');
-  }
+  constructor(private fb: FormBuilder, 
+    private letraService: FormatearLetraService) 
+  { }
 
   modificarLinea(indice: number){
     //Cuando se da click en editar una linea
+    //Tomamos la linea que queremos editar
+    const linea = this.cancion.Lineas[indice]
+    //La formateamos en texto plano
+    const string = this.letraService.convertirLineaEnString(linea)
+    //guardamos ese valor en el formulario para que el usuario vea el valor en el input
+    this.formularioCancion.controls['Linea'].patchValue(string)
+
+    //Esto sirve para manejar las opciones visuales, como otros botónes de editar, etc
     this.seEstaEditantoUnaLinea = { bool: true, linea: indice }
-    this.formularioCancion.controls['Letra'].patchValue(
-      this.unirPalabras( this.cancion.Lineas[indice].Palabras )
-    )
     this.cancion.Lineas[indice].SeEstaEditando = true;
   }
   
   guardarLineaModificada(indice: number){
-    // console.log( evento.target )
-    // console.log( this.formularioEditarLinea.controls['Letra'].value )
-    
-    const nuevaLinea = this.formularioCancion.controls['Letra'].value;
-    
-    // Separar el string en palabras
-    const palabras = nuevaLinea.split(' ').filter( ( palabra: any ) => palabra.trim() !== '');
+    //Tomamos el valor del input
+    const lineaEditada = this.formularioCancion.controls['Linea'].value
+    //Formateamos una nueva linea con el texto del input
+    const nuevaLinea = this.letraService.convertirStringEnLinea(lineaEditada, this.cancion.Lineas[indice])
+    //Agregamos ese texto formateado a nuestra variable
+    this.cancion.Lineas[indice] = nuevaLinea
 
-    // Crear un nuevo arreglo de palabras para la línea específica
-    const nuevasPalabras: PalabrasCrearCancion[] = palabras.map((palabra: string) => ({
-      Palabra: palabra,
-      Acorde: {
-        Acorde: '',
-        Posicion: ''
-      }
-    }));
-    
-    // Actualizar las palabras en la línea correspondiente
-    this.cancion.Lineas[indice].Palabras = nuevasPalabras;
-    
-    //Actualizar mi textarea, para que sea más claro primero formateo mi texto y despues
-    //lo agergo a mi formulario
-    const textArea = this.cancion.Lineas.map( (linea: Lineas ) => {
-      return linea.Palabras.map( p => p.Palabra ).join(' ')
-    }).join('\n')
-
-    // this.formularioCrearCancion.controls['Letra'].patchValue(textArea)
-
+    //Escondemos las opciones que ya no son necesarias para editar
     this.cancion.Lineas[indice].SeEstaEditando = false;
     this.seEstaEditantoUnaLinea = { bool: false, linea: indice }
   }
+  
+  cambioAcorde(linea: number, palabra: number, valor: string){
+    this.cancion.Lineas[linea].Palabras[palabra].Acorde.Acorde = valor
+  }
+  
+  cambioPosicionAcorde(linea: number, palabra: number, valor: number){
+    const acorde = this.cancion.Lineas[linea].Palabras[palabra].Acorde
+    if( !acorde.Acorde ) return
+    acorde.Posicion = valor
+  }
+  
 
   test(){
     console.log( this.cancion )
   }
-
-  cambioAcorde(linea: number, palabra: number, valor: string){
-    this.cancion.Lineas[linea].Palabras[palabra].Acorde.Acorde = valor
-  }
-
-  cambioPosicionAcorde(linea: number, palabra: number, valor: number){
-    
-    const acorde = this.cancion.Lineas[linea].Palabras[palabra].Acorde
-    if( !acorde.Acorde ) return
-    if(valor === 2) acorde.Posicion = valor
-    else 
-    {
-      //Esto permite que las sumas y restas permanezcan en un rango de 0 a 4
-      if(valor > 0 && acorde.Posicion < 4) acorde.Posicion += valor
-      else if(valor < 0 && acorde.Posicion > 0) acorde.Posicion += valor
-        else if(valor > 0 && acorde.Posicion === 4) acorde.Posicion -= valor
-          else if(valor < 0 && acorde.Posicion === 0) acorde.Posicion -= valor
-    } 
-    
-    console.log(this.cancion.Lineas[linea].Palabras[palabra].Acorde)
-    
-  }
-
-  // ngOnChanges(changes: SimpleChanges) {
-  //   if (changes['cancion']) {
-  //     console.log('El valor de inputValue ha cambiado:', changes['inputValue'].currentValue);
-  //     // Aquí puedes manejar el cambio del valor
-  //   }
-  // }
-  
 }

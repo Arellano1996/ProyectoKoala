@@ -31,10 +31,10 @@ export class CrearComponent {
   }
 
   //Metodo es llamado desde el elemnto textarea-letra-crear-cancion
-  recibirLetra(letra: CrearCancion){
-    this.cancion = letra
-    console.log({ ...this.cancion })
+  recibirCancion(cancion: CrearCancion){
+    this.cancion = cancion
   }
+
   //Mostrar validaciones del formulario
   isValidField( field: string ): boolean | null {
     return this.formularioCrearCancion.controls[field].errors 
@@ -43,7 +43,7 @@ export class CrearComponent {
   
   //Método al hacer submit a nuestro formulario
   onSave(){
-    console.log('Botón Guardar')
+    console.log(this.cancion)
     //this.notificationService.showAlert(NotificationType.Warning, 'Falta la Letra')
     if( this.formularioCrearCancion.invalid ) {
       this.formularioCrearCancion.markAllAsTouched()

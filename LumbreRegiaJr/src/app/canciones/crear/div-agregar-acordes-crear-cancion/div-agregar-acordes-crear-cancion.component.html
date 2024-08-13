@@ -14,7 +14,11 @@
       <!-- Nuesto popover tiene un evento en el elmento raiz que al tocarlo aparece o desaparece -->
         <div class="relative" (click)="togglePopover(i.toString(), x.toString())">
           {{ linea.Palabra }}
-
+          <!-- <span *ngIf="linea.Acorde.Posicion === 0" class="absolute left-0 top-[-1.25rem] transform -translate-x-full">{{ linea.Acorde.Acorde }}</span> Aqui esta fuera al lado izquierdo -->
+          <span *ngIf="linea.Acorde.Posicion === 0" class="absolute left-0 top-[-1.25rem] transform -translate-x-1/2 font-semibold {{colorAcorde}}">{{ linea.Acorde.Acorde }}</span> <!-- Aqui esta un poco metido a la izquierda -->
+          <span *ngIf="linea.Acorde.Posicion === 1" class="absolute left-1/2 top-[-1.25rem] transform -translate-x-1/2 font-semibold {{colorAcorde}}">{{ linea.Acorde.Acorde }}</span> <!-- Aqui esta en el centro -->
+          <span *ngIf="linea.Acorde.Posicion === 2" class="absolute right-0 top-[-1.25rem] transform translate-x-1/2 font-semibold {{colorAcorde}}">{{ linea.Acorde.Acorde }}</span> <!-- Aqui esta un poco metido a la derecho -->
+          <!-- <span *ngIf="linea.Acorde.Posicion === 4" class="absolute right-0 top-[-1.25rem] transform translate-x-full">{{ linea.Acorde.Acorde }}</span> Aqui esta fuera al lado derecho -->
           <!-- Tooltip centrado encima del botón -->
           <!-- (mouseleave)="togglePopover(i.toString(), x.toString())" -->
           <div class="absolute left-1/2 transform -translate-x-1/2 -top-[25%] -mt-32 z-10 w-64 
@@ -24,11 +28,11 @@
             <!-- Contenido del tooltip -->
             <div class="px-3 py-2 pt-8 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700 relative">
               <div class="font-semibold text-gray-900 dark:text-white inline-block text-center relative">
-                <span *ngIf="linea.Acorde.Posicion === 0" class="absolute left-0 top-[-1.25rem] transform -translate-x-full">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> <!-- Aqui esta fuera al lado izquierdo-->
-                <span *ngIf="linea.Acorde.Posicion === 1" class="absolute left-0 top-[-1.25rem] transform -translate-x-1/2">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> <!-- Aqui esta un poco metido a la izquierda -->
-                <span *ngIf="linea.Acorde.Posicion === 2" class="absolute left-1/2 top-[-1.25rem] transform -translate-x-1/2">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> <!-- Aqui esta en el centro -->
-                <span *ngIf="linea.Acorde.Posicion === 3" class="absolute right-0 top-[-1.25rem] transform translate-x-1/2">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> <!-- Aqui esta un poco metido a la derecho -->
-                <span *ngIf="linea.Acorde.Posicion === 4" class="absolute right-0 top-[-1.25rem] transform translate-x-full">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> <!-- Aqui esta fuera al lado derecho-->
+                <!-- <span *ngIf="linea.Acorde.Posicion === 0" class="absolute left-0 top-[-1.25rem] transform -translate-x-full">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> Aqui esta fuera al lado izquierdo -->
+                <span *ngIf="linea.Acorde.Posicion === 0" class="absolute left-0 top-[-1.25rem] transform -translate-x-1/2 {{colorAcorde}}">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> <!-- Aqui esta un poco metido a la izquierda -->
+                <span *ngIf="linea.Acorde.Posicion === 1" class="absolute left-1/2 top-[-1.25rem] transform -translate-x-1/2 {{colorAcorde}}">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> <!-- Aqui esta en el centro -->
+                <span *ngIf="linea.Acorde.Posicion === 2" class="absolute right-0 top-[-1.25rem] transform translate-x-1/2 {{colorAcorde}}">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> <!-- Aqui esta un poco metido a la derecho -->
+                <!-- <span *ngIf="linea.Acorde.Posicion === 4" class="absolute right-0 top-[-1.25rem] transform translate-x-full">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> Aqui esta fuera al lado derecho -->
                 {{ linea.Palabra }}
               </div>
             </div>
@@ -50,28 +54,24 @@
               />
               <span
                 (click)="$event.stopPropagation()"
-                (click)="cambioPosicionAcorde(i, x, -1)"
+                (click)="cambioPosicionAcorde(i, x, 0)"
                 class="material-symbols-outlined p-2 
-                {{ cancion.Lineas[i].Palabras[x].Acorde.Posicion === 0 || 
-                    cancion.Lineas[i].Palabras[x].Acorde.Posicion === 1 
-                    ? 'text-blue-500' : 'text-gray-500'}}  rounded-lg hover:text-sky-300 hover:bg-sky-50"
+                {{ cancion.Lineas[i].Palabras[x].Acorde.Posicion === 0 ? 'text-blue-500' : 'text-gray-500'}}  rounded-lg hover:text-sky-300 hover:bg-sky-50"
                 >align_justify_flex_start</span
                 >
                 <span
                 (click)="$event.stopPropagation()"
-                (click)="cambioPosicionAcorde(i, x, 2)"
+                (click)="cambioPosicionAcorde(i, x, 1)"
                 class="material-symbols-outlined p-2
-                {{ cancion.Lineas[i].Palabras[x].Acorde.Posicion === 2 ? 'text-blue-500' : 'text-gray-500'}}
+                {{ cancion.Lineas[i].Palabras[x].Acorde.Posicion === 1 ? 'text-blue-500' : 'text-gray-500'}}
                 rounded-lg hover:text-sky-300 hover:bg-sky-50"
                 >align_justify_center</span
                 >
                 <span
                 (click)="$event.stopPropagation()"
-                (click)="cambioPosicionAcorde(i, x, +1)"
+                (click)="cambioPosicionAcorde(i, x, 2)"
                 class="material-symbols-outlined p-2
-                {{ cancion.Lineas[i].Palabras[x].Acorde.Posicion === 3 || 
-                    cancion.Lineas[i].Palabras[x].Acorde.Posicion === 4 
-                    ? 'text-blue-500' : 'text-gray-500'}} rounded-lg hover:text-sky-300 hover:bg-sky-50"
+                {{ cancion.Lineas[i].Palabras[x].Acorde.Posicion === 2 ? 'text-blue-500' : 'text-gray-500'}} rounded-lg hover:text-sky-300 hover:bg-sky-50"
                 >align_justify_flex_end</span
               >
             </div>
@@ -100,11 +100,10 @@
     <!-- Cuando damos click en editar se habilita un input y un botón de check -->
     <div class="flex w-full" *ngIf="lineas.SeEstaEditando">
       <input
+      formControlName="Linea"
         *ngIf="lineas.SeEstaEditando"
-        formControlName="Letra"
         class="grow border border-gray-300 text-sm rounded-lg px-2 focus:ring-blue-500 focus:border-blue-500"
-        type="text"
-        value="{{ unirPalabras(lineas.Palabras) }}"/>
+        type="text"/>
       <button class="material-symbols-outlined ml-2 text-gray-500 bg-gray-200 text-sm cursor-pointer p-1 rounded-lg 
       hover:bg-green-200 hover:text-green-500"
         (click)="guardarLineaModificada(i)"

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FormatearLetraService } from '../../services/formatear-letra.service';
 import { CrearCancion } from '../../interfaces/crear.cancion.interfaces';
@@ -8,31 +8,42 @@ import { CrearCancion } from '../../interfaces/crear.cancion.interfaces';
   templateUrl: './textarea-letra-crear-cancion.component.html',
   styles: ``
 })
-export class TextareaLetraCrearCancionComponent {
+export class TextareaLetraCrearCancionComponent implements OnInit {
 
   @Output() 
   letraHijo = new EventEmitter<CrearCancion>();
 
+  @Input() 
+  cancion: CrearCancion = { Lineas: [], Tamanio: '1rem' };
+  
   public formularioLetra: FormGroup = this.fb.group({
-    Letra: [`Será fe que yo encontré, una voz de ternura
-Que me llena de placer, cuando la oigo hablar
-Con ella me enamoré, que nunca la conocí
-Sueño en su querer, y en sus brazos quiero dormir
-
-Escucho cada día la radio, seguro que la vuelvo a oír
-Por el cielo busco mi estrella, q la luna quiero subir`]
+    Letra: [``]
   })
 
   constructor(private fb: FormBuilder,
     private formatearLetraService: FormatearLetraService
   ) { }
+
+  ngOnInit(): void {
+    //Si ya hay información en la variable canción, serializa lo que ya esta y ponlo en el input
+    if(this.cancion.Lineas.length > 0){
+      const texto = this.formatearLetraService.convertirCancionEnTexto({ ...this.cancion })
+      this.formularioLetra.controls['Letra'].patchValue(texto)
+    }
+  }
   
   onSubmit(){
+    const letraInput = this.formularioLetra.controls['Letra'].value.trim()
+    
+    if(!letraInput) {
+      this.cancion =  { Lineas: [], Tamanio: '1rem' };
+      this.letraHijo.emit(this.cancion)
+      return
+    }
     //Formateamos nuestra letra que esta en nuestro textarea
-    const letra = this.formatearLetraService.serializarTexto(
-      this.formularioLetra.controls['Letra'].value.trim()
-    )
+    this.cancion = { ...this.formatearLetraService.serializarTexto(letraInput, this.cancion) }
+    
     //La letra formateada la mandamos a nuestro elemento padre
-    this.letraHijo.emit(letra)
+    this.letraHijo.emit(this.cancion)
   }
 }

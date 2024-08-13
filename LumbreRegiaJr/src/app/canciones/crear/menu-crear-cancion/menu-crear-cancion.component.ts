@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { MenuCrearCancion } from '../../interfaces/crear.cancion.interfaces';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CrearCancion, MenuCrearCancion } from '../../interfaces/crear.cancion.interfaces';
 
 @Component({
   selector: 'app-menu-crear-canciones',
@@ -10,6 +10,10 @@ export class MenuCrearCancionComponent {
 
   @Output() 
   estadoMenuHijo = new EventEmitter<number>();
+
+  @Input() 
+  cancion: CrearCancion = { Lineas: [], Tamanio: '1rem' };
+  
   //Esta variable sirve para manejar el estado de mi menu, para saber qué opcion está seleccionada al momento de crear una canción; se inicializa en el contructor en la primera opción Letra = 0
   menuCrearCancion: MenuCrearCancion;
   HoverButtons = 'hover:text-blue-400'
@@ -23,15 +27,11 @@ export class MenuCrearCancionComponent {
   seleccionarOpcion(opcion: number){
     //Si se vuelve a seleccionar la misma opcion no hacer nada
     if(this.menuCrearCancion.opcion === opcion ) return
+    if(this.menuCrearCancion.opcion === 0 && this.cancion.Lineas.length === 0 ) return
 
     //Actualizamos nuestra variable para manejar el estado de nuestro menu y saber en qué opcion estamos
     this.menuCrearCancion.opcion = opcion
     this.estadoMenuHijo.emit(opcion);
-    //Si pasamos a la opción 1 hay que serializar nuestra letra
-    //TODO solo si nuestra Letra no está vacia
-    if(opcion === 1 /* Acordes */){
-      //this.serializarLetra()
-    }
   }
 
 }

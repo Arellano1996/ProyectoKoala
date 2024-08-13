@@ -6,10 +6,10 @@ class="max-sm:px-2"
 (ngSubmit)="onSave()"
 autocomplete="off">
     <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-        <app-menu-crear-canciones (estadoMenuHijo)="recibirPosicionMenu($event)"/>
+        <app-menu-crear-canciones (estadoMenuHijo)="recibirPosicionMenu($event)" [cancion]="cancion"/>
         <div class="px-4 py-2 bg-white rounded-b-lg h-full dark:bg-gray-800">
             
-            <app-textarea-letra-crear-cancion (letraHijo)="recibirLetra($event)" *ngIf="posicionMenu === 0"/>
+            <app-textarea-letra-crear-cancion (letraHijo)="recibirCancion($event)" [cancion]="cancion" *ngIf="posicionMenu === 0"/>
             
             <app-div-agregar-acordes-crear-cancion [cancion]="cancion" *ngIf="posicionMenu === 1"/>
 
