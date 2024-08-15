@@ -14,11 +14,6 @@ export class Letra {
 
     @Column()
     Letra: string;
-    
-    @Column({
-        nullable: true
-    })
-    Acordes?: string;
 
     @Column({
         nullable: true

@@ -1,0 +1,77 @@
+<!-- <div class="flex grow hover:bg-sky-50 flex-wrap"> -->
+    <div class="relative mr-1 text-center content-center cursor-pointer 
+    hover:bg-blue-300 hover:p-1 rounded-lg hover:text-white"
+    *ngFor="let linea of Linea.Palabras; index as x">
+    <!-- Botón que activa el popover -->
+    <!-- Nuesto popover tiene un evento en el elmento raiz que al tocarlo aparece o desaparece -->
+      <div class="relative" (click)="togglePopover(i.toString(), x.toString())">
+        {{ linea.Palabra }}
+        <!-- <span *ngIf="linea.Acorde.Posicion === 0" class="absolute left-0 top-[-1.25rem] transform -translate-x-full">{{ linea.Acorde.Acorde }}</span> Aqui esta fuera al lado izquierdo -->
+        <span *ngIf="linea.Acorde.Posicion === 0" class="absolute left-0 top-[-1.25rem] transform -translate-x-1/2 font-semibold {{colorAcorde}}">{{ linea.Acorde.Acorde }}</span> <!-- Aqui esta un poco metido a la izquierda -->
+        <span *ngIf="linea.Acorde.Posicion === 1" class="absolute left-1/2 top-[-1.25rem] transform -translate-x-1/2 font-semibold {{colorAcorde}}">{{ linea.Acorde.Acorde }}</span> <!-- Aqui esta en el centro -->
+        <span *ngIf="linea.Acorde.Posicion === 2" class="absolute right-0 top-[-1.25rem] transform translate-x-1/2 font-semibold {{colorAcorde}}">{{ linea.Acorde.Acorde }}</span> <!-- Aqui esta un poco metido a la derecho -->
+        <!-- <span *ngIf="linea.Acorde.Posicion === 4" class="absolute right-0 top-[-1.25rem] transform translate-x-full">{{ linea.Acorde.Acorde }}</span> Aqui esta fuera al lado derecho -->
+        <!-- Tooltip centrado encima del botón -->
+        <!-- (mouseleave)="togglePopover(i.toString(), x.toString())" -->
+        <div class="absolute left-1/2 transform -translate-x-1/2 -top-[25%] -mt-32 z-10 w-64 
+        text-sm text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm 
+        dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+        *ngIf="activePopover === i.toString() + x.toString()" >
+          <!-- Contenido del tooltip -->
+          <div class="px-3 py-2 pt-8 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700 relative">
+            <div class="font-semibold text-gray-900 dark:text-white inline-block text-center relative">
+              <!-- <span *ngIf="linea.Acorde.Posicion === 0" class="absolute left-0 top-[-1.25rem] transform -translate-x-full">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> Aqui esta fuera al lado izquierdo -->
+              <span *ngIf="linea.Acorde.Posicion === 0" class="absolute left-0 top-[-1.25rem] transform -translate-x-1/2 {{colorAcorde}}">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> <!-- Aqui esta un poco metido a la izquierda -->
+              <span *ngIf="linea.Acorde.Posicion === 1" class="absolute left-1/2 top-[-1.25rem] transform -translate-x-1/2 {{colorAcorde}}">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> <!-- Aqui esta en el centro -->
+              <span *ngIf="linea.Acorde.Posicion === 2" class="absolute right-0 top-[-1.25rem] transform translate-x-1/2 {{colorAcorde}}">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> <!-- Aqui esta un poco metido a la derecho -->
+              <!-- <span *ngIf="linea.Acorde.Posicion === 4" class="absolute right-0 top-[-1.25rem] transform translate-x-full">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> Aqui esta fuera al lado derecho -->
+              {{ linea.Palabra }}
+            </div>
+          </div>
+
+          <div class="px-3 py-2 flex flex-row content-center items-center justify-between">
+            <span (click)="$event.stopPropagation()">acorde: </span>
+            <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg max-w-16 mx-2 
+            focus:ring-blue-500 focus:border-blue-500 p-2.5 
+            dark:bg-gray-700 grow dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
+            dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            #AcordeInput
+            [value]="cancion.Lineas[i].Palabras[x].Acorde.Acorde"
+            (change)="cambioAcorde(i, x, AcordeInput.value)"
+            type="text"
+            (click)="$event.stopPropagation()"
+            maxlength="5"
+            />
+            <span
+              (click)="$event.stopPropagation()"
+              (click)="cambioPosicionAcorde(i, x, 0)"
+              class="material-symbols-outlined p-2 
+              {{ cancion.Lineas[i].Palabras[x].Acorde.Posicion === 0 ? 'text-blue-500' : 'text-gray-500'}}  rounded-lg hover:text-sky-300 hover:bg-sky-50"
+              >align_justify_flex_start</span
+              >
+              <span
+              (click)="$event.stopPropagation()"
+              (click)="cambioPosicionAcorde(i, x, 1)"
+              class="material-symbols-outlined p-2
+              {{ cancion.Lineas[i].Palabras[x].Acorde.Posicion === 1 ? 'text-blue-500' : 'text-gray-500'}}
+              rounded-lg hover:text-sky-300 hover:bg-sky-50"
+              >align_justify_center</span
+              >
+              <span
+              (click)="$event.stopPropagation()"
+              (click)="cambioPosicionAcorde(i, x, 2)"
+              class="material-symbols-outlined p-2
+              {{ cancion.Lineas[i].Palabras[x].Acorde.Posicion === 2 ? 'text-blue-500' : 'text-gray-500'}} rounded-lg hover:text-sky-300 hover:bg-sky-50"
+              >align_justify_flex_end</span
+            >
+          </div>
+
+          <!-- Flecha del tooltip -->
+          <div
+            class="absolute left-1/2 transform -translate-x-1/2 w-3 h-3 bg-white -rotate-45 border-l 
+            border-b border-gray-200 dark:bg-gray-800 dark:border-gray-600"
+            style="bottom: -7px"></div>
+        </div>
+      </div>
+    </div>
+<!-- </div> -->

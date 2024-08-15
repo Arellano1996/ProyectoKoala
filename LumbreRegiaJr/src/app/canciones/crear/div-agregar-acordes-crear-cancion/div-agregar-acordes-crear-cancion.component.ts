@@ -21,18 +21,10 @@ export class DivAgregarAcordesCrearCancionComponent {
     linea: 0
   }
 
-  colorAcorde: string = 'text-blue-500'
-  
-
   public formularioCancion: FormGroup = this.fb.group({
     Linea: ['', []]
   })
 
-  activePopover: string = ''
-  togglePopover(index: string, index2: string): void {
-    const intexNumber = index + index2
-    this.activePopover = this.activePopover === intexNumber ? '' : intexNumber;
-  }
 
   constructor(private fb: FormBuilder, 
     private letraService: FormatearLetraService) 
@@ -53,6 +45,7 @@ export class DivAgregarAcordesCrearCancionComponent {
   }
   
   guardarLineaModificada(indice: number){
+    console.log(indice)
     //Tomamos el valor del input
     const lineaEditada = this.formularioCancion.controls['Linea'].value
     //Formateamos una nueva linea con el texto del input
@@ -65,15 +58,9 @@ export class DivAgregarAcordesCrearCancionComponent {
     this.seEstaEditantoUnaLinea = { bool: false, linea: indice }
   }
   
-  cambioAcorde(linea: number, palabra: number, valor: string){
-    this.cancion.Lineas[linea].Palabras[palabra].Acorde.Acorde = valor
-  }
   
-  cambioPosicionAcorde(linea: number, palabra: number, valor: number){
-    const acorde = this.cancion.Lineas[linea].Palabras[palabra].Acorde
-    if( !acorde.Acorde ) return
-    acorde.Posicion = valor
-  }
+  
+  
   
 
   test(){

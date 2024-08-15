@@ -14,9 +14,8 @@ export class FormatearLetraService {
 
     let lineaInicializada: Lineas = {
       Color: "",
-      SaltoLinea: false,
       SeEstaEditando: false,
-      Palabras: []
+      Palabras: [],
     }
     let nuevaCancion: CrearCancion = { Lineas: [], Tamanio: '1rem' };
     
@@ -43,8 +42,7 @@ export class FormatearLetraService {
     let nuevaLinea: Lineas = {
       Color: "",
       SeEstaEditando: false,
-      SaltoLinea: false,
-      Palabras: []
+      Palabras: [],
     }
     const arregloString = texto.split(' ').filter( ( palabra: any ) => palabra.trim() !== '');
     

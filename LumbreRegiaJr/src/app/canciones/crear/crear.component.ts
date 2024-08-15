@@ -44,6 +44,7 @@ export class CrearComponent {
   //Método al hacer submit a nuestro formulario
   onSave(){
     console.log(this.cancion)
+    console.log(this.formularioCrearCancion.controls['Letra'])
     //this.notificationService.showAlert(NotificationType.Warning, 'Falta la Letra')
     if( this.formularioCrearCancion.invalid ) {
       this.formularioCrearCancion.markAllAsTouched()

@@ -12,14 +12,13 @@ export interface CrearCancion {
 export interface Lineas {
     Palabras: PalabrasCrearCancion[]
     Color: string
-    SaltoLinea: boolean
     SeEstaEditando: boolean
 }
 
 export interface PalabrasCrearCancion {
     Palabra: string
     Acorde: Acorde
-}
+} 
 
 export interface Acorde {
     Acorde: string

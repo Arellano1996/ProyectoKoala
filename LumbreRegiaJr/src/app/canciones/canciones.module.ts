@@ -12,6 +12,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenuCrearCancionComponent } from './crear/menu-crear-cancion/menu-crear-cancion.component';
 import { TextareaLetraCrearCancionComponent } from './crear/textarea-letra-crear-cancion/textarea-letra-crear-cancion.component';
 import { DivAgregarAcordesCrearCancionComponent } from './crear/div-agregar-acordes-crear-cancion/div-agregar-acordes-crear-cancion.component';
+import { PalabraComponent } from './crear/div-agregar-acordes-crear-cancion/palabra/palabra.component';
+import { ToolTipAcordesComponent } from './crear/div-agregar-acordes-crear-cancion/div-grupo-acordes/div-grupo-acordes.component';
+import { LinksComponent } from './crear/links/links.component';
+import { BateriaComponent } from './crear/bateria/bateria.component';
 
 
 @NgModule({
@@ -24,7 +28,11 @@ import { DivAgregarAcordesCrearCancionComponent } from './crear/div-agregar-acor
     BuscarComponent,
     MenuCrearCancionComponent,
     TextareaLetraCrearCancionComponent,
-    DivAgregarAcordesCrearCancionComponent
+    DivAgregarAcordesCrearCancionComponent,
+    PalabraComponent,
+    ToolTipAcordesComponent,
+    LinksComponent,
+    BateriaComponent
   ],
   imports: [
     CommonModule,
