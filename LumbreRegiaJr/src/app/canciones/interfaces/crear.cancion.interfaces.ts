@@ -4,7 +4,7 @@ export interface MenuCrearCancion {
     opcion: number
 }
 
-export interface CrearCancion {
+export interface CrearLetraCancion {
     Lineas: Lineas[]
     Tamanio: string
 }

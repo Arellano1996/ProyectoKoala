@@ -9,11 +9,19 @@ export interface Letra {
     Configuraciones: Configuracione[];
 }
 
+export interface CrearCancionLetra {
+    Letra:           string;
+    Tono?: string;
+    //Comentarios se va a eliminar
+    Comentarios:     Comentario[];
+    Configuraciones: Configuracione[];
+}
+
 export interface CrearLetra {
     UsuarioId:         string;
     CancionId:         string;
     Letra:           string;
-    Acordes:         null | string;
+    Tono?: string;
     Comentarios:     Comentario[];
     Configuraciones: Configuracione[];
 }

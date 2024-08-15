@@ -21,9 +21,9 @@
           <div class="px-3 py-2 pt-8 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700 relative">
             <div class="font-semibold text-gray-900 dark:text-white inline-block text-center relative">
               <!-- <span *ngIf="linea.Acorde.Posicion === 0" class="absolute left-0 top-[-1.25rem] transform -translate-x-full">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> Aqui esta fuera al lado izquierdo -->
-              <span *ngIf="linea.Acorde.Posicion === 0" class="absolute left-0 top-[-1.25rem] transform -translate-x-1/2 {{colorAcorde}}">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> <!-- Aqui esta un poco metido a la izquierda -->
-              <span *ngIf="linea.Acorde.Posicion === 1" class="absolute left-1/2 top-[-1.25rem] transform -translate-x-1/2 {{colorAcorde}}">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> <!-- Aqui esta en el centro -->
-              <span *ngIf="linea.Acorde.Posicion === 2" class="absolute right-0 top-[-1.25rem] transform translate-x-1/2 {{colorAcorde}}">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> <!-- Aqui esta un poco metido a la derecho -->
+              <span *ngIf="linea.Acorde.Posicion === 0" class="absolute left-0 top-[-1.25rem] transform -translate-x-1/2 {{colorAcorde}}">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : '' }}</span> <!-- Aqui esta un poco metido a la izquierda -->
+              <span *ngIf="linea.Acorde.Posicion === 1" class="absolute left-1/2 top-[-1.25rem] transform -translate-x-1/2 {{colorAcorde}}">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : '' }}</span> <!-- Aqui esta en el centro -->
+              <span *ngIf="linea.Acorde.Posicion === 2" class="absolute right-0 top-[-1.25rem] transform translate-x-1/2 {{colorAcorde}}">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : '' }}</span> <!-- Aqui esta un poco metido a la derecho -->
               <!-- <span *ngIf="linea.Acorde.Posicion === 4" class="absolute right-0 top-[-1.25rem] transform translate-x-full">{{ linea.Acorde.Acorde ? linea.Acorde.Acorde : 'n/a' }}</span> Aqui esta fuera al lado derecho -->
               {{ linea.Palabra }}
             </div>

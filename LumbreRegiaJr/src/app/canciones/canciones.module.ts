@@ -16,6 +16,8 @@ import { PalabraComponent } from './crear/div-agregar-acordes-crear-cancion/pala
 import { ToolTipAcordesComponent } from './crear/div-agregar-acordes-crear-cancion/div-grupo-acordes/div-grupo-acordes.component';
 import { LinksComponent } from './crear/links/links.component';
 import { BateriaComponent } from './crear/bateria/bateria.component';
+import { ArtistasCrearCancionComponent } from './crear/artistas/artistas.crear.cancion.component';
+import { GenerosCrearCancionComponent } from './crear/generos/generos.crear.cancion.component';
 
 
 @NgModule({
@@ -32,7 +34,9 @@ import { BateriaComponent } from './crear/bateria/bateria.component';
     PalabraComponent,
     ToolTipAcordesComponent,
     LinksComponent,
-    BateriaComponent
+    BateriaComponent,
+    ArtistasCrearCancionComponent,
+    GenerosCrearCancionComponent
   ],
   imports: [
     CommonModule,

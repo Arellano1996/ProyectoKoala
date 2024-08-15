@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CrearCancion, Lineas } from '../interfaces/crear.cancion.interfaces';
+import { CrearLetraCancion, Lineas } from '../interfaces/crear.cancion.interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,7 @@ export class FormatearLetraService {
   
   constructor() { }
 
-  serializarTexto(letra: string, cancion: CrearCancion){
+  serializarTexto(letra: string, cancion: CrearLetraCancion){
     
     const lineas = letra.trim().split('\n');
 
@@ -17,7 +17,7 @@ export class FormatearLetraService {
       SeEstaEditando: false,
       Palabras: [],
     }
-    let nuevaCancion: CrearCancion = { Lineas: [], Tamanio: '1rem' };
+    let nuevaCancion: CrearLetraCancion = { Lineas: [], Tamanio: '1rem' };
     
     let i = 0
     nuevaCancion.Lineas = lineas.map( linea => {
@@ -28,7 +28,7 @@ export class FormatearLetraService {
     return nuevaCancion
   }
 
-  convertirCancionEnTexto(cancion: CrearCancion){
+  convertirCancionEnTexto(cancion: CrearLetraCancion){
     return cancion.Lineas.map(linea => {
       return this.convertirLineaEnString(linea)
     }).join('\n')

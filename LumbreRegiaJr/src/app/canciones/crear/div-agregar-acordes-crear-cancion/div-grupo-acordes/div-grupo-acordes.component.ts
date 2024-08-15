@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CrearCancion, Lineas } from '../../../interfaces/crear.cancion.interfaces';
+import { CrearLetraCancion, Lineas } from '../../../interfaces/crear.cancion.interfaces';
 
 @Component({
   selector: 'app-div-grupo-acordes',
@@ -16,7 +16,7 @@ export class ToolTipAcordesComponent {
     SeEstaEditando: false
   };
 
-  @Input() cancion: CrearCancion = { Lineas: [], Tamanio: '1rem' };
+  @Input() cancion: CrearLetraCancion = { Lineas: [], Tamanio: '1rem' };
 
   activePopover: string = ''
   togglePopover(index: string, index2: string): void {

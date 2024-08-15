@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CrearCancion } from '../../interfaces/crear.cancion.interfaces';
+import { CrearLetraCancion } from '../../interfaces/crear.cancion.interfaces';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FormatearLetraService } from '../../services/formatear-letra.service';
 
@@ -12,7 +12,7 @@ export class DivAgregarAcordesCrearCancionComponent {
   
   //Esta variable sirve para mantener mi objeto durante la creación
   @Input() 
-  cancion: CrearCancion = { Lineas: [], Tamanio: '1rem' };
+  cancion: CrearLetraCancion = { Lineas: [], Tamanio: '1rem' };
 
   //Esto sirve para ocultar los botones que permiten editar y mostrar los botones de editar pero que estan deshabilitados, la propiedad linea sirve para ocultar el boton deshabilitado
   //de mi actual div en el cuál estoy haciendo la edición, entonces el boton deshabilitado se muetra en todos los div o lineas menos en la que estoy editando actualmente

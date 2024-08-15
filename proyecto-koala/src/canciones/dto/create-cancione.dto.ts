@@ -32,7 +32,7 @@ export class CreateCancioneDto {
     @IsString()
     @MinLength(1)
     @IsOptional()
-    Acordes?: string;
+    Duracion?: string;
     
     //Relaciones
 

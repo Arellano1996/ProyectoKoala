@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CrearCancion, MenuCrearCancion } from '../../interfaces/crear.cancion.interfaces';
+import { CrearLetraCancion, MenuCrearCancion } from '../../interfaces/crear.cancion.interfaces';
 
 @Component({
   selector: 'app-menu-crear-canciones',
@@ -12,7 +12,7 @@ export class MenuCrearCancionComponent {
   estadoMenuHijo = new EventEmitter<number>();
 
   @Input() 
-  cancion: CrearCancion = { Lineas: [], Tamanio: '1rem' };
+  cancion: CrearLetraCancion = { Lineas: [], Tamanio: '1rem' };
   
   //Esta variable sirve para manejar el estado de mi menu, para saber qué opcion está seleccionada al momento de crear una canción; se inicializa en el contructor en la primera opción Letra = 0
   menuCrearCancion: MenuCrearCancion;

@@ -12,3 +12,8 @@ export interface CrearLink {
     UsuarioId:      string;
     CancionId:      string;
 }
+
+export interface CrearCancionLink {
+    URL:         string;
+    Descripcion:      string;
+}

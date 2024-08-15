@@ -17,6 +17,8 @@ export class IndiceComponent extends AppComponent implements OnInit {
   @ViewChild('buscar') buscarComponent!: BuscarComponent;
   configuracion: Configuracion;
 
+  usuarioId = 'b5fbda91-bbb2-4e79-82fb-9b4e6e2ad2ba'
+
   constructor(private cancionesService: CancionesService,
     private configuracionPaginaService: ConfiguracionPaginaService
   ) {
@@ -33,7 +35,7 @@ export class IndiceComponent extends AppComponent implements OnInit {
     {
       if(this.configuracion.OcultarCancionesDeOtrosUsuarios)
         {
-          this.cancionesService.getCancionesPorUsuarioIdYTermino('160ef76b-ad5a-464a-ad73-514eb1d0c8ca', termino)
+          this.cancionesService.getCancionesPorUsuarioIdYTermino(this.usuarioId, termino)
           .subscribe( res => {
             this.cancionesReponse = res;
           })
@@ -50,7 +52,7 @@ export class IndiceComponent extends AppComponent implements OnInit {
     {
       if(this.configuracion.OcultarCancionesDeOtrosUsuarios)
       {
-        this.cancionesService.getCancionesPorUsuarioId('160ef76b-ad5a-464a-ad73-514eb1d0c8ca')
+        this.cancionesService.getCancionesPorUsuarioId(this.usuarioId)
         .subscribe( res => {
           this.cancionesReponse = res;
         })

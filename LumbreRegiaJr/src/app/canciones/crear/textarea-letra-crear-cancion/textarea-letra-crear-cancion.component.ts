@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FormatearLetraService } from '../../services/formatear-letra.service';
-import { CrearCancion } from '../../interfaces/crear.cancion.interfaces';
+import { CrearLetraCancion } from '../../interfaces/crear.cancion.interfaces';
 
 @Component({
   selector: 'app-textarea-letra-crear-cancion',
@@ -11,10 +11,10 @@ import { CrearCancion } from '../../interfaces/crear.cancion.interfaces';
 export class TextareaLetraCrearCancionComponent implements OnInit {
 
   @Output() 
-  letraHijo = new EventEmitter<CrearCancion>();
+  letraHijo = new EventEmitter<CrearLetraCancion>();
 
   @Input() 
-  cancion: CrearCancion = { Lineas: [], Tamanio: '1rem' };
+  cancion: CrearLetraCancion = { Lineas: [], Tamanio: '1rem' };
   
   public formularioLetra: FormGroup = this.fb.group({
     Letra: [``]

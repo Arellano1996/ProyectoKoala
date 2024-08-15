@@ -140,8 +140,13 @@ export class CancionesService extends erroresHandler {
         Baterias
       })
       
-      return _cancion;
-
+      // return _cancion;
+      //TODO: quitar de Baterias.Usuario propiedad de contraseña
+      //o mantener esta respuesta, en produccion solo se necesita CancionId
+      return { 
+        CancionId: cancion.CancionId
+      } 
+      
     } catch (error) {
       console.log(error)
       this.handleExceptions(error, `La canción con el nombre: ${createCancioneDto.Nombre}, ya existe`)

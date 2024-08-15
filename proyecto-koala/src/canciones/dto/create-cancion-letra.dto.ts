@@ -15,7 +15,7 @@ export class CreateCancioneLetraDto{
 
     @IsString()
     @IsOptional()
-    Acordes: string;
+    Tono: string;
 
     //Relaciones
     

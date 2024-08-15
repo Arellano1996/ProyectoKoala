@@ -1,8 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { CrearCancion, Lineas, MenuCrearCancion, PalabrasCrearCancion } from '../interfaces/crear.cancion.interfaces';
+import { Component } from '@angular/core';
+import { CrearLetraCancion } from '../interfaces/crear.cancion.interfaces';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MensajeEmergenteService } from '../../shared/mensaje-emergente/mensaje-emergente.service';
-import { NotificationType } from '../../shared/mensaje-emergente/interfaces/mensaje-alerta.interfaces';
+import { CancionesService } from '../services/canciones.service';
+import { CrearCancion } from '../interfaces/canciones.interfaces';
+import { FormatearLetraService } from '../services/formatear-letra.service';
 //import { initFlowbite } from 'flowbite';
 
 @Component({
@@ -13,7 +14,14 @@ import { NotificationType } from '../../shared/mensaje-emergente/interfaces/mens
 export class CrearComponent {
   
   public formularioCrearCancion: FormGroup = this.fb.group({
-    Letra: ['', [ Validators.required, Validators.minLength(1) ], []]
+    CancionNombre: ['', [ Validators.required, Validators.minLength(1) ], []],
+    CancionTonoOriginal: ['', [ Validators.required, Validators.minLength(1) ], []],
+    CancionDuracion: ['', [ Validators.required, Validators.minLength(1) ], []],
+    Artistas: ['', [ Validators.required, Validators.minLength(1) ], []],
+    Generos: ['', [ Validators.required, Validators.minLength(1) ], []],
+    Letra: ['', [ Validators.required, Validators.minLength(1) ], []],
+    Links: ['', [ Validators.required, Validators.minLength(1) ], []],
+    Baterias: ['', [ Validators.required, Validators.minLength(1) ], []]
   })
   
   //private notificationService = inject(MensajeEmergenteService);
@@ -21,9 +29,12 @@ export class CrearComponent {
   posicionMenu: number = 0;
   
   //Esta variable sirve para mantener mi objeto durante la creación
-  cancion: CrearCancion = { Lineas: [], Tamanio: '1rem' };
+  cancion: CrearLetraCancion = { Lineas: [], Tamanio: '1rem' };
   
-  constructor(private fb: FormBuilder,) { }
+  constructor(private fb: FormBuilder,
+    private cancionService: CancionesService,
+    private formatearLetraService: FormatearLetraService
+  ) { }
   
   //Metodo es llamado desde el elemento menu-crear-cancion
   recibirPosicionMenu(index: number){
@@ -31,7 +42,7 @@ export class CrearComponent {
   }
 
   //Metodo es llamado desde el elemnto textarea-letra-crear-cancion
-  recibirCancion(cancion: CrearCancion){
+  recibirCancion(cancion: CrearLetraCancion){
     this.cancion = cancion
   }
 
@@ -43,13 +54,35 @@ export class CrearComponent {
   
   //Método al hacer submit a nuestro formulario
   onSave(){
-    console.log(this.cancion)
-    console.log(this.formularioCrearCancion.controls['Letra'])
+
+    if(this.cancion.Lineas.length > 0){
+      const cancionSerializada = JSON.stringify(this.cancion)
+      this.formularioCrearCancion.controls['Letra'].patchValue( cancionSerializada )
+      console.log(cancionSerializada)
+    }
     //this.notificationService.showAlert(NotificationType.Warning, 'Falta la Letra')
     if( this.formularioCrearCancion.invalid ) {
       this.formularioCrearCancion.markAllAsTouched()
       return
     }
+
+    let nuevaCancion: CrearCancion = {
+      UsuarioId: 'b5fbda91-bbb2-4e79-82fb-9b4e6e2ad2ba',
+      Nombre: '',
+      Tono: '',
+      Duracion: '',
+      Letras: [],//Para crear una canción, el arreglo solo tiene una letra
+      Artistas: [],
+      Generos: [],
+      Links: [],
+      Baterias: []
+    }
+
+    console.log( nuevaCancion )
+    // this.cancionService.postCrearCancion().subscribe(res => {
+    //   console.log(res)
+    // })
+  
   }
   
 
