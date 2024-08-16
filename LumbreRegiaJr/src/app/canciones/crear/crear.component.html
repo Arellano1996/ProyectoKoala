@@ -67,10 +67,13 @@ autocomplete="off">
         <span class="text-red-500" *ngIf="isValidField('CancionDuracion')">Duración está vacío</span>
     </div>
 
-    <app-artistas-crear-cancion></app-artistas-crear-cancion>
+    <app-artistas-crear-cancion (agregar)="seAgregoArtistaDesdeHijo($event)"></app-artistas-crear-cancion>
     <span class="text-red-500" *ngIf="isValidField('Artistas')">No hay artistas</span>
+    
+    <app-generos-crear-cancion class="mt-2" (agregar)="seAgregoGeneroDesdeHijo($event)"></app-generos-crear-cancion>
+    <span class="text-red-500" *ngIf="isValidField('Generos')">No hay generos</span>
 
-    <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+    <div class="w-full my-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
         <app-menu-crear-canciones (estadoMenuHijo)="recibirPosicionMenu($event)" [cancion]="cancion"/>
         <div class="px-4 py-2 bg-white rounded-b-lg h-full dark:bg-gray-800">
             

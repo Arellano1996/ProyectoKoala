@@ -1,22 +1,33 @@
  
 
     <div class="relative z-0 w-full mb-5 group">
-        <input 
+        <form
+    [formGroup]="formularioGeneros" 
+class="max-sm:px-2" 
+(ngSubmit)="onSave()"
+autocomplete="off">
+        <input
         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
         border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 
         focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
-        type="text" 
-        name="floating_CancionGenero" 
-        id="floating_CancionGenero" 
+        type="text"
+        formControlName="Nombre"
+        name="floating_CancionGeneros" 
+        id="floating_CancionGeneros" 
         placeholder=" "/>
         <label 
         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform 
         -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 
         rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 
         peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        for="floating_CancionNombre">
-            Genero(s):
+        for="floating_CancionGeneros">
+            Genero(s) agregados: ({{ generos.length}})
         </label>
-        <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Default</span>
-        <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Default</span>
+    </form>
+        <div class="flex flex-wrap">
+            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 
+            rounded dark:bg-blue-900 dark:text-blue-300 mt-4 cursor-pointer"
+            (dblclick)="eliminarGenero(i)"
+            *ngFor="let genero of generos; index as i">{{ genero }}</span>
+        </div>
     </div>

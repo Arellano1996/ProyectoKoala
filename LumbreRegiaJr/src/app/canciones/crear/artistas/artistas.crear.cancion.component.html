@@ -1,6 +1,6 @@
 <div class="relative z-0 w-full mb-5">
     <form
-    [formGroup]="formularioArtista" 
+    [formGroup]="formularioArtistas" 
 class="max-sm:px-2" 
 (ngSubmit)="onSave()"
 autocomplete="off">
@@ -10,22 +10,22 @@ autocomplete="off">
         focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
         type="text"
         formControlName="Nombre"
-        name="floating_CancionArtista" 
-        id="floating_CancionArtista" 
+        name="floating_CancionArtistas" 
+        id="floating_CancionArtistas" 
         placeholder=" "/>
         <label 
         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform 
         -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 
         rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 
         peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        for="floating_CancionArtista">
+        for="floating_CancionArtistas">
             Artista(s) agregados: ({{ artistas.length}})
         </label>
     </form>
     <div class="flex flex-wrap">
         <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 
-        rounded dark:bg-blue-900 dark:text-blue-300 mt-4"
-        (click)="eliminarArtista(i)"
+        rounded dark:bg-blue-900 dark:text-blue-300 mt-4 cursor-pointer"
+        (dblclick)="eliminarArtista(i)"
         *ngFor="let artista of artistas; index as i">{{ artista }}</span>
     </div>
 

@@ -17,8 +17,8 @@ export class CrearComponent {
     CancionNombre: ['', [ Validators.required, Validators.minLength(1) ], []],
     CancionTonoOriginal: ['', [ Validators.required, Validators.minLength(1) ], []],
     CancionDuracion: ['', [ Validators.required, Validators.minLength(1) ], []],
-    Artistas: ['', [ Validators.required, Validators.minLength(1) ], []],
-    Generos: ['', [ Validators.required, Validators.minLength(1) ], []],
+    Artistas: [0, [ Validators.required, Validators.min(1) ], []],
+    Generos: [0, [ Validators.required, Validators.min(1) ], []],
     Letra: ['', [ Validators.required, Validators.minLength(1) ], []],
     Links: ['', [ Validators.required, Validators.minLength(1) ], []],
     Baterias: ['', [ Validators.required, Validators.minLength(1) ], []]
@@ -44,6 +44,14 @@ export class CrearComponent {
   //Metodo es llamado desde el elemnto textarea-letra-crear-cancion
   recibirCancion(cancion: CrearLetraCancion){
     this.cancion = cancion
+  }
+
+  seAgregoArtistaDesdeHijo(valor: number){
+    this.formularioCrearCancion.controls['Artistas'].patchValue(valor)
+  }
+
+  seAgregoGeneroDesdeHijo(valor: number){
+    this.formularioCrearCancion.controls['Generos'].patchValue(valor)
   }
 
   //Mostrar validaciones del formulario

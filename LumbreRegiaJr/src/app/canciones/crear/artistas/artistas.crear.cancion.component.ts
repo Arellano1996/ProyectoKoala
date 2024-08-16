@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -7,30 +7,30 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styles: ``
 })
 export class ArtistasCrearCancionComponent {
-    artistas: string[] = []
 
-    formularioArtista: FormGroup = this.fb.group({
+    artistas: string[] = []
+    
+    @Output() agregar = new EventEmitter<number>()
+
+    formularioArtistas: FormGroup = this.fb.group({
         Nombre: ['', [ Validators.required, Validators.minLength(1) ], []]
     })
     
     constructor(private fb: FormBuilder) { }
 
-    //Mostrar validaciones del formulario
-    isValidField( field: string ): boolean | null {
-        return this.formularioArtista.controls[field].errors 
-        && this.formularioArtista.controls[field].touched
-    }
-
     eliminarArtista(index: number){
-        
+        this.artistas.splice(index, 1)
+        this.agregar.emit(this.artistas.length)
     }
-
+    
     onSave(){
-        if(this.formularioArtista.valid){
-            const inputName = this.formularioArtista.controls['Nombre'].value
+        if(this.formularioArtistas.valid){
+            const inputName = this.formularioArtistas.controls['Nombre'].value
             //TODO: No debe haber repetidos, quitar espacios en blanco al inico y final, agregar a arreglo
             this.artistas.push(inputName)
-            this.formularioArtista.controls['Nombre'].patchValue('')
+            this.formularioArtistas.controls['Nombre'].patchValue('')
+            //Si se agrega se manda a Padre
+            this.agregar.emit(this.artistas.length)
         }
     }
 }
