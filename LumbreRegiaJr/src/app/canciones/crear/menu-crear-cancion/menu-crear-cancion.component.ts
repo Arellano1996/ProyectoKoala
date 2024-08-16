@@ -12,7 +12,7 @@ export class MenuCrearCancionComponent {
   estadoMenuHijo = new EventEmitter<number>();
 
   @Input() 
-  cancion: CrearLetraCancion = { Lineas: [], Tamanio: '1rem' };
+  cancion: CrearLetraCancion = { Lineas: [], Tamanio: '1rem', Tono: '' };
   
   //Esta variable sirve para manejar el estado de mi menu, para saber qué opcion está seleccionada al momento de crear una canción; se inicializa en el contructor en la primera opción Letra = 0
   menuCrearCancion: MenuCrearCancion;

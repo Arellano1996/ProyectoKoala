@@ -10,7 +10,7 @@ export class ArtistasCrearCancionComponent {
 
     artistas: string[] = []
     
-    @Output() agregar = new EventEmitter<number>()
+    @Output() agregar = new EventEmitter<string[]>()
 
     formularioArtistas: FormGroup = this.fb.group({
         Nombre: ['', [ Validators.required, Validators.minLength(1) ], []]
@@ -20,7 +20,7 @@ export class ArtistasCrearCancionComponent {
 
     eliminarArtista(index: number){
         this.artistas.splice(index, 1)
-        this.agregar.emit(this.artistas.length)
+        this.agregar.emit(this.artistas)
     }
     
     onSave(){
@@ -30,7 +30,7 @@ export class ArtistasCrearCancionComponent {
             this.artistas.push(inputName)
             this.formularioArtistas.controls['Nombre'].patchValue('')
             //Si se agrega se manda a Padre
-            this.agregar.emit(this.artistas.length)
+            this.agregar.emit(this.artistas)
         }
     }
 }

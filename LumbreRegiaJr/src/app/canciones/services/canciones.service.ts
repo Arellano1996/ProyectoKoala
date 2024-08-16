@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environments } from '../../../environments/environments';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { Cancion, CancionResponse, CrearCancion, CrearCancionResponse } from '../interfaces/canciones.interfaces';
+import { Cancion, CancionesResponse, CrearCancion, CrearCancionResponse } from '../interfaces/canciones.interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class CancionesService {
   
   constructor(private http: HttpClient) { }
 
-  getCanciones():Observable<CancionResponse>{
+  getCanciones():Observable<CancionesResponse>{
     return this.http.get<[Cancion[], number]>(`${ this.baseUrl }/canciones`)
     .pipe(
       map(res => {
@@ -22,7 +22,7 @@ export class CancionesService {
     )
   }
 
-  getCancionesPorTermino(termino: string):Observable<CancionResponse>{
+  getCancionesPorTermino(termino: string):Observable<CancionesResponse>{
     return this.http.get<[Cancion[], number]>(`${ this.baseUrl }/canciones/${ termino }`)
     .pipe(
       map(res => {
@@ -31,8 +31,17 @@ export class CancionesService {
     )
   }
 
+  getCancionesPorCancionId(cancionId: string):Observable<Cancion>{
+    return this.http.get<Cancion>(`${ this.baseUrl }/canciones/${ cancionId }`)
+    .pipe(
+      map(res => {
+        return res
+      })
+    )
+  }
+
   //Por UsuarioId
-  getCancionesPorUsuarioId(usuarioId: string):Observable<CancionResponse>{
+  getCancionesPorUsuarioId(usuarioId: string):Observable<CancionesResponse>{
     return this.http.get<[Cancion[], number]>(`${ this.baseUrl }/canciones/usuario/${ usuarioId }`)
     .pipe(
       map(res => {
@@ -41,7 +50,7 @@ export class CancionesService {
     )
   }
 
-  getCancionesPorUsuarioIdYTermino(usuarioId: string, termino: string):Observable<CancionResponse>{
+  getCancionesPorUsuarioIdYTermino(usuarioId: string, termino: string):Observable<CancionesResponse>{
     return this.http.get<[Cancion[], number]>(`${ this.baseUrl }/canciones/usuario/${ usuarioId }/${ termino }`)
     .pipe(
       map(res => {
@@ -50,7 +59,7 @@ export class CancionesService {
     )
   }
 
-  postCrearCancion(nuevaCancion: CrearCancion){
+  postCrearCancion(nuevaCancion: CrearCancion): Observable<CrearCancionResponse>{
     return this.http.post<CrearCancionResponse>(`${ this.baseUrl }/canciones`, nuevaCancion)
     .pipe(
       map(res => {

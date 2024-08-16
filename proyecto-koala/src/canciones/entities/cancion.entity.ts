@@ -28,6 +28,11 @@ export class Cancion {
         nullable: true
     })
     Tono?: string;
+
+    @Column({
+        nullable: true
+    })
+    BPM?: number;
     
     @Column({
         nullable: true

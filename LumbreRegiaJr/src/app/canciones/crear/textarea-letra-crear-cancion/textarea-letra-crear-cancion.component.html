@@ -7,8 +7,10 @@
     border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 
     focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
     type="text" 
+    (ngModelChange)="onSubmit()"
     name="floating_LetraTono" 
-    id="floating_LetraTono" 
+    id="floating_LetraTono"
+    formControlName="Tono"
     placeholder=" "/>
     <label 
     class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform 

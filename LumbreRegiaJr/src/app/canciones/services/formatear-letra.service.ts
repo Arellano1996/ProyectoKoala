@@ -17,7 +17,7 @@ export class FormatearLetraService {
       SeEstaEditando: false,
       Palabras: [],
     }
-    let nuevaCancion: CrearLetraCancion = { Lineas: [], Tamanio: '1rem' };
+    let nuevaCancion: CrearLetraCancion = { Lineas: [], Tamanio: '1rem', Tono: cancion.Tono };
     
     let i = 0
     nuevaCancion.Lineas = lineas.map( linea => {

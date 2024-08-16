@@ -14,10 +14,11 @@ export class TextareaLetraCrearCancionComponent implements OnInit {
   letraHijo = new EventEmitter<CrearLetraCancion>();
 
   @Input() 
-  cancion: CrearLetraCancion = { Lineas: [], Tamanio: '1rem' };
+  cancion: CrearLetraCancion = { Lineas: [], Tamanio: '1rem', Tono: '' };
   
   public formularioLetra: FormGroup = this.fb.group({
-    Letra: [``]
+    Letra: [``],
+    Tono: ['', []]
   })
 
   constructor(private fb: FormBuilder,
@@ -29,20 +30,24 @@ export class TextareaLetraCrearCancionComponent implements OnInit {
     if(this.cancion.Lineas.length > 0){
       const texto = this.formatearLetraService.convertirCancionEnTexto({ ...this.cancion })
       this.formularioLetra.controls['Letra'].patchValue(texto)
+      this.formularioLetra.controls['Tono'].patchValue(this.cancion.Tono)
     }
   }
   
   onSubmit(){
     const letraInput = this.formularioLetra.controls['Letra'].value.trim()
+    const tonoInput = this.formularioLetra.controls['Tono'].value.trim()
     
     if(!letraInput) {
-      this.cancion =  { Lineas: [], Tamanio: '1rem' };
+      this.cancion =  { Lineas: [], Tamanio: '1rem', Tono: '' };
       this.letraHijo.emit(this.cancion)
       return
     }
+
+    this.cancion.Tono = tonoInput
     //Formateamos nuestra letra que esta en nuestro textarea
     this.cancion = { ...this.formatearLetraService.serializarTexto(letraInput, this.cancion) }
-    
+
     //La letra formateada la mandamos a nuestro elemento padre
     this.letraHijo.emit(this.cancion)
   }

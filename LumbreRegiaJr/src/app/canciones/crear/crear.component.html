@@ -22,39 +22,41 @@ autocomplete="off">
         rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 
         peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
         for="floating_CancionNombre">
-            Nombre:
+        Nombre:
         </label>
         <span class="text-red-500" *ngIf="isValidField('CancionNombre')">Nombre está vacío</span>
     </div>
 
-    <div class="relative z-0 w-1/2 mb-5 group">
-        <input 
-        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
-        border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 
-        focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
-        type="text" 
-        name="floating_CancionTono" 
-        id="floating_CancionTono" 
-        placeholder=" "/>
-        <label 
-        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform 
-        -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 
-        rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 
-        peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        for="floating_CancionTono">
-            Tono original:
-        </label>
-        <span class="text-red-500" *ngIf="isValidField('CancionTonoOriginal')">Tono está vacío</span>
-    </div>
+<div class="relative z-0 w-1/2 mb-5 group">
+    <input 
+    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
+    border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 
+    focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
+    type="text" 
+    formControlName="CancionTonoOriginal"
+    name="floating_CancionTono" 
+    id="floating_CancionTono" 
+    placeholder=" "/>
+    <label 
+    class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform 
+    -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 
+    rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 
+    peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+    for="floating_CancionTono">
+    Tono original:
+</label>
+<span class="text-red-500" *ngIf="isValidField('CancionTonoOriginal')">Tono está vacío</span>
+</div>
 
-    <div class="relative z-0 w-1/2 mb-5 group">
-        <input 
-        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
-        border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 
-        focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
-        type="text" 
-        name="floating_CancionDuracion" 
-        id="floating_CancionDuracion" 
+<div class="relative z-0 w-1/2 mb-5 group">
+    <input 
+    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
+    border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 
+    focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
+    type="text" 
+    formControlName="CancionDuracion"
+    name="floating_CancionDuracion" 
+    id="floating_CancionDuracion" 
         placeholder=" "/>
         <label 
         class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform 
@@ -65,6 +67,26 @@ autocomplete="off">
             Duración:
         </label>
         <span class="text-red-500" *ngIf="isValidField('CancionDuracion')">Duración está vacío</span>
+    </div>
+
+    <div class="relative z-0 w-1/2 mb-5 group">
+        <input 
+        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 
+        border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 
+        focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
+        type="text" 
+        formControlName="CancionBPM"
+        name="floating_CancionBPM" 
+        id="floating_CancionBPM" 
+        placeholder=" "/>
+        <label 
+        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform 
+        -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 
+        rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 
+        peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+        for="floating_CancionBPM">
+            BPM:
+        </label>
     </div>
 
     <app-artistas-crear-cancion (agregar)="seAgregoArtistaDesdeHijo($event)"></app-artistas-crear-cancion>
@@ -90,7 +112,7 @@ autocomplete="off">
         <span class="text-red-500" *ngIf="isValidField('Letra')">Letra está vacío</span>
     </div>
 </div>
-    <button class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+    <button type="submit" class="inline-flex items-center px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
         Crear Canción
     </button>
  </form>

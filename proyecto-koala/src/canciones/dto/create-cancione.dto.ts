@@ -1,6 +1,6 @@
 //#region imports
 import { Type } from "class-transformer";
-import { IsArray, IsNotEmpty, IsOptional, IsString, IsUUID, MinLength, Validate, ValidateNested } from "class-validator";
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, MinLength, Validate, ValidateNested } from "class-validator";
 import { Artista } from "src/artistas/entities/artistas.entity";
 import { validarQueElUuidUsuarioExista } from "src/common/validations/validarQueElUuidUsuarioExista";
 import { Genero } from "src/generos/entities/genero.entity";
@@ -12,6 +12,7 @@ import { CreateCancioneLetraDto } from "./create-cancion-letra.dto";
 import { asignarUsuarioParaCancionLetra } from "src/common/validations/asignarUsuarioParaCancionLetra";
 import { CreateCancionBateriaDto } from "./create-cancion-bateria.dto";
 import { asignarUsuarioParaCancionBateria } from "../validations/asignarUsuarioParaCancionBateria";
+import { IsNull } from "typeorm";
 //#endregion imports
 
 export class CreateCancioneDto {
@@ -28,6 +29,11 @@ export class CreateCancioneDto {
     @MinLength(1)
     @IsOptional()
     Tono?: string;
+
+    @IsNumber()
+    @MinLength(1)
+    @IsOptional()
+    BPM?: number;
     
     @IsString()
     @MinLength(1)

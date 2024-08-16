@@ -10,28 +10,31 @@ export interface Cancion {
     Nombre:    string;
     Slug:      string;
     Tono:      string;
+    BPM?: number
     Duracion:  string;
     Artistas:  Artista[];
     Generos:   Genero[];
+    Letras:    Letra[];
     // Links:     Link[];
-    // Letras:    Letra[];
 }
 //index resoponse
-export interface CancionResponse {
+export interface CancionesResponse {
     Canciones: Cancion[],
     Total: number
 }
+
 //Crear Cancion
 export interface CrearCancion {
     UsuarioId: string
-    Nombre:    string
-    Tono?:      string
+    Nombre: string
+    Tono?: string
     Duracion?: string
-    Generos:   CrearGenero[]
-    Artistas:  CrearArtista[]
-    Links?:     CrearCancionLink[]
-    Letras:    CrearCancionLetra[]
-    Baterias: CrearCancionBateria[]
+    BPM?: number
+    Letras: CrearCancionLetra[]
+    Artistas: CrearArtista[]
+    Generos: CrearGenero[]
+    Links?: CrearCancionLink[]
+    Baterias?: CrearCancionBateria[]
 }
 export interface CrearCancionResponse {
     CancionId: string

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { CancionResponse } from '../interfaces/canciones.interfaces';
+import { CancionesResponse } from '../interfaces/canciones.interfaces';
 import { CancionesService } from '../services/canciones.service';
 import { AppComponent } from '../../app.component';
 import { Configuracion } from '../../shared/services/interfaces/tabla-canciones.interfaces';
@@ -13,11 +13,11 @@ import { BuscarComponent } from './buscar/buscar.component';
 })
 export class IndiceComponent extends AppComponent implements OnInit {
   
-  public cancionesReponse: CancionResponse = { Canciones: [], Total: 0 };
+  public cancionesReponse: CancionesResponse = { Canciones: [], Total: 0 };
   @ViewChild('buscar') buscarComponent!: BuscarComponent;
   configuracion: Configuracion;
 
-  usuarioId = 'b5fbda91-bbb2-4e79-82fb-9b4e6e2ad2ba'
+  usuarioId = 'e26ccc45-caf4-4407-b7c0-a02705eb6cc9'
 
   constructor(private cancionesService: CancionesService,
     private configuracionPaginaService: ConfiguracionPaginaService

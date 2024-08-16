@@ -13,8 +13,8 @@ export interface CrearCancionLetra {
     Letra:           string;
     Tono?: string;
     //Comentarios se va a eliminar
-    Comentarios:     Comentario[];
-    Configuraciones: Configuracione[];
+    //Comentarios:     Comentario[];
+    //Configuraciones: Configuracione[];
 }
 
 export interface CrearLetra {

@@ -16,17 +16,17 @@ export async function CancionesConEntidadesPorUUIDoTermino(termino: string){
 
     if (isUUID(termino)) 
     {
-        return await repository.findAndCount({
+        return await repository.findOne({
             where: { CancionId: termino },
             relations: {
                 Artistas: true,
                 Generos: true,
                 // Links: true,
                 // Baterias: true,
-                // Letras: {
-                //     Comentarios: true,
-                //     Configuraciones: true
-                // }
+                Letras: {
+                    Comentarios: true,
+                    Configuraciones: true
+                }
             }
         })
     }

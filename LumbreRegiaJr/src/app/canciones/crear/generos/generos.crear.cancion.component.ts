@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class GenerosCrearCancionComponent {
     generos: string[] = []
 
-    @Output() agregar = new EventEmitter<number>()
+    @Output() agregar = new EventEmitter<string[]>()
     
     formularioGeneros: FormGroup = this.fb.group({
         Nombre: ['', [ Validators.required, Validators.minLength(1) ], []]
@@ -18,7 +18,7 @@ export class GenerosCrearCancionComponent {
 
     eliminarGenero(index: number){
         this.generos.splice(index, 1)
-        this.agregar.emit(this.generos.length)
+        this.agregar.emit(this.generos)
     }
     
     onSave(){
@@ -27,7 +27,7 @@ export class GenerosCrearCancionComponent {
             //TODO: No debe haber repetidos, quitar espacios en blanco al inico y final, agregar a arreglo
             this.generos.push(inputName)
             this.formularioGeneros.controls['Nombre'].patchValue('')
-            this.agregar.emit(this.generos.length)
+            this.agregar.emit(this.generos)
         }
     }
 }

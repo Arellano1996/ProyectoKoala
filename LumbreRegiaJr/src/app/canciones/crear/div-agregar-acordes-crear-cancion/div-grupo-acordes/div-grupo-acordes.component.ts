@@ -16,7 +16,7 @@ export class ToolTipAcordesComponent {
     SeEstaEditando: false
   };
 
-  @Input() cancion: CrearLetraCancion = { Lineas: [], Tamanio: '1rem' };
+  @Input() cancion: CrearLetraCancion = { Lineas: [], Tamanio: '1rem', Tono: '' };
 
   activePopover: string = ''
   togglePopover(index: string, index2: string): void {

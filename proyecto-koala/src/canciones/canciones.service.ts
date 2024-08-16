@@ -93,12 +93,15 @@ export class CancionesService extends erroresHandler {
       );//Si en la base de datos ya existe un genero con el mismo nombre trae esa referencia, de lo contrario crea el nuevo dato
 
       //Revisar si ya existen las baterias
-      const baterias = await createOrGetExistingEntities(
-        this.repositoryBateria,//Se envia el repositorio
-        Baterias.map(bateria => ({ ...bateria } as CreateBateriaDto)),//Se manda uno por uno el objeto tipo DTO; *Se usa operador de propagación
-        bateria => ({ Nombre: bateria.Nombre, UsuarioId: bateria.Usuario.UsuarioId }),//Criterio por el cuál se va a comprar si hay otro resultado con el mismo valor, en este caso si hay otro resultado con el mismo Nomnbre y UsuarioId
-        'bateria'//Nombre de la tabla
-      );//Si en la base de datos ya existe un genero con el mismo nombre trae esa referencia, de lo contrario crea el nuevo dato
+      let baterias = []
+      if(Baterias){
+        baterias = await createOrGetExistingEntities(
+          this.repositoryBateria,//Se envia el repositorio
+          Baterias.map(bateria => ({ ...bateria } as CreateBateriaDto)),//Se manda uno por uno el objeto tipo DTO; *Se usa operador de propagación
+          bateria => ({ Nombre: bateria.Nombre, UsuarioId: bateria.Usuario.UsuarioId }),//Criterio por el cuál se va a comprar si hay otro resultado con el mismo valor, en este caso si hay otro resultado con el mismo Nomnbre y UsuarioId
+          'bateria'//Nombre de la tabla
+        );//Si en la base de datos ya existe un genero con el mismo nombre trae esa referencia, de lo contrario crea el nuevo dato
+      }
 
       const usuario = await this.repositoryUsuario.findOneBy({ UsuarioId }) 
       //Esta variable guarda todo el objeto de Cancion incluyendo uuid, es necesaria para guardar la información en la base de datos
@@ -107,7 +110,7 @@ export class CancionesService extends erroresHandler {
         UsuarioId,
         Generos: generos,
         Artistas: artistas,
-        Links: Links.map( link => this.repositoryLink.create( link )),
+        Links: (Links) ? Links.map( link => this.repositoryLink.create( link )) : [],
         Letras: Letras.map( ({ Comentarios, Configuraciones, ...resto}) => this.repositoryLetra.create({
           ...resto,
           Comentarios: Comentarios.map( comentario => this.repositoryComentariosLetra.create({ 
