@@ -1,6 +1,9 @@
+import { Menu_Letra } from "../../../letras/interfaces/menu.letra.interface";
+
 export interface Configuracion
 {
     Tabla_Canciones: Tabla_Canciones,
+    Menu_Letra: Menu_Letra,
     OcultarCancionesDeOtrosUsuarios: boolean;
 }
 

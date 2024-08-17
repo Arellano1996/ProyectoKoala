@@ -5,7 +5,7 @@ import { Usuario } from "../../usuario/interfaces/usuario.interfaces";
 export interface Letra {
     LetraId:         string;
     Letra:           string;
-    Acordes:         null | string;
+    Tono:         string;
     Comentarios:     Comentario[];
     Configuraciones: Configuracione[];
     Usuario: Usuario

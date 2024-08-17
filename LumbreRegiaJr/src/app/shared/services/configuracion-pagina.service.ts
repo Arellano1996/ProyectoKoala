@@ -14,6 +14,12 @@ export class ConfiguracionPaginaService {
       BPM: true,
       Duracion: true,
     },
+    Menu_Letra: {
+      Letra: true,
+      Acordes: true,
+      Comentarios: true,
+      Configuraciones: true
+    },
     OcultarCancionesDeOtrosUsuarios: true
   }
 
