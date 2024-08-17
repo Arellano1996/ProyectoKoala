@@ -6,7 +6,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-crear',
+  selector: 'app-artista-crear',
   templateUrl: './crear.component.html',
   styles: ``
 })

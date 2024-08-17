@@ -7,7 +7,7 @@ import { ConfiguracionPaginaService } from '../../shared/services/configuracion-
 import { BuscarComponent } from './buscar/buscar.component';
 
 @Component({
-  selector: 'app-indice',
+  selector: 'app-cancion-indice',
   templateUrl: './indice.component.html',
   styleUrl: './indice.component.css'
 })

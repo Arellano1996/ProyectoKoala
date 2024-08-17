@@ -3,7 +3,7 @@ import { ArtistaResponse } from '../interfaces/artistas.interface';
 import { ArtistasService } from '../services/artistas.service';
 
 @Component({
-  selector: 'app-indice',
+  selector: 'app-artista-indice',
   templateUrl: './indice.component.html',
   styles: ``
 })

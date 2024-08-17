@@ -26,6 +26,10 @@ const routes: Routes = [
         loadChildren: () => import('./canciones/canciones.module').then(m => m.CancionesModule)
       },
       {
+        path: 'letras',
+        loadChildren: () => import('./letras/letras.module').then(l => l.LetrasModule)
+      },
+      {
         path: 'usuarios',
         loadChildren: () => import('./usuarios/usuarios.module').then(u => u.UsuariosModule)
       },

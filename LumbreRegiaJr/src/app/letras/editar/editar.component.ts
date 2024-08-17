@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-editar',
+  selector: 'app-letra-editar',
   templateUrl: './editar.component.html',
   styles: ``
 })

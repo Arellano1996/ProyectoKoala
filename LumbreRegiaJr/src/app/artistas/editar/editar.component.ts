@@ -5,7 +5,7 @@ import { ArtistasService } from '../services/artistas.service';
 import { catchError, of, tap } from 'rxjs';
 
 @Component({
-  selector: 'app-editar',
+  selector: 'app-artista-editar',
   templateUrl: './editar.component.html',
   styles: ``
 })

@@ -11,7 +11,7 @@ import { Route, Router } from '@angular/router';
 //import { initFlowbite } from 'flowbite';
 
 @Component({
-  selector: 'app-crear',
+  selector: 'app-cancion-crear',
   templateUrl: './crear.component.html',
   styles: ``
 })
