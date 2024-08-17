@@ -21,7 +21,8 @@ export async function LetraConEntidadesPorUUID(termino: string){
             },
             relations: {
                 Comentarios: true,
-                Configuraciones: true
+                Configuraciones: true,
+                Usuario: true
             }
         })
     }
