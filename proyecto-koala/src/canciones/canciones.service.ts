@@ -247,7 +247,8 @@ export class CancionesService extends erroresHandler {
       .where('cancion.CancionId = :cancionid', { cancionid: cancionId })
       .select([
         'cancion.Nombre',
-        'artistas.Nombre'
+        'artistas.Nombre',
+        // 'cancion.UsuarioId'
       ])
       .getOne();
       

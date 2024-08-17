@@ -1,5 +1,4 @@
-import { IsUUID, Validate } from "class-validator";
-import { validarSiExisteCancionConstraint } from "../validations/validarSiExisteCancionConstraint";
+import { IsUUID } from "class-validator";
 import { validarSiExisteCancion } from "../validations/validarSiExisteCancion";
 
 export class updateCancionParamsDto {

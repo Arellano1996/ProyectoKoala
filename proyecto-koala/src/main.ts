@@ -15,8 +15,9 @@ async function bootstrap() {
   )
 
   app.use(cors({
+    origin: 'http://proyecto-koala.com', // Reemplaza con el origen de tu aplicación Angular
     // origin: 'http://localhost:4200', // Reemplaza con el origen de tu aplicación Angular
-    origin: 'http://192.168.100.221:4200', // Reemplaza con el origen de tu aplicación Angular
+    //origin: 'http://192.168.100.221:4200', // Reemplaza con el origen de tu aplicación Angular
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   }));

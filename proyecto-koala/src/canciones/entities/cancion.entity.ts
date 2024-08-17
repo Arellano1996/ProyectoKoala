@@ -30,9 +30,9 @@ export class Cancion {
     Tono?: string;
 
     @Column({
-        nullable: true
+        nullable: true,
     })
-    BPM?: number;
+    BPM?: string;
     
     @Column({
         nullable: true

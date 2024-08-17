@@ -3,7 +3,8 @@ import { CancionesService } from './canciones.service';
 import { CreateCancioneDto } from './dto/create-cancione.dto';
 import { UpdateCancioneDto } from './dto/update-cancione.dto';
 import { PaginationDto } from 'src/common/paginacion.dto';
-import { updateCancionParamsDto } from './dto/update.cancion.params.dto';
+import { deleteCancionParamsDto } from './dto/delete.cancion.params.dto';
+import { updateCancionParamsDto } from './dto/update.cancion.params.dto copy';
 
 @Controller('canciones')
 export class CancionesController {
@@ -31,9 +32,9 @@ export class CancionesController {
     return this.cancionesService.update(id, updateCancioneDto);
   }
 
-  @Delete(':id')
-  remove(@Param() { id }: updateCancionParamsDto) {
-    return this.cancionesService.remove(id);
+  @Delete(':cancionId/:usuarioId')
+  remove(@Param() { cancionId, usuarioId }: deleteCancionParamsDto) {
+    return this.cancionesService.remove(cancionId);
   }
 
   //Canciones por UsuarioId

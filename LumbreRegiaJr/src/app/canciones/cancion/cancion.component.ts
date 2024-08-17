@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CancionesService } from '../services/canciones.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Cancion } from '../interfaces/canciones.interfaces';
 import { isUUID } from 'validator';
 
@@ -10,6 +10,8 @@ import { isUUID } from 'validator';
   styles: ``
 })
 export class CancionComponent {
+
+  private router = inject(Router)
 
   public cancionResponse: Cancion = { 
     CancionId: '',
@@ -44,6 +46,16 @@ export class CancionComponent {
         console.log( this.cancionResponse )
       }
     });
+  }
+
+  eliminarCancion(){
+    this.cancionService.deleteBorrarCancion(this.uuid!, 'e26ccc45-caf4-4407-b7c0-a02705eb6cc9' )
+    .subscribe({
+      next: res => { 
+        this.router.navigate([`/canciones`])
+      },
+      error: res => { console.log( res )}
+    })
   }
 
 }

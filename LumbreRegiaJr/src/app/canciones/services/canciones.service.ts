@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environments } from '../../../environments/environments';
-import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
-import { Cancion, CancionesResponse, CrearCancion, CrearCancionResponse } from '../interfaces/canciones.interfaces';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, map, Observable, of } from 'rxjs';
+import { BorrarCancion, BorrarCancionResponse, Cancion, CancionesResponse, CrearCancion, CrearCancionResponse } from '../interfaces/canciones.interfaces';
+import { RespuestaError } from '../../shared/interfaces/respuesta.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -62,9 +63,15 @@ export class CancionesService {
   postCrearCancion(nuevaCancion: CrearCancion): Observable<CrearCancionResponse>{
     return this.http.post<CrearCancionResponse>(`${ this.baseUrl }/canciones`, nuevaCancion)
     .pipe(
-      map(res => {
-        return res;
-      })
+      res => { return res }
+    )
+  }
+
+  deleteBorrarCancion(cancionId: string, usuarioId: string): Observable<BorrarCancionResponse> {
+    const url = `${this.baseUrl}/canciones/${cancionId}/${usuarioId}`;
+    return this.http.delete<BorrarCancionResponse>(url)
+    .pipe(
+      res => { return res }
     )
   }
 }

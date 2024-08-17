@@ -1,7 +1,7 @@
 import { Artista, CrearArtista } from "../../artistas/interfaces/artistas.interface";
 import { CrearGenero, Genero } from "../../generos/interfaces/generos.interfaces";
-import { CrearCancionLetra, CrearLetra, Letra } from "../../letras/interfaces/letras.interfaces";
-import { CrearCancionLink, CrearLink, Link } from "../../links/interfaces/links.interfaces";
+import { CrearCancionLetra, Letra } from "../../letras/interfaces/letras.interfaces";
+import { CrearCancionLink } from "../../links/interfaces/links.interfaces";
 import { Usuario } from "../../usuario/interfaces/usuario.interfaces";
 //index
 export interface Cancion {
@@ -48,6 +48,10 @@ export interface CrearCancionResponse {
 
 //Borrar Cancion
 export interface BorrarCancion {
+    UsuarioId:    string
+}
+
+export interface BorrarCancionResponse {
     Nombre:    string;
     Artistas:  Artista[];
 }

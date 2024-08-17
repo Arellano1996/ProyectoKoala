@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { CrearLetraCancion } from '../interfaces/crear.cancion.interfaces';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CancionesService } from '../services/canciones.service';
-import { CrearCancion } from '../interfaces/canciones.interfaces';
+import { CrearCancion, CrearCancionResponse } from '../interfaces/canciones.interfaces';
 import { FormatearLetraService } from '../services/formatear-letra.service';
 import { CrearCancionLetra } from '../../letras/interfaces/letras.interfaces';
 import { CrearArtista } from '../../artistas/interfaces/artistas.interface';
 import { CrearGenero } from '../../generos/interfaces/generos.interfaces';
 import { Route, Router } from '@angular/router';
+import { RespuestaError } from '../../shared/interfaces/respuesta.interface';
 //import { initFlowbite } from 'flowbite';
 
 @Component({
@@ -21,7 +22,7 @@ export class CrearComponent {
     CancionNombre: ['', [ Validators.required, Validators.minLength(1) ], []],
     CancionTonoOriginal: ['', [ Validators.required, Validators.minLength(1) ], []],
     CancionDuracion: ['', [ Validators.required, Validators.minLength(1) ], []],
-    CancionBPM: ['', []],
+    CancionBPM: [],
     Artistas: [0, [ Validators.required, Validators.min(1) ], []],
     Generos: [0, [ Validators.required, Validators.min(1) ], []],
     Letra: ['', []],
@@ -97,7 +98,7 @@ export class CrearComponent {
 
 
     let nuevaCancion: CrearCancion = {
-      UsuarioId: '7312787d-06d8-4d52-8674-44fcfe95798d',
+      UsuarioId: 'e26ccc45-caf4-4407-b7c0-a02705eb6cc9',
       Nombre: this.formularioCrearCancion.controls['CancionNombre'].value,
       Tono: this.formularioCrearCancion.controls['CancionTonoOriginal'].value,
       Duracion: this.formularioCrearCancion.controls['CancionDuracion'].value,
@@ -109,10 +110,14 @@ export class CrearComponent {
       //Baterias: []
     }
 
-    console.log(nuevaCancion)
-    this.cancionService.postCrearCancion(nuevaCancion).subscribe(res => {
-     console.log(res)
-     this.router.navigate([`/canciones/${ res.CancionId }`])
+    this.cancionService.postCrearCancion(nuevaCancion).subscribe({
+      next: res => {
+        console.log(res)
+        this.router.navigate([`/canciones/${ res.CancionId }`])
+      },
+      error: err => {
+        console.log( err.error as RespuestaError ) 
+      }
     })
-  }  
+  }
 }
