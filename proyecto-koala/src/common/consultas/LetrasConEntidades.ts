@@ -15,7 +15,8 @@ export async function LetrasConEntidades(){
     return await repository.findAndCount({
         relations: {
             Comentarios: true,
-            Configuraciones: true
+            Configuraciones: true,
+            Usuario: true
         }
     })
 }

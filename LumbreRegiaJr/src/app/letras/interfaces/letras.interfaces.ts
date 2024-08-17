@@ -1,5 +1,6 @@
 import { Comentario } from "../../comentarios-letras/interfaces/comentarios.interfaces";
 import { Configuracione } from "../../configuraciones-letras/interfaces/configuraciones.interfaces";
+import { Usuario } from "../../usuario/interfaces/usuario.interfaces";
 
 export interface Letra {
     LetraId:         string;
@@ -7,6 +8,7 @@ export interface Letra {
     Acordes:         null | string;
     Comentarios:     Comentario[];
     Configuraciones: Configuracione[];
+    Usuario: Usuario
 }
 
 export interface CrearCancionLetra {

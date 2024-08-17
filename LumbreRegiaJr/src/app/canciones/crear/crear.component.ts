@@ -97,7 +97,7 @@ export class CrearComponent {
 
 
     let nuevaCancion: CrearCancion = {
-      UsuarioId: 'e26ccc45-caf4-4407-b7c0-a02705eb6cc9',
+      UsuarioId: '7312787d-06d8-4d52-8674-44fcfe95798d',
       Nombre: this.formularioCrearCancion.controls['CancionNombre'].value,
       Tono: this.formularioCrearCancion.controls['CancionTonoOriginal'].value,
       Duracion: this.formularioCrearCancion.controls['CancionDuracion'].value,

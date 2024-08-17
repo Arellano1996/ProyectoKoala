@@ -25,7 +25,8 @@ export async function CancionesConEntidadesPorUUIDoTermino(termino: string){
                 // Baterias: true,
                 Letras: {
                     Comentarios: true,
-                    Configuraciones: true
+                    Configuraciones: true,
+                    Usuario: true
                 }
             }
         })

@@ -25,7 +25,9 @@ export class Usuario {
     })
     Correo: string;
 
-    @Column()
+    @Column({
+        select: false
+    })
     Contrasena: string;
 
     @Column({

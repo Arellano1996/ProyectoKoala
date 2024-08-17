@@ -17,7 +17,7 @@ export class IndiceComponent extends AppComponent implements OnInit {
   @ViewChild('buscar') buscarComponent!: BuscarComponent;
   configuracion: Configuracion;
 
-  usuarioId = 'e26ccc45-caf4-4407-b7c0-a02705eb6cc9'
+  usuarioId = '7312787d-06d8-4d52-8674-44fcfe95798d'
 
   constructor(private cancionesService: CancionesService,
     private configuracionPaginaService: ConfiguracionPaginaService
