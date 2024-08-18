@@ -1,6 +1,6 @@
 <app-letra-menu></app-letra-menu>
 
-<div class="flex p-2 {{ linea.Color }} text-sm" *ngFor="let linea of cancion.Lineas; index as i">
+<div class="flex p-2 {{ obtenerColor(linea.Color) }} text-sm" *ngFor="let linea of cancion.Lineas; index as i">
     
     
     <app-palabra-letra class="flex grow flex-wrap"

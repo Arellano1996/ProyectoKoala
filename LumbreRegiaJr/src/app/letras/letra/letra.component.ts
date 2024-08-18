@@ -5,6 +5,7 @@ import { LetrasService } from '../service/letras.service';
 import { Letra } from '../interfaces/letras.interfaces';
 import { FormatearLetraService } from '../../canciones/services/formatear-letra.service';
 import { CrearLetraCancion } from '../../canciones/interfaces/crear.cancion.interfaces';
+import { ObtenerColorService } from '../service/obtener-color.service';
 
 @Component({
   selector: 'app-letra',
@@ -25,7 +26,7 @@ export class LetraComponent {
   
   private letrasService = inject(LetrasService);
   private route = inject(ActivatedRoute);
-  private formatearLetra = inject(FormatearLetraService)
+  private colorService = inject(ObtenerColorService)
 
 ngOnInit(): void {
   this.uuid = this.route.snapshot.paramMap.get('id');
@@ -42,6 +43,10 @@ ngOnInit(): void {
       this.cancion = parsedLetra
     }
   });
+}
+
+obtenerColor(codigo: string){
+  return this.colorService.obtenerColor(codigo)
 }
 
 }

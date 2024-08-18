@@ -253,7 +253,7 @@ export class CancionesService extends erroresHandler {
       .getOne();
       
       //Eliminamos la intancia de la canción
-      await this.repository.remove(cancion)
+      //await this.repository.remove(cancion)
 
       //Y mostramos la información relevante de la canción al usuario
       return _cancion
