@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { isUUID } from 'validator';
 import { LetrasService } from '../service/letras.service';
 import { Letra } from '../interfaces/letras.interfaces';
+import { FormatearLetraService } from '../../canciones/services/formatear-letra.service';
+import { CrearLetraCancion } from '../../canciones/interfaces/crear.cancion.interfaces';
 
 @Component({
   selector: 'app-letra',
@@ -12,13 +14,18 @@ import { Letra } from '../interfaces/letras.interfaces';
 export class LetraComponent {
 
   letra!: Letra;
+  cancion: CrearLetraCancion = {
+    Tamanio: '',
+    Tono: '',
+    Lineas: []
+  }
 
   uuid: string | null = '';
   uuidValido: Boolean = false;
   
   private letrasService = inject(LetrasService);
   private route = inject(ActivatedRoute);
-
+  private formatearLetra = inject(FormatearLetraService)
 
 ngOnInit(): void {
   this.uuid = this.route.snapshot.paramMap.get('id');
@@ -31,7 +38,8 @@ ngOnInit(): void {
     //console.log(artistas)
     if(letra != null){
       this.letra = letra
-      console.log( this.letra )
+      const parsedLetra: CrearLetraCancion = JSON.parse(letra.Letra);
+      this.cancion = parsedLetra
     }
   });
 }

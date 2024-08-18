@@ -1,10 +1,12 @@
 <form [formGroup]="formularioCancion" autocomplete="off">
   <!-- Aqui se tiene que tomar la canción actual y se va a pintar linea por linea -->
   <!-- <div class="flex hover:bg-sky-50 p-2" *ngFor="let lineas of cancion.Lineas; index as i"> -->
-  <div class="flex hover:bg-sky-50 p-2" *ngFor="let linea of cancion.Lineas; index as i">
+  <div class="flex hover:bg-sky-50 rounded-lg p-2 {{ (linea.Color === '0' || linea.Color === '' ) ? 'text-balck' : 'text-yellow-600' }}" 
+  (dblclick)="cambiarColorLinea(i)"
+  *ngFor="let linea of cancion.Lineas; index as i">
     
     
-    <app-palabra class="flex grow hover:bg-sky-50 flex-wrap"
+    <app-palabra class="flex grow flex-wrap"
     *ngIf="!linea.SeEstaEditando && linea.Palabras.length > 0 && !linea.Palabras[0].Palabra.startsWith('@')"
     [Linea]="linea" [i]="i" [cancion]="cancion"></app-palabra>
     

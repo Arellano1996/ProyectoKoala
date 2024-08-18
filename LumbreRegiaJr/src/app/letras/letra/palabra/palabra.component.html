@@ -1,0 +1,22 @@
+<!-- <div class="flex grow hover:bg-sky-50 flex-wrap"> -->
+    <div class="relative mr-1 text-center content-center cursor-pointer rounded-lg"
+    *ngFor="let linea of Linea.Palabras; index as x">
+    <!-- Botón que activa el popover -->
+    <!-- Nuesto popover tiene un evento en el elmento raiz que al tocarlo aparece o desaparece -->
+      <div class="relative cursor-default mb-3
+      {{ linea.Palabra.includes('*') ? 'text-white cursor-default select-none' : '' }}">
+        {{ linea.Palabra }}
+        <!-- <span *ngIf="linea.Acorde.Posicion === 0" class="absolute left-0 top-[-1.25rem] transform -translate-x-full">{{ linea.Acorde.Acorde }}</span> Aqui esta fuera al lado izquierdo -->
+        <span *ngIf="linea.Acorde.Posicion === 0" 
+        class="absolute left-0 top-[-1.25rem] transform -translate-x-1/2 font-semibold hover:text-blue-400 
+        {{colorAcorde}}">{{ linea.Acorde.Acorde }}</span> <!-- Aqui esta un poco metido a la izquierda -->
+        <span *ngIf="linea.Acorde.Posicion === 1" 
+        class="absolute left-1/2 top-[-1.25rem] transform -translate-x-1/2 font-semibold hover:text-blue-400 
+        {{colorAcorde}}">{{ linea.Acorde.Acorde }}</span> <!-- Aqui esta en el centro -->
+        <span *ngIf="linea.Acorde.Posicion === 2" 
+        class="absolute right-0 top-[-1.25rem] transform translate-x-1/2 font-semibold hover:text-blue-400 
+        {{colorAcorde}}">{{ linea.Acorde.Acorde }}</span> <!-- Aqui esta un poco metido a la derecho -->
+        
+      </div>
+    </div>
+<!-- </div> -->

@@ -58,10 +58,11 @@ export class DivAgregarAcordesCrearCancionComponent {
     this.seEstaEditantoUnaLinea = { bool: false, linea: indice }
   }
   
-  
-  
-  
-  
+  cambiarColorLinea(indice: number){
+    console.log( this.cancion.Lineas[indice].Color )
+    if(this.cancion.Lineas[indice].Color === '') this.cancion.Lineas[indice].Color = '1'
+    else this.cancion.Lineas[indice].Color = (this.cancion.Lineas[indice].Color === '0') ? '1' : '0'
+  }
 
   test(){
     console.log( this.cancion )

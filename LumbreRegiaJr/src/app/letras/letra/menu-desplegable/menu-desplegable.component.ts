@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener, inject } from '@angular/core';
 import { Menu_Letra } from '../../interfaces/menu.letra.interface';
 import { ConfiguracionPaginaService } from '../../../shared/services/configuracion-pagina.service';
 import { Configuracion } from '../../../shared/services/interfaces/tabla-canciones.interfaces';
@@ -10,6 +10,7 @@ import { Configuracion } from '../../../shared/services/interfaces/tabla-cancion
 })
 export class MenuDesplegableComponent {
 
+  private elementRef = inject(ElementRef)
   isMenuOpen = false;
   configuracion : Configuracion;
 
@@ -19,6 +20,13 @@ export class MenuDesplegableComponent {
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+  
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event) {
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.isMenuOpen = false;
+    }
   }
   
   onCheckboxChange(event: Event, option: keyof Menu_Letra): void {

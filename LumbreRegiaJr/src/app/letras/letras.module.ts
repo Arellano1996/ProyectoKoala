@@ -8,6 +8,8 @@ import { EditarComponent } from './editar/editar.component';
 import { IndiceComponent } from './indice/indice.component';
 import { MenuComponent } from './letra/menu/menu.component';
 import { MenuDesplegableComponent } from './letra/menu-desplegable/menu-desplegable.component';
+import { PalabraComponent } from './letra/palabra/palabra.component';
+import { GrupoAcordesComponent } from './letra/grupo-acordes/grupo-acordes.component';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import { MenuDesplegableComponent } from './letra/menu-desplegable/menu-desplega
     EditarComponent,
     IndiceComponent,
     MenuComponent,
-    MenuDesplegableComponent
+    MenuDesplegableComponent,
+    PalabraComponent,
+    GrupoAcordesComponent
   ],
   imports: [
     CommonModule,

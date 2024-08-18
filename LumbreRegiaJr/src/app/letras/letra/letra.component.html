@@ -1,3 +1,18 @@
 <app-letra-menu></app-letra-menu>
 
-contenido
+<div class="flex p-2 {{ linea.Color }} text-sm" *ngFor="let linea of cancion.Lineas; index as i">
+    
+    
+    <app-palabra-letra class="flex grow flex-wrap"
+    *ngIf="!linea.SeEstaEditando && linea.Palabras.length > 0 && !linea.Palabras[0].Palabra.startsWith('@')"
+    [Linea]="linea" [i]="i" [cancion]="cancion"></app-palabra-letra>
+    
+    <app-grupo-acordes-letras class="flex grow flex-wrap" 
+    *ngIf="!linea.SeEstaEditando && (linea.Palabras.length === 0 || linea.Palabras[0].Palabra.startsWith('@') )"
+    [Linea]="linea" [i]="i"></app-grupo-acordes-letras>
+
+
+   
+
+    
+  </div>
