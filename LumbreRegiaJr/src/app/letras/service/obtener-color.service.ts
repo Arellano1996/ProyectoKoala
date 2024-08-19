@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class ObtenerColorService {
 
 obtenerColor(codigo: string){
-  if(codigo === '1') return 'text-yellow-600'
+  if(codigo === '1') return 'text-yellow-700'
   return 'text-black'
 }
 
