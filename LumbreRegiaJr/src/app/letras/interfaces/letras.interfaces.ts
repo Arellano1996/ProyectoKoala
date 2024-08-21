@@ -8,7 +8,7 @@ export interface Letra {
     Tono:         string;
     Comentarios:     Comentario[];
     Configuraciones: Configuracione[];
-    Usuario: Usuario
+    Usuario?: Usuario
 }
 
 export interface CrearCancionLetra {

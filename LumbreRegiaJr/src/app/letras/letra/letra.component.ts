@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { isUUID } from 'validator';
 import { LetrasService } from '../service/letras.service';
@@ -14,7 +14,14 @@ import { ObtenerColorService } from '../service/obtener-color.service';
 })
 export class LetraComponent {
 
-  letra!: Letra;
+  letra: Letra = {
+    LetraId: '',
+    Letra: '',
+    Tono: '',
+    Usuario: undefined,
+    Comentarios: [],
+    Configuraciones: []
+  };
   cancion: CrearLetraCancion = {
     Tamanio: '',
     Tono: '',
@@ -41,6 +48,7 @@ ngOnInit(): void {
       this.letra = letra
       const parsedLetra: CrearLetraCancion = JSON.parse(letra.Letra);
       this.cancion = parsedLetra
+      this.cancion.Tono = this.letra.Tono
     }
   });
 }

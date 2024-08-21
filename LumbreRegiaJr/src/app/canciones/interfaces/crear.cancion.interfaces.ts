@@ -7,7 +7,7 @@ export interface MenuCrearCancion {
 export interface CrearLetraCancion {
     Lineas: Lineas[]
     Tamanio: string,
-    Tono: ''
+    Tono: string
 }
 
 export interface Lineas {
