@@ -14,6 +14,7 @@ import { ComentariosLetrasModule } from './comentarios-letras/comentarios-letras
 import { ConfiguracionesLetrasModule } from './configuraciones-letras/configuraciones-letras.module';
 import { AutentificacionModule } from './autentificacion/autentificacion.module';
 import { BateriasModule } from './baterias/baterias.module';
+import { LetrasLiveModule } from './letras-live/letras-live.module';
 
 @Module({
   imports: [
@@ -41,7 +42,8 @@ import { BateriasModule } from './baterias/baterias.module';
     ComentariosLetrasModule,
     ConfiguracionesLetrasModule,
     AutentificacionModule,
-    BateriasModule
+    BateriasModule,
+    LetrasLiveModule
   ],
   controllers: [],
   providers: [],
