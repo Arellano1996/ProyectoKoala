@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-registrarse',
@@ -6,5 +7,18 @@ import { Component } from '@angular/core';
   styles: ``
 })
 export class RegistrarseComponent {
+
+  fb = inject(FormBuilder) // formulario
+
+  public formularioRegistrarse: FormGroup = this.fb.group({
+    correo: ['', [ Validators.required, Validators.minLength(1) ], []],
+    usuario: ['', [ Validators.required, Validators.minLength(1) ], []],
+    contraseña: ['', [ Validators.required, Validators.minLength(1) ], []],
+    confirmarcontraseña: ['', [ Validators.required, Validators.minLength(1) ], []]
+
+  })
+  onSubmit(){
+
+  }
 
 }

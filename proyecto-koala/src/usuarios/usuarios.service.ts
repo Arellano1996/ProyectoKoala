@@ -1,5 +1,4 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
-import { CreateUsuarioDto } from './dto/create-usuario.dto';
+import { Injectable, Logger } from '@nestjs/common';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Usuario } from './entities/usuario.entity';
@@ -11,11 +10,6 @@ import { Cancion } from 'src/canciones/entities/cancion.entity';
 import { EditarCancionesUsuarioDto } from './dto/editar-canciones-usuario.dto';
 import { UsuariosConCancionesPorTermino } from 'src/common/consultas/UsuariosConCancionesPorTermino';
 
-import * as bcrypt from 'bcrypt'
-import { iniciarSesion } from './dto/inisiar-sesion.dto';
-import { JwtPayload } from './interface/jwt-payload.interface';
-import { JwtService } from '@nestjs/jwt';
-
 @Injectable()
 export class UsuariosService extends erroresHandler {
   constructor(
@@ -24,61 +18,9 @@ export class UsuariosService extends erroresHandler {
 
     @InjectRepository(Cancion)
     private readonly repositoryCancion: Repository<Cancion>,
-
-    private readonly jwtService : JwtService
   ) {
     super();
     this.logger = new Logger('Usuarios Service');
-  }
-
-  async create(createUsuarioDto: CreateUsuarioDto) {
-    try {
-      
-      const { Contrasena, ...resto } = createUsuarioDto
-
-      const usuario = this.repository.create({
-        ...resto,
-        Contrasena: bcrypt.hashSync( Contrasena, 5 )
-      });
-
-      await this.repository.save(usuario);
-
-      // return usuario;
-      return {
-        ...usuario,
-        token: this.getJwtToken({ Id: usuario.UsuarioId })
-      }
-    } catch (error) {
-      this.handleExceptions(error);
-    }
-  }
-  
-  async iniciarSesion(loginDto : iniciarSesion){
-    try {
-      
-      const { Correo, Contrasena } = loginDto
-  
-      const usuario = await this.repository.findOne({
-        where: { Correo: Correo.toLocaleLowerCase().trim() },
-        select: { Correo: true, Contrasena: true, UsuarioId: true }
-      })
-
-      if( !usuario ) 
-        throw new UnauthorizedException('Credenciales invalidas (correo)')
-      
-      if( !bcrypt.compareSync( Contrasena, usuario.Contrasena ) ) 
-        throw new UnauthorizedException('Credenciales invalidas (contraseña)')
-      
-      const { Contrasena: pass  ,...usuarioSinContrasena} = usuario
-       
-      return {
-        ...usuarioSinContrasena,
-        token: this.getJwtToken({ Id: usuario.UsuarioId })
-      }
-
-    } catch (error) {
-      this.handleExceptions(error);
-    }
   }
 
   async findAll(paginationDto: PaginationDto) {
@@ -192,13 +134,6 @@ export class UsuariosService extends erroresHandler {
     } catch (error) {
       this.handleExceptions(error, 'El usuario que intenta borrar no existe')
     }
-  }
-
-  private getJwtToken( payload : JwtPayload ){
-
-    const token = this.jwtService.sign( payload )
-
-    return token
   }
 
   async getCancionesUsuario(usuarioId: string){

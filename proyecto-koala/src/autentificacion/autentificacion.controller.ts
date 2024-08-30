@@ -1,34 +1,63 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Request  } from '@nestjs/common';
 import { AutentificacionService } from './autentificacion.service';
-import { CreateAutentificacionDto } from './dto/create-autentificacion.dto';
-import { UpdateAutentificacionDto } from './dto/update-autentificacion.dto';
+import { RegistrarUsuarioDto } from './dto/create-usuario.dto';
+import { iniciarSesion } from './dto/inisiar-sesion.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUsuario } from './decorators/get-usuario.decorator';
+import { Usuario } from 'src/usuarios/entities/usuario.entity';
+import { IniciarSesionResponse } from './interface/inciar-sesion.interface';
 
 @Controller('autentificacion')
 export class AutentificacionController {
   constructor(private readonly autentificacionService: AutentificacionService) {}
 
   @Post()
-  create(@Body() createAutentificacionDto: CreateAutentificacionDto) {
-    return this.autentificacionService.create(createAutentificacionDto);
+  registrarse(@Body() createUsuarioDto: RegistrarUsuarioDto) {
+    return this.autentificacionService.registrarse(createUsuarioDto);
   }
 
-  @Get()
-  findAll() {
-    return this.autentificacionService.findAll();
+  @Post('iniciar-sesion')
+  iniciarSesion(@Body() loginDto: iniciarSesion) {
+    return this.autentificacionService.iniciarSesion(loginDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.autentificacionService.findOne(+id);
+  @Get('private')
+  @UseGuards(AuthGuard())
+  testingPrivateRoute(
+    //@GetUsuario() usuario: Usuario,
+    // @GetUsuario('Correo') email: Usuario
+    @GetUsuario('UsuarioId') UsuarioId: Usuario
+  ){
+    return {
+      ok: true,
+      message: 'Token Válido',
+      UsuarioId,
+      // email
+    }
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAutentificacionDto: UpdateAutentificacionDto) {
-    return this.autentificacionService.update(+id, updateAutentificacionDto);
+  // LoginResponse
+  //@UseGuards( AuthGuard )
+  @Get('check-token')
+  checkToken( @Request() req: Request ) {
+      
+    const user = req['user'] as Usuario;
+
+    return {
+      UsuarioId: '',
+      Token: this.autentificacionService.getJwtToken({ Id: user.UsuarioId }),
+    }
+
+    /*
+    return {
+      user.UsuarioId,
+      token: this.autentificacionService.getJwtToken({ Id: user.id })
+    }
+      */
+
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.autentificacionService.remove(+id);
-  }
+
+
+  
 }

@@ -1,1 +1,59 @@
-<p>iniciar-sesion works!</p>
+<div class="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 px-4">
+    <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow dark:bg-gray-800">
+      <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white">Iniciar sesión</h2>
+      
+      <form class="space-y-4"
+      [formGroup]="formularioIniciarSesion"
+      (ngSubmit)="onSubmit()" 
+      autocomplete="off">
+        <div class="">
+          <label for="email" class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Usuario</label>
+          <input
+            class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 
+            bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white dark:border-gray-600"
+            formControlName="Correo"
+            type="email"
+            id="email"
+            placeholder="Ingresa tu correo o tu usuario"
+            required
+          >
+          <span class="text-red-500 text-xs font-bold" 
+          *ngIf="isValidField('Correo')">
+            Correo o usuario vacío
+          </span>
+        </div>
+        
+        
+        <!-- Campo de Contraseña -->
+        <div class="">
+          <label for="password" class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Contraseña</label>
+          <input class="w-full px-4 py-2 border rounded-lg focus:ring-blue-500 focus:border-blue-500 
+          bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white dark:border-gray-600" 
+          formControlName="Contrasena"
+          type="password" id="password" placeholder="Ingresa tu contraseña"
+          required>
+          <span class="text-red-500 text-xs font-bold" 
+          *ngIf="isValidField('Contrasena')">
+            Contraseña inválida
+          </span>
+        </div>
+        
+        <!-- Botón de Inicio de Sesión -->
+        <div class="mt-4">
+          <button 
+          type="submit"
+          [disabled]="formularioIniciarSesion.invalid"
+        class="w-full  text-white font-semibold py-2 px-8 rounded-lg
+        {{ formularioIniciarSesion.invalid ? 'bg-gray-600 hover:bg-gray-700' : 'bg-blue-600 hover:bg-blue-700'}}
+        focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-500">
+        
+            Iniciar sesión
+          </button>
+        </div>
+      </form>
+      <p class="text-sm text-center text-gray-500 dark:text-gray-400">
+        ¿Aún no tienes una cuenta? 
+        <a routerLink="/registrarse" class="text-blue-600 hover:underline dark:text-blue-500">Crear cuenta</a>
+      </p>
+    </div>
+  </div>

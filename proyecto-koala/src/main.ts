@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { useContainer } from 'class-validator';
 import * as cors from 'cors';
 
 async function bootstrap() {
@@ -18,7 +17,7 @@ async function bootstrap() {
     'http://proyecto-koala.com',
     'http://localhost',
     'http://192.168.100.221',
-    'http://192.168.1.10',
+    'http://192.168.100.176',
     // Agrega aquí otros dominios permitidos
   ];
 

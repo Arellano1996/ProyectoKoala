@@ -1,5 +1,5 @@
 export interface RespuestaError {
     message: string;
-    error:    string;
+    error:    string | string[];
     statusCode:      string;
 }

@@ -1,8 +1,9 @@
 import { ExecutionContext, InternalServerErrorException, createParamDecorator } from "@nestjs/common";
 
 export const GetUsuario = createParamDecorator( 
-    ( data, ctx: ExecutionContext ) => {
+    ( data: string, ctx: ExecutionContext ) => {
 
+        console.log( data )
         const req = ctx.switchToHttp().getRequest()
         
         const usuario = req.user

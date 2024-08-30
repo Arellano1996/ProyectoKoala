@@ -4,6 +4,7 @@ import { Error404Component } from './error404/error404.component';
 import { MensajeEmergenteComponent } from './mensaje-emergente/mensaje-emergente.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AppRoutingModule } from '../app-routing.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -13,12 +14,13 @@ import { AppRoutingModule } from '../app-routing.module';
   ],
   imports: [
     CommonModule,
-    AppRoutingModule
+    RouterModule,
   ],
   exports: [
     Error404Component,
     NavbarComponent,
-    MensajeEmergenteComponent
+    MensajeEmergenteComponent,
+    RouterModule,
   ]
 })
 export class SharedModule { }

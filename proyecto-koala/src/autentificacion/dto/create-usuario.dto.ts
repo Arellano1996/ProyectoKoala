@@ -2,7 +2,7 @@
 import { IsEmail, IsOptional, IsString, MinLength } from "class-validator";
 //#endregion imports
 
-export class CreateUsuarioDto {
+export class RegistrarUsuarioDto {
     
     @IsString()
     @MinLength(1)

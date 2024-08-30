@@ -1,49 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseUUIDPipe, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Delete, Query, ParseUUIDPipe, UseGuards, Req } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
-import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { PaginationDto } from 'src/common/paginacion.dto';
 import { EditarCancionesUsuarioDto } from './dto/editar-canciones-usuario.dto';
-import { Tracing } from 'trace_events';
-import { iniciarSesion } from './dto/inisiar-sesion.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { GetUsuario } from './decorators/get-usuario.decorator';
-import { Usuario } from './entities/usuario.entity';
-import { request } from 'http';
+import { GetUsuario } from 'src/autentificacion/decorators/get-usuario.decorator';
 
 @Controller('usuarios')
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
-  @Post()
-  create(@Body() createUsuarioDto: CreateUsuarioDto) {
-    return this.usuariosService.create(createUsuarioDto);
-  }
-
-  @Post('iniciar-sesion')
-  iniciarSesion(@Body() loginDto: iniciarSesion) {
-    return this.usuariosService.iniciarSesion(loginDto);
-  }
-
   @Get()
   findAll(@Query() paginationDto: PaginationDto) {
     return this.usuariosService.findAll( paginationDto );
-  }
-
-  @Get('privado')
-  @UseGuards( AuthGuard() )
-  testingRutaPrivada(
-    @Req() request: Express.Request,
-    // @Body() loginDto: iniciarSesion
-    // @GetUsuario() usuario: Usuario
-    @GetUsuario() usuario
-  ){
-     
-    return {
-      ok: true,
-      message: 'Hola mundo',
-      usuario
-    }
   }
 
   @Get(':id')

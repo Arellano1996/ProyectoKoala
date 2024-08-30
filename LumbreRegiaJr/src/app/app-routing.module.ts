@@ -4,45 +4,23 @@ import { Error404Component } from './shared/error404/error404.component';
 import { IniciarSesionComponent } from './iniciar-sesion/iniciar-sesion.component';
 import { RegistrarseComponent } from './registrarse/registrarse.component';
 import { InicioComponent } from './inicio/inicio.component';
+import { estaAutentificadoGuard } from './iniciar-sesion/guards/estaAutentificado.guard';
 
 const routes: Routes = [
   {
     path: '',
-    children: [
-      {
-        path: 'iniciar-sesion',
-        component: IniciarSesionComponent
-      },
-      {
-        path: 'registrarse',
-        component: RegistrarseComponent
-      },
-      {
-        path: 'artistas',
-        loadChildren: () => import('./artistas/artistas.module').then(m => m.ArtistasModule)
-      },
-      {
-        path: 'canciones',
-        loadChildren: () => import('./canciones/canciones.module').then(m => m.CancionesModule)
-      },
-      {
-        path: 'letras',
-        loadChildren: () => import('./letras/letras.module').then(l => l.LetrasModule)
-      },
-      {
-        path: 'usuarios',
-        loadChildren: () => import('./usuarios/usuarios.module').then(u => u.UsuariosModule)
-      },
-      {
-        path: 'cuenta',
-        loadChildren: () => import('./usuario/usuario.module').then(u => u.UsuarioModule)
-      },
-      {
-        path: '',
-        component: InicioComponent,
-        pathMatch: 'full'
-      }
-    ]
+    // canActivate: [ estaAutentificadoGuard ],
+    component: InicioComponent,
+    loadChildren: () => import('./inicio/inicio.module').then(m => m.InicioModule),
+    // pathMatch: 'full'
+  },
+  {
+    path: 'iniciar-sesion',
+    loadChildren: () => import('./iniciar-sesion/iniciar-sesion.module').then(m => m.IniciarSesionModule)
+  },
+  {
+    path: 'registrarse',
+    loadChildren: () => import('./registrarse/registrarse.module').then(m => m.RegistrarseModule)
   },
   {
     path: '404',
