@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { InicioComponent } from './inicio.component';
+import { LetraLiveComponent } from '../letra-live/letra-live.component';
 
 const routes: Routes = [
   
@@ -24,6 +25,10 @@ const routes: Routes = [
       {
         path: 'cuenta',
         loadChildren: () => import('../usuario/usuario.module').then(u => u.UsuarioModule)
+      },
+      {
+        path: 'letra-live',
+        component: LetraLiveComponent
       }
     
   

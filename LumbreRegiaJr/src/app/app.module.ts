@@ -4,13 +4,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { environments } from '../environments/environments';
 
 
-const config: SocketIoConfig = {
-    url: environments.urlServido, options: { }
+const configLetrasLive: SocketIoConfig = {
+    url: environments.urlServidorSocketLertasLive, options: { }
 }
 
 @NgModule({ 
@@ -23,7 +22,7 @@ const config: SocketIoConfig = {
         BrowserModule,
         AppRoutingModule,
         SharedModule,
-        SocketIoModule.forRoot( config )
+        SocketIoModule.forRoot( configLetrasLive )
     ], 
         providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule { }

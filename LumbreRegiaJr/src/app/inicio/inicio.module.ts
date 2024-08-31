@@ -5,11 +5,14 @@ import { InicioRoutingModule } from './inicio-routing.module';
 import { InicioComponent } from './inicio.component';
 import { SharedModule } from '../shared/shared.module';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
+import { LetraComponent } from '../letras/letra/letra.component';
+import { LetraLiveComponent } from '../letra-live/letra-live.component';
 
 
 @NgModule({
   declarations: [
-    InicioComponent
+    InicioComponent,
+    LetraLiveComponent
   ],
   imports: [
     CommonModule,

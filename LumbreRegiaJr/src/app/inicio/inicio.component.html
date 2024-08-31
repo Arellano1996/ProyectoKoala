@@ -1,3 +1,6 @@
-<p>{{ bienvenido }}</p>
+<p>{{ bienvenido }}  
+    <span *ngIf="webSocketService.socketEstado" class="text-green-500 font-bold">Conectado</span>
+    <span *ngIf="!webSocketService.socketEstado" class="text-red-500 font-bold">Desconectado</span>
+</p>
 
 <app-navbar></app-navbar>
