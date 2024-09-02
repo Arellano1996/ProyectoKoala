@@ -26,6 +26,9 @@ import { GrupoAcordesComponent } from './letra/grupo-acordes/grupo-acordes.compo
   imports: [
     CommonModule,
     LetrasRoutingModule
+  ],
+  exports: [
+    MenuDesplegableComponent
   ]
 })
 export class LetrasModule { }

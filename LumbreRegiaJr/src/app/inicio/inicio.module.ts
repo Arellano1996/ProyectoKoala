@@ -11,8 +11,7 @@ import { LetraLiveComponent } from '../letra-live/letra-live.component';
 
 @NgModule({
   declarations: [
-    InicioComponent,
-    LetraLiveComponent
+    InicioComponent
   ],
   imports: [
     CommonModule,

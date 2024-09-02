@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Configuracion } from './interfaces/tabla-canciones.interfaces';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfiguracionPaginaService {
-
+  
+  private configuracionSubject = new BehaviorSubject<Configuracion>(this.obtenerConfiguracion());
+  configuracion$ = this.configuracionSubject.asObservable();
+  
   configuracion : Configuracion = {
     Tabla_Canciones: {
       Artistas: true,
@@ -48,6 +52,8 @@ export class ConfiguracionPaginaService {
 
   actualizarConfiguracion(nuevaConfiguracion: Configuracion): Configuracion {
     localStorage.setItem('config', JSON.stringify(nuevaConfiguracion));
+    console.log( this.configuracion )
+    this.configuracionSubject.next(this.configuracion);
     return this.configuracion
   }
 }

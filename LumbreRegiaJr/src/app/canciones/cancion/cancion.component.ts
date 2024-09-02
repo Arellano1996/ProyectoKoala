@@ -43,7 +43,7 @@ export class CancionComponent {
       //console.log(artistas)
       if(cancionResponse != null){
         this.cancionResponse = cancionResponse
-        console.log( this.cancionResponse )
+        //console.log( this.cancionResponse )
       }
     });
   }

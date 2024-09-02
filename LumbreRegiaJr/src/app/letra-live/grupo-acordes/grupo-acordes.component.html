@@ -1,0 +1,7 @@
+<div class="relative mr-1 text-center content-center cursor-pointer font-bold rounded-lg 
+{{ (x === 0) 
+? 'text-red-500 hover:text-red-400' 
+: 'text-blue-500 hover:text-blue-400' }}"
+*ngFor="let linea of Linea.Palabras; index as x">
+{{ (x === 0) ? linea.Palabra.slice(1) : linea.Palabra }}
+</div>

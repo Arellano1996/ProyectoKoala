@@ -28,7 +28,7 @@ const routes: Routes = [
       },
       {
         path: 'letra-live',
-        component: LetraLiveComponent
+        loadChildren: () => import('../letra-live/letra-live.module').then(m => m.LetraLiveModule)
       }
     
   

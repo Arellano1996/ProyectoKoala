@@ -20,6 +20,9 @@ export async function LetraConEntidadesPorUUID(termino: string){
                 LetraId: termino 
             },
             relations: {
+                Cancion: {
+                    Artistas: true
+                },
                 Comentarios: true,
                 Configuraciones: true,
                 Usuario: true

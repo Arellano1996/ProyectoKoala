@@ -1,3 +1,4 @@
+import { Cancion } from "../../canciones/interfaces/canciones.interfaces";
 import { Comentario } from "../../comentarios-letras/interfaces/comentarios.interfaces";
 import { Configuracione } from "../../configuraciones-letras/interfaces/configuraciones.interfaces";
 import { Usuario } from "../../usuario/interfaces/usuario.interfaces";
@@ -9,6 +10,7 @@ export interface Letra {
     Comentarios:     Comentario[];
     Configuraciones: Configuracione[];
     Usuario?: Usuario
+    Cancion?: Cancion
 }
 
 export interface CrearCancionLetra {

@@ -1,11 +1,12 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { isUUID } from 'validator';
 import { LetrasService } from '../service/letras.service';
 import { Letra } from '../interfaces/letras.interfaces';
-import { FormatearLetraService } from '../../canciones/services/formatear-letra.service';
 import { CrearLetraCancion } from '../../canciones/interfaces/crear.cancion.interfaces';
 import { ObtenerColorService } from '../service/obtener-color.service';
+import { LetraLiveService } from '../../letra-live/services/letra-live.service';
+import { RespuestaRecibirLetraLive } from '../../letra-live/interfaces/EnviarLetraLive.interface';
 
 @Component({
   selector: 'app-letra',
@@ -13,6 +14,8 @@ import { ObtenerColorService } from '../service/obtener-color.service';
   styles: ``
 })
 export class LetraComponent {
+
+  esLetraLive: boolean = false
 
   letra: Letra = {
     LetraId: '',
@@ -34,6 +37,7 @@ export class LetraComponent {
   private letrasService = inject(LetrasService);
   private route = inject(ActivatedRoute);
   private colorService = inject(ObtenerColorService)
+  private letraLiveService = inject(LetraLiveService)
 
 ngOnInit(): void {
   this.uuid = this.route.snapshot.paramMap.get('id');
@@ -51,6 +55,18 @@ ngOnInit(): void {
       this.cancion.Tono = this.letra.Tono
     }
   });
+
+  this.letraLiveService.obtenerLetraLiveSQL()
+  .subscribe( res => {
+    if( res ) this.esLetraLive = res.LetraId === this.uuid
+  })
+
+  //Suscribe para escuchar servidor Socket
+  this.letraLiveService.recibirLetra()
+  .subscribe( ( res: RespuestaRecibirLetraLive  ) => {
+    this.esLetraLive = res.LetraId === this.uuid
+  }
+  )
 }
 
 obtenerColor(codigo: string){

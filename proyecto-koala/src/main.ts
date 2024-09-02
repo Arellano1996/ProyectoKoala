@@ -15,10 +15,7 @@ async function bootstrap() {
 
   const allowedOrigins = [
     'http://proyecto-koala.com',
-    'http://localhost',
-    'http://192.168.100.221',
-    'http://192.168.100.176',
-    // Agrega aquí otros dominios permitidos
+    'http://dev.proyecto-koala.com',
   ];
 
   app.use(
