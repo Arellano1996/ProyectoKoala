@@ -34,25 +34,23 @@ export class ConfiguracionPaginaService {
   obtenerConfiguracion(): Configuracion {
     //Traemos nuevo objeto de localStorage
     const config = localStorage.getItem('config');
-    if(config) 
+    
+    //Si no hay configuracion usamos nuestro objeto local que ya está inicializado
+    if(config === 'undefined' || config === null){
+      const newConfig: Configuracion = this.configuracion
+      //Lo serializamos y lo guardamos
+      localStorage.setItem('config', JSON.stringify(newConfig));
+    }else
     {
       const parsedConfig = JSON.parse(config);
       this.configuracion = parsedConfig;
     } 
-    //Si no hay configuracion usamos nuestro objeto local que ya está inicializado
-    else 
-    {
-      const newConfig: Configuracion = this.configuracion
-      //Lo serializamos y lo guardamos
-      localStorage.setItem('config', JSON.stringify(newConfig));
-    }
     
     return this.configuracion
   }
 
   actualizarConfiguracion(nuevaConfiguracion: Configuracion): Configuracion {
     localStorage.setItem('config', JSON.stringify(nuevaConfiguracion));
-    console.log( this.configuracion )
     this.configuracionSubject.next(this.configuracion);
     return this.configuracion
   }
