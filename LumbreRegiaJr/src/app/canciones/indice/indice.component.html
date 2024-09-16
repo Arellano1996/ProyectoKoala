@@ -5,7 +5,13 @@
         <div class="rounded-xl">
             <div class="shadow-sm my-8">
                 <div class="flex items-center justify-between px-4 static">
-                    <span class="dark:border-slate-600 font-bold p-4 text-slate-400 dark:text-slate-200 text-left">Canciones totales: {{ cancionesReponse.Total }}</span>
+                    <div class="flex max-lg:flex-col">
+                        <span class="dark:border-slate-600 font-bold lg:p-4 max-lg:ps-4 text-slate-400 dark:text-slate-200 text-left">Canciones totales: {{ cancionesReponse.Total }}</span>
+                        <span class="dark:border-slate-600 font-bold lg:p-4 max-lg:ps-4 max-lg:pb-4 text-slate-400 dark:text-slate-200 text-left">
+                            Duración total: 
+                            {{ duracionTotalCanciones.horas == 0 ? '' : duracionTotalCanciones.horas == 1 ? duracionTotalCanciones.horas + 'hr' : duracionTotalCanciones.horas + 'hrs' }} 
+                            {{ duracionTotalCanciones.minutos }}min {{ duracionTotalCanciones.segundos}}seg</span>
+                    </div>
                     <app-menu-despleglable (opcionesAPadre)="recibirOpcionesDeHijo($event)"></app-menu-despleglable>
                 </div>
                 <div class="flex items-center px-4 mx-4">

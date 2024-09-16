@@ -14,6 +14,7 @@ import { BuscarComponent } from './buscar/buscar.component';
 export class IndiceComponent extends AppComponent implements OnInit {
   
   public cancionesReponse: CancionesResponse = { Canciones: [], Total: 0 };
+  public duracionTotalCanciones = { horas: 0, minutos: 0, segundos: 0 }
   @ViewChild('buscar') buscarComponent!: BuscarComponent;
   configuracion: Configuracion;
 
@@ -38,6 +39,8 @@ export class IndiceComponent extends AppComponent implements OnInit {
           this.cancionesService.getCancionesPorUsuarioIdYTermino(this.usuarioId, termino)
           .subscribe( res => {
             this.cancionesReponse = res;
+            //todo Sacar tiempo total
+            this.sumarDuracionDeTodasLasCanciones(res)
           })
         }
         else
@@ -45,28 +48,32 @@ export class IndiceComponent extends AppComponent implements OnInit {
           this.cancionesService.getCancionesPorTermino( termino )
           .subscribe( res => {
             this.cancionesReponse = res;
+            //todo Sacar tiempo total
+            this.sumarDuracionDeTodasLasCanciones(res)
           })
         }
-    }
-    else
-    {
-      if(this.configuracion.OcultarCancionesDeOtrosUsuarios)
-      {
-        this.cancionesService.getCancionesPorUsuarioId(this.usuarioId)
-        .subscribe({
-          next: res => {
-            this.cancionesReponse = res;
-          },
-          error: err => {
-            window.alert(`Error: ${err.message}`);
-          }
-        })
       }
       else
       {
-        this.cancionesService.getCanciones()
-        .subscribe( res => {
-          this.cancionesReponse = res;
+        if(this.configuracion.OcultarCancionesDeOtrosUsuarios)
+          {
+            this.cancionesService.getCancionesPorUsuarioId(this.usuarioId)
+            .subscribe({
+              next: res => {
+                this.cancionesReponse = res;
+                this.sumarDuracionDeTodasLasCanciones(res)
+              },
+              error: err => {
+                window.alert(`Error: ${err.message}`);
+              }
+            })
+          }
+          else
+          {
+            this.cancionesService.getCanciones()
+            .subscribe( res => {
+              this.cancionesReponse = res;
+              this.sumarDuracionDeTodasLasCanciones(res)
         })
       }
     }
@@ -93,6 +100,36 @@ export class IndiceComponent extends AppComponent implements OnInit {
 
   recibirTermino(termino: string): void {
     this.buscarCanciones( termino )
+  }
+
+  sumarDuracionDeTodasLasCanciones(listaCanciones: CancionesResponse){
+    
+    let totalHoras = 0;
+    let totalMinutos = 0;
+    let totalSegundos = 0;
+    
+    listaCanciones.Canciones.map( cancion => {
+      const [minutosStr, segundosStr] = cancion.Duracion.split(':');
+      const minutos = parseInt(minutosStr, 10);
+      const segundos = parseInt(segundosStr, 10);
+
+      totalMinutos += minutos;
+      totalSegundos += segundos;
+    })
+
+    // Convertir los segundos adicionales en minutos
+    totalMinutos += Math.floor(totalSegundos / 60);
+    totalSegundos = totalSegundos % 60; // Restar los minutos convertidos de los segundos
+
+    // Convertir los minutos adicionales en horas
+    totalHoras += Math.floor(totalMinutos / 60);
+    totalMinutos = totalMinutos % 60; // Restar las horas convertidas de los minutos
+
+    //console.log(`Total minutos: ${totalMinutos}`);
+    //console.log(`Total segundos: ${totalSegundos}`);
+    this.duracionTotalCanciones.horas = totalHoras
+    this.duracionTotalCanciones.minutos = totalMinutos
+    this.duracionTotalCanciones.segundos = totalSegundos
   }
 
 }
