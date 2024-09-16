@@ -7,6 +7,8 @@ import { CrearLetraCancion } from '../../canciones/interfaces/crear.cancion.inte
 import { ObtenerColorService } from '../service/obtener-color.service';
 import { LetraLiveService } from '../../letra-live/services/letra-live.service';
 import { RespuestaRecibirLetraLive } from '../../letra-live/interfaces/EnviarLetraLive.interface';
+import { concatMap } from 'rxjs';
+import { TransportarCancionService } from '../service/transportar-cancion.service';
 
 @Component({
   selector: 'app-letra',
@@ -38,6 +40,7 @@ export class LetraComponent {
   private route = inject(ActivatedRoute);
   private colorService = inject(ObtenerColorService)
   private letraLiveService = inject(LetraLiveService)
+  private transportarLetraService = inject(TransportarCancionService)
 
 ngOnInit(): void {
   this.uuid = this.route.snapshot.paramMap.get('id');
@@ -46,25 +49,39 @@ ngOnInit(): void {
   if(!this.uuidValido) return
 
   this.letrasService.getLetraPorId(this.uuid!)
-  .subscribe( letra => {
-    //console.log(artistas)
-    if(letra != null){
-      this.letra = letra
-      const parsedLetra: CrearLetraCancion = JSON.parse(letra.Letra);
-      this.cancion = parsedLetra
-      this.cancion.Tono = this.letra.Tono
+  .pipe(
+    concatMap(letra => {
+      if (letra != null) {
+        this.letra = letra;
+        const parsedLetra: CrearLetraCancion = JSON.parse(letra.Letra);
+        this.cancion = parsedLetra;
+        this.cancion.Tono = this.letra.Tono;
+      }
+      // Ejecutar la segunda petición después de la primera
+      return this.letraLiveService.obtenerLetraLiveSQL();
+    })
+  )
+  .subscribe(res => {
+    if (res) {
+      this.esLetraLive = res.LetraId === this.uuid;
+      //Obtenermos el tono de la letra Live
+      const tonoLive = res.Tono
+      //Tomamos el tono de la letra en base de dato
+      const tonoSQL = this.transportarLetraService.obtenerValorTono(this.cancion.Tono)
+      //Transportamos la cancion a la tonalidad que marca el LetraLive
+      if(tonoLive != tonoSQL){
+        const valorTransportar = tonoLive - tonoSQL!
+        this.transportarLetraService.transportarCancion(this.cancion, valorTransportar!)
+      }
     }
   });
 
-  this.letraLiveService.obtenerLetraLiveSQL()
-  .subscribe( res => {
-    if( res ) this.esLetraLive = res.LetraId === this.uuid
-  })
 
   //Suscribe para escuchar servidor Socket
   this.letraLiveService.recibirLetra()
   .subscribe( ( res: RespuestaRecibirLetraLive  ) => {
     this.esLetraLive = res.LetraId === this.uuid
+    console.log('Se recibieron datos: ', res.Tono)
   }
   )
 }

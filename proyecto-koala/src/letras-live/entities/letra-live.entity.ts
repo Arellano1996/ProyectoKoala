@@ -11,6 +11,9 @@ export class LetraLive {
 
     @Column()
     LetraId: string;
+
+    @Column()
+    Tono: number
     
     @Column({
         nullable: true

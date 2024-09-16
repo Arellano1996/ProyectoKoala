@@ -8,6 +8,7 @@ import { LetrasService } from '../letras/service/letras.service';
 import { ConfiguracionPaginaService } from '../shared/services/configuracion-pagina.service';
 import { Configuracion } from '../shared/services/interfaces/tabla-canciones.interfaces';
 import { Menu_Letra } from '../letras/interfaces/menu.letra.interface';
+import { TransportarCancionService } from '../letras/service/transportar-cancion.service';
 
 @Component({
   selector: 'app-letra-live',
@@ -15,11 +16,12 @@ import { Menu_Letra } from '../letras/interfaces/menu.letra.interface';
 })
 export class LetraLiveComponent implements OnInit {
   
-  letraLiveService = inject(LetraLiveService)
-  letraService = inject(LetrasService)
-  colorService = inject(ObtenerColorService)
-  configuracionPaginaService = inject(ConfiguracionPaginaService)
-
+  private letraLiveService = inject(LetraLiveService)
+  private letraService = inject(LetrasService)
+  private colorService = inject(ObtenerColorService)
+  private configuracionPaginaService = inject(ConfiguracionPaginaService)
+  private transportarLetraService = inject(TransportarCancionService)
+  
   menuLetra: Menu_Letra = this.configuracionPaginaService.configuracion.Menu_Letra
   
   letraId: string = ''
@@ -43,18 +45,20 @@ export class LetraLiveComponent implements OnInit {
     //Cargar LetraLive de SQL
     this.letraLiveService.obtenerLetraLiveSQL()
     .subscribe(res => {
-      //console.log( res )
-      this.letraId = res.LetraId
+      if(res){
+        this.letraId = res.LetraId
 
-      this.letraService.getLetraPorId( res.LetraId )
-      .subscribe( letra => {
-        //console.log( letra )
-        this.letra = letra
-        const parsedLetra: CrearLetraCancion = JSON.parse( letra.Letra )
-        this.cancion = parsedLetra
-        this.cancion.Tono = this.letra.Tono
-      }).closed
-
+        this.letraService.getLetraPorId( res.LetraId )
+        .subscribe( letra => {
+          //console.log( letra )
+          this.letra = letra
+          const parsedLetra: CrearLetraCancion = JSON.parse( letra.Letra )
+          this.cancion = parsedLetra
+          this.cancion.Tono = this.letra.Tono
+          //Todo sicronizarTono
+          this.sincronizarTono(res.Tono, this.cancion.Tono)
+        }).closed
+      }
     })
   }
 
@@ -62,8 +66,22 @@ export class LetraLiveComponent implements OnInit {
     //Suscribe para escuchar servidor Socket
     this.letraLiveService.recibirLetra()
     .subscribe( ( res: RespuestaRecibirLetraLive  ) => {
-      this.letraId = res.LetraId
-      this.actualizarCancion()
+      //console.log('Recibi algo del servidor')
+      //Nos aseguramos que hay información sobre LetraLive
+      if(!res.LetraId) {
+        this.letraId = ''
+        return
+      }
+      //Si hay información entonces revisamos la tonalidad y que no sea la misma letra
+      //Si es la misma letra también debe tener tonos diferentes
+      if(this.letraId === res.LetraId){
+        //console.log('Diferentes tonos')
+        //Si es la misma canción revisamos si es necesario transportar
+        this.sincronizarTono(res.Tono, this.cancion.Tono)
+      }else{
+        this.letraId = res.LetraId
+        this.actualizarCancion(res.Tono)
+      }
     })
 
     //Escuchar los cambios de una variable que esta en mi servicio
@@ -78,15 +96,31 @@ export class LetraLiveComponent implements OnInit {
     return this.colorService.obtenerColor(codigo)
   }
 
-  actualizarCancion(){
+  actualizarCancion(tonoLive: number){
     this.letraService.getLetraPorId( this.letraId )
       .subscribe( letra => {
-        //console.log( letra )
         this.letra = letra
         const parsedLetra: CrearLetraCancion = JSON.parse( letra.Letra )
         this.cancion = parsedLetra
         this.cancion.Tono = this.letra.Tono
+
+        this.sincronizarTono(tonoLive, this.cancion.Tono)
       }).closed
+  }
+
+  //TODO corregir esto
+  sincronizarTono(tonolive: number, tonosql: string){
+    //console.log('se sincronizo cancion')
+    //Revisamos que las tonalidades esten correctas
+    //Obtenermos el tono de la letra Live
+    const tonoLive = tonolive
+    //Tomamos el tono de la letra en base de dato
+    const tonoSQL = this.transportarLetraService.obtenerValorTono(tonosql)
+    if(tonoLive != tonoSQL){
+      //Si es la misma canción revisamos si es necesario transportar
+      const valorTransportar = tonoLive! - tonoSQL!
+      this.transportarLetraService.transportarCancion(this.cancion, valorTransportar!)
+    }
   }
   
 }

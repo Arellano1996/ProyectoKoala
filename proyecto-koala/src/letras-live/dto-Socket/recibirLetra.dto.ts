@@ -1,4 +1,4 @@
-import { IsOptional, IsUUID } from "class-validator"
+import { IsNumber, IsOptional, IsUUID } from "class-validator"
 
 export class RecibirLetraSocket {
     @IsUUID()
@@ -6,6 +6,9 @@ export class RecibirLetraSocket {
 
     @IsUUID()
     UsuarioId: string
+
+    @IsNumber()
+    Tono: number
 
     @IsUUID()
     @IsOptional()

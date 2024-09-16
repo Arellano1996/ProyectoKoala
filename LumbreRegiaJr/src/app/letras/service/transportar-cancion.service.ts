@@ -63,7 +63,12 @@ export class TransportarCancionService {
     Tono: '',
     Lineas: []
   }
-
+  obtenerValorTono(tono: string){
+    const tonoLimpio = tono.replace(/m|7/g, '');
+    // Buscar el acorde en el array
+    const acorde = this.acordes.find(a => a.tono === tonoLimpio);
+    return acorde ? acorde.valor : undefined;
+  }
   transportarCancion(cancion: CrearLetraCancion, valor: number){
     //Primero guardamos nuestro valor para saber si vamos a subir o bajar un semitono y que esta referencia este disponible
     //para todos los métodos
@@ -110,6 +115,12 @@ export class TransportarCancionService {
     if(i === 0 && this.valor === -1) return this.acordes[11].tono
     //Si el valor es B = 11 y quieres subir de tono mandas C = 0
     if(i === 11 && this.valor === 1) return this.acordes[0].tono
+    //Cuando transportamos por rango comprobamos si superamos el numero 12 o es igual restamos 12
+    if(i + this.valor >= 12) return this.acordes[i + this.valor - 12].tono
+    //A diferencia de arriba si la suma de los numero da 0 si es un valor valido
+    //lo que no es valido es que de -1 en ese caso se suma 11
+    if(i + this.valor < 0) return this.acordes[i + this.valor + 11].tono
+
     return this.acordes[i + this.valor].tono
   }
 }

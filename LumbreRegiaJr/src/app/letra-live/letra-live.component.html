@@ -1,25 +1,26 @@
 
+<div *ngIf="!letraId">No hay una ninguna letra en modo live</div>
+<div *ngIf="letraId">
 
-<div class="flex justify-between px-2 select-none">
-    <a class="font-bold text-gray-600 text-2xl" routerLink="/canciones/{{ letra.Cancion?.CancionId }}">{{ letra.Cancion?.Nombre }} -
-        <span class="text-xl"
-        *ngFor="let artista of letra.Cancion?.Artistas; index as i">
+    <div class="flex justify-between px-2 select-none">
+        <a class="font-bold text-gray-600 text-2xl" routerLink="/canciones/{{ letra.Cancion?.CancionId }}">{{ letra.Cancion?.Nombre }} -
+            <span class="text-xl"
+            *ngFor="let artista of letra.Cancion?.Artistas; index as i">
             {{ artista.Nombre }}
             {{ letra.Cancion!.Artistas!.length !== (i + 1) ? ', ' : '' }}
-        </span>
+            </span>
         </a>
     <app-letra-menu-desplegable></app-letra-menu-desplegable>    
-</div>
-<div class="p-2 select-none">
-    <div class="flex p-2 {{ obtenerColor(linea.Color) }} text-sm" *ngFor="let linea of cancion.Lineas; index as i">
-        
-        <app-palabra-letra-live class="flex grow flex-wrap"
-        *ngIf="!linea.SeEstaEditando && linea.Palabras.length > 0 && !linea.Palabras[0].Palabra.startsWith('@')"
-        [Linea]="linea" [i]="i" [cancion]="cancion"></app-palabra-letra-live>
-        
-        <app-grupo-acordes-letra-live class="flex grow flex-wrap {{ menuLetra.Acordes ? '' : 'hidden' }}" 
-        *ngIf="!linea.SeEstaEditando && (linea.Palabras.length === 0 || linea.Palabras[0].Palabra.startsWith('@') )"
-        [Linea]="linea" [i]="i"></app-grupo-acordes-letra-live>
-        
+    </div>
+    <div class="p-2 select-none">
+        <div class="flex p-2 {{ obtenerColor(linea.Color) }} text-sm" *ngFor="let linea of cancion.Lineas; index as i">
+            <app-palabra-letra-live class="flex grow flex-wrap"
+            *ngIf="!linea.SeEstaEditando && linea.Palabras.length > 0 && !linea.Palabras[0].Palabra.startsWith('@')"
+            [Linea]="linea" [i]="i" [cancion]="cancion"></app-palabra-letra-live>
+            
+            <app-grupo-acordes-letra-live class="flex grow flex-wrap {{ menuLetra.Acordes ? '' : 'hidden' }}" 
+            *ngIf="!linea.SeEstaEditando && (linea.Palabras.length === 0 || linea.Palabras[0].Palabra.startsWith('@') )"
+            [Linea]="linea" [i]="i"></app-grupo-acordes-letra-live>
+        </div>
     </div>
 </div>

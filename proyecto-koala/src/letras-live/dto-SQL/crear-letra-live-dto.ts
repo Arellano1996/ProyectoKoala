@@ -1,4 +1,4 @@
-import { IsOptional, IsUUID } from "class-validator";
+import { IsNumber, IsOptional, IsUUID } from "class-validator";
 
 export class CrearLetraLive {
 
@@ -7,6 +7,9 @@ export class CrearLetraLive {
 
     @IsUUID()
     UsuarioId: string
+
+    @IsNumber()
+    Tono: number
 
     @IsUUID()
     @IsOptional()

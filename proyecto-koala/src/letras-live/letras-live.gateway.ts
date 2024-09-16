@@ -18,7 +18,7 @@ export class LetrasLiveGateway implements OnGatewayConnection, OnGatewayDisconne
     ) {}
   
   handleConnection(cliente: Socket, ) {
-    //console.log( 'Cliente conectado: ', client.id )
+    //console.log( 'Cliente conectado: ', cliente.id )
 
     this.letrasLiveService.registrarCliente( cliente )//registra nuevo cliente en nuestra variable que almacena los id del socket
 
@@ -36,17 +36,16 @@ export class LetrasLiveGateway implements OnGatewayConnection, OnGatewayDisconne
   //Aquí se reciben los objetos RecibirLetraSocketDto de los clientes
   @SubscribeMessage('EmitirLetra')
   async handlerLetrasLive( cliente: Socket, recibirLetraSocketDto: RecibirLetraSocket){
-    console.log(`se recibio una peticion socket:`)
-    console.log( recibirLetraSocketDto[0] )
+    //console.log(`se recibio una peticion socket:`)
+    //console.log( recibirLetraSocketDto[0] )
 
     //Esto sirve para mandar al mismo cliente que emitio
     //cliente.emit('RecibirLetra', letraId)
 
-    //TODO: 
     //Eliminar la letra-live del usuario (en teoria solo puede haber una letra por usuario)
     await this.letrasLiveSQLService.remove( recibirLetraSocketDto[0].UsuarioId )
 
-    //TODO:
+    if(recibirLetraSocketDto[0].UsuarioId)
     //Guardar la letra que se mando llamar
     this.letrasLiveSQLService.create( recibirLetraSocketDto[0] )
 
