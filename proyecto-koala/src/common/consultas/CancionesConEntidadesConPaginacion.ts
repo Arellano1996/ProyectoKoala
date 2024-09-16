@@ -22,5 +22,6 @@ export async function CancionesConEntidadesConPaginacion(limite: number, skip: n
     // .leftJoinAndSelect('letras.Configuraciones', 'configuraciones')
     .take( limite )
     .skip( skip )
+    .orderBy("cancion.Nombre", "ASC")
     .getManyAndCount()
 }

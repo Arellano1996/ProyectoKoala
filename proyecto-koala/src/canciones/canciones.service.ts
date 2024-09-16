@@ -161,7 +161,9 @@ export class CancionesService extends erroresHandler {
 
       const { limite = 0, skip = 0 } = paginationDto;
 
-      return await CancionesConEntidadesConPaginacion(limite, skip)
+      const resultado = await CancionesConEntidadesConPaginacion(limite, skip)
+      
+      return resultado
 
     } catch (error) { 
       this.handleExceptions(error)
@@ -291,6 +293,11 @@ export class CancionesService extends erroresHandler {
       .leftJoinAndSelect('cancion.Generos', 'generos')//Necesito mostrar esta tabla
       .leftJoin('cancion.Usuarios', 'usuarios')//No necesito mostrar esta tabla
       .where('usuarios.UsuarioId = :usuarioId', { usuarioId })
+      .orderBy( {
+        "cancion.Nombre" : "ASC",
+        // "artistas.Nombre": "ASC"
+        // "generos.Nombre": "ASC"
+      })
       //.select([
         // 'cancion.Nombre',
         // 'artistas.Nombre'
