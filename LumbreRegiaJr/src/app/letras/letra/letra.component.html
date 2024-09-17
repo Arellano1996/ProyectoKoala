@@ -1,7 +1,7 @@
 <app-letra-menu [cancion]="cancion" [LetraId]="letra.LetraId" [esLetraLive]="esLetraLive"></app-letra-menu>
 
-<div class="flex p-2 {{ obtenerColor(linea.Color) }} text-sm" *ngFor="let linea of cancion.Lineas; index as i">
-    
+<div class="p-5 pt-0">
+  <div class="flex {{ linea.Palabras.length === 0 ? 'p-4': 'p-1'}} {{ obtenerColor(linea.Color) }} text-sm" *ngFor="let linea of cancion.Lineas; index as i">
     
     <app-palabra-letra class="flex grow flex-wrap"
     *ngIf="!linea.SeEstaEditando && linea.Palabras.length > 0 && !linea.Palabras[0].Palabra.startsWith('@')"
@@ -10,9 +10,6 @@
     <app-grupo-acordes-letras class="flex grow flex-wrap" 
     *ngIf="!linea.SeEstaEditando && (linea.Palabras.length === 0 || linea.Palabras[0].Palabra.startsWith('@') )"
     [Linea]="linea" [i]="i"></app-grupo-acordes-letras>
-
-
-   
-
     
   </div>
+</div>

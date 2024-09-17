@@ -12,8 +12,10 @@
         </a>
     <app-letra-menu-desplegable></app-letra-menu-desplegable>    
     </div>
-    <div class="p-2 select-none">
-        <div class="flex p-2 {{ obtenerColor(linea.Color) }} text-sm" *ngFor="let linea of cancion.Lineas; index as i">
+    <!-- este div tiene todas las lineas de letra y acordes -->
+    <div class="p-5 select-none">
+        <div class="flex {{ linea.Palabras.length === 0 ? 'p-4': 'p-1'}} {{ obtenerColor(linea.Color) }} text-sm" *ngFor="let linea of cancion.Lineas; index as i">
+            
             <app-palabra-letra-live class="flex grow flex-wrap"
             *ngIf="!linea.SeEstaEditando && linea.Palabras.length > 0 && !linea.Palabras[0].Palabra.startsWith('@')"
             [Linea]="linea" [i]="i" [cancion]="cancion"></app-palabra-letra-live>
