@@ -29,3 +29,10 @@ export interface CrearLetra {
     Comentarios:     Comentario[];
     Configuraciones: Configuracione[];
 }
+
+export interface EditarLetra {
+    Letra:           string;
+    Tono?: string;
+    Comentarios?:     Comentario[];
+    Configuraciones?: Configuracione[];
+}

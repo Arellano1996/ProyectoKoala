@@ -40,7 +40,7 @@ export class FormatearLetraService {
 
   convertirStringEnLinea(texto: string, linea: Lineas){
     let nuevaLinea: Lineas = {
-      Color: "",
+      Color: linea.Color,
       SeEstaEditando: false,
       Palabras: [],
     }

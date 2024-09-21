@@ -43,6 +43,13 @@ import { GenerosCrearCancionComponent } from './crear/generos/generos.crear.canc
     CancionesRoutingModule,
     ReactiveFormsModule,
     FormsModule
+  ],
+  exports: [
+    TextareaLetraCrearCancionComponent,
+    DivAgregarAcordesCrearCancionComponent,
+    PalabraComponent,
+    ToolTipAcordesComponent,
+    MenuCrearCancionComponent,
   ]
 })
 export class CancionesModule { }

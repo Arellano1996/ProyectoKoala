@@ -1,5 +1,5 @@
 //#region Imports
-import { IsArray, IsOptional, IsString, MinLength, ValidateNested } from 'class-validator';
+import { IsArray, IsOptional, IsString, IsUUID, MinLength, ValidateNested } from 'class-validator';
 import { Artista } from 'src/artistas/entities/artistas.entity';
 import { Type } from 'class-transformer';
 import { Genero } from 'src/generos/entities/genero.entity';
@@ -13,6 +13,9 @@ import { CreateBateriaDto } from 'src/baterias/dto/create-bateria.dto';
 export class UpdateCancioneDto {
 
     Cancion: Cancion;
+    
+    @IsUUID()
+    CancionId: string;
 
     @IsString({ message: 'Nombre debe ser tipo string.'})
     @MinLength(1,{ message: 'Nombre debe tener al menos 1 caracter.'})
@@ -23,7 +26,18 @@ export class UpdateCancioneDto {
     @IsString()
     @MinLength(1)
     @IsOptional()
+    Duracion?: string;
+
+    @IsString()
+    @MinLength(1)
+    @IsOptional()
+    BPM?: string;
+
+    @IsString()
+    @MinLength(1)
+    @IsOptional()
     Tono?: string;
+
 
     // @IsOptional()
     // @Type(() => UpdateLetraDto) // Transforma cada objeto al objeto especificado

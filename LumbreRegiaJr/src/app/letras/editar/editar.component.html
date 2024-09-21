@@ -1,1 +1,33 @@
-<p>editar works!</p>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+<form 
+class="max-sm:px-2" 
+[formGroup]="formularioEditarLetra" 
+(ngSubmit)="onSave()"
+autocomplete="off">    
+    <div class="w-full my-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+        <app-menu-crear-canciones (estadoMenuHijo)="recibirPosicionMenu($event)" [cancion]="cancion"/>
+        <div class="px-4 py-2 bg-white rounded-b-lg h-full dark:bg-gray-800">
+            
+            <app-textarea-letra-crear-cancion (letraHijo)="recibirCancion($event)" [cancion]="cancion" 
+            *ngIf="posicionMenu === 0 && cancion.Lineas.length>0"/>
+            
+            <app-div-agregar-acordes-crear-cancion [cancion]="cancion" *ngIf="posicionMenu === 1"/>
+
+    </div>
+    <div class="flex flex-col">
+        <span class="text-red-500" *ngIf="isValidField('Letra')">Letra está vacío</span>
+    </div>
+</div>
+    <button type="submit" class="inline-flex items-center mb-4 px-5 py-2.5 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+        Editar Letra
+    </button>
+    <a
+    routerLink="/canciones/{{ cancionId }}" 
+    class="inline-flex items-center mb-4 ms-3 px-5 py-2.5 text-sm font-medium text-center text-white bg-red-700 rounded-lg focus:ring-4 focus:ring-red-200 dark:focus:ring-red-900 hover:bg-red-800">
+        Cancelar
+    </a>
+ </form>
+ 
+
+

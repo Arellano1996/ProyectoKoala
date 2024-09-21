@@ -36,6 +36,16 @@ export interface CrearCancion {
     Links?: CrearCancionLink[]
     Baterias?: CrearCancionBateria[]
 }
+//Editar Cancion
+export interface EditarCancion {
+    CancionId: string
+    Nombre: string
+    Tono?: string
+    Duracion?: string
+    BPM?: number
+    Artistas: CrearArtista[]
+    Generos: CrearGenero[]
+}
 export interface CrearCancionResponse {
     CancionId: string
     // Nombre:   string

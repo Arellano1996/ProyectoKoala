@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CancionesService } from '../../services/canciones.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-artistas-crear-cancion',
@@ -8,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ArtistasCrearCancionComponent {
 
+    @Input()
     artistas: string[] = []
     
     @Output() agregar = new EventEmitter<string[]>()
@@ -16,7 +19,9 @@ export class ArtistasCrearCancionComponent {
         Nombre: ['', [ Validators.required, Validators.minLength(1) ], []]
     })
     
-    constructor(private fb: FormBuilder) { }
+    constructor(private fb: FormBuilder) {
+        
+    }
 
     eliminarArtista(index: number){
         this.artistas.splice(index, 1)
@@ -32,5 +37,9 @@ export class ArtistasCrearCancionComponent {
             //Si se agrega se manda a Padre
             this.agregar.emit(this.artistas)
         }
+    }
+
+    recibirArtistasDesdePadre(){
+
     }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { environments } from '../../../environments/environments';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
-import { BorrarCancion, BorrarCancionResponse, Cancion, CancionesResponse, CrearCancion, CrearCancionResponse } from '../interfaces/canciones.interfaces';
+import { BorrarCancion, BorrarCancionResponse, Cancion, CancionesResponse, CrearCancion, CrearCancionResponse, EditarCancion } from '../interfaces/canciones.interfaces';
 import { RespuestaError } from '../../shared/interfaces/respuesta.interface';
 
 @Injectable({
@@ -62,6 +62,13 @@ export class CancionesService {
 
   postCrearCancion(nuevaCancion: CrearCancion): Observable<CrearCancionResponse>{
     return this.http.post<CrearCancionResponse>(`${ this.baseUrl }/canciones`, nuevaCancion)
+    .pipe(
+      res => { return res }
+    )
+  }
+
+  postEditarCancion(editarCancion: EditarCancion): Observable<CrearCancionResponse>{
+    return this.http.patch<CrearCancionResponse>(`${ this.baseUrl }/canciones/${ editarCancion.CancionId }`, editarCancion)
     .pipe(
       res => { return res }
     )

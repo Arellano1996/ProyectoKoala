@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -6,6 +6,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
     templateUrl: './generos.crear.cancion.component.html',
 })
 export class GenerosCrearCancionComponent {
+    
+    @Input()
     generos: string[] = []
 
     @Output() agregar = new EventEmitter<string[]>()

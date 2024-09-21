@@ -10,17 +10,17 @@ export class UpdateLetraDto {
 
     @IsString()
     @IsOptional()
-    Acordes: string;
+    Tono: string;
 
     @IsOptional()
     @Type(() => CreateLetraComentariosDto)
     @IsArray()
     @ValidateNested({ each: true })
-    Comentarios: CreateLetraComentariosDto[] = [];
+    Comentarios?: CreateLetraComentariosDto[] = [];
     
     @IsOptional()
     @Type(() => CreateLetraConfiguracionesDto)
     @IsArray()
     @ValidateNested({ each: true })
-    Configuraciones: CreateLetraConfiguracionesDto[] = [];
+    Configuraciones?: CreateLetraConfiguracionesDto[] = [];
 }

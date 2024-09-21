@@ -105,6 +105,7 @@ export class LetrasService extends erroresHandler {
       const letra = await this.repository.preload({
         LetraId: letraId,
         ...resto,
+        /*
         Comentarios: Comentarios.map((comentario) =>
           this.repositoryComentarios.create({
             ComentariosLetraId: comentario.ComentarioId,
@@ -119,6 +120,7 @@ export class LetrasService extends erroresHandler {
             ConfiguracionJSON: configuracion.Configuracion,
           }),
         ),
+        */
       });
 
       await this.repository.save(letra);

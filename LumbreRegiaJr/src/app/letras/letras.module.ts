@@ -10,6 +10,8 @@ import { MenuComponent } from './letra/menu/menu.component';
 import { MenuDesplegableComponent } from './letra/menu-desplegable/menu-desplegable.component';
 import { PalabraComponent } from './letra/palabra/palabra.component';
 import { GrupoAcordesComponent } from './letra/grupo-acordes/grupo-acordes.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CancionesModule } from '../canciones/canciones.module';
 
 
 @NgModule({
@@ -21,11 +23,14 @@ import { GrupoAcordesComponent } from './letra/grupo-acordes/grupo-acordes.compo
     MenuComponent,
     MenuDesplegableComponent,
     PalabraComponent,
-    GrupoAcordesComponent
+    GrupoAcordesComponent,
   ],
   imports: [
     CommonModule,
-    LetrasRoutingModule
+    LetrasRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    CancionesModule
   ],
   exports: [
     MenuDesplegableComponent

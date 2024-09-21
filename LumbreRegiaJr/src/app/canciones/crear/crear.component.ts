@@ -2,12 +2,11 @@ import { Component } from '@angular/core';
 import { CrearLetraCancion } from '../interfaces/crear.cancion.interfaces';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CancionesService } from '../services/canciones.service';
-import { CrearCancion, CrearCancionResponse } from '../interfaces/canciones.interfaces';
-import { FormatearLetraService } from '../services/formatear-letra.service';
+import { CrearCancion } from '../interfaces/canciones.interfaces';
 import { CrearCancionLetra } from '../../letras/interfaces/letras.interfaces';
 import { CrearArtista } from '../../artistas/interfaces/artistas.interface';
 import { CrearGenero } from '../../generos/interfaces/generos.interfaces';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { RespuestaError } from '../../shared/interfaces/respuesta.interface';
 //import { initFlowbite } from 'flowbite';
 
