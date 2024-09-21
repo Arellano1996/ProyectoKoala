@@ -3,6 +3,7 @@ import { CancionesService } from '../services/canciones.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Cancion } from '../interfaces/canciones.interfaces';
 import { isUUID } from 'validator';
+import { environments } from '../../../environments/environments';
 
 @Component({
   selector: 'app-cancion',
@@ -49,7 +50,7 @@ export class CancionComponent {
   }
 
   eliminarCancion(){
-    this.cancionService.deleteBorrarCancion(this.uuid!, 'e26ccc45-caf4-4407-b7c0-a02705eb6cc9' )
+    this.cancionService.deleteBorrarCancion(this.uuid!, environments.usuarioArellano )
     .subscribe({
       next: res => { 
         this.router.navigate([`/canciones`])
