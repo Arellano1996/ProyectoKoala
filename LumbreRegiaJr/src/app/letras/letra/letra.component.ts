@@ -63,13 +63,19 @@ ngOnInit(): void {
   )
   .subscribe(res => {
     if (res) {
+      //console.log('|------------ Letra Live ----------|')
+      //console.log( this.cancion )
+      //console.log( res.Tono )
       this.esLetraLive = res.LetraId === this.uuid;
       //Obtenermos el tono de la letra Live
       const tonoLive = res.Tono
       //Tomamos el tono de la letra en base de dato
       const tonoSQL = this.transportarLetraService.obtenerValorTono(this.cancion.Tono)
       //Transportamos la cancion a la tonalidad que marca el LetraLive
-      if(tonoLive != tonoSQL){
+      //console.log(tonoLive)
+      //console.log(tonoSQL)
+      if(this.esLetraLive && tonoLive != tonoSQL){
+        console.log('se hizo la transportación')
         const valorTransportar = tonoLive - tonoSQL!
         this.transportarLetraService.transportarCancion(this.cancion, valorTransportar!)
       }
@@ -81,7 +87,7 @@ ngOnInit(): void {
   this.letraLiveService.recibirLetra()
   .subscribe( ( res: RespuestaRecibirLetraLive  ) => {
     this.esLetraLive = res.LetraId === this.uuid
-    console.log('Se recibieron datos: ', res.Tono)
+    //console.log('Se recibieron datos: ', res.Tono)
   }
   )
 }
