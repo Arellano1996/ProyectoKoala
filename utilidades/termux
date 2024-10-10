@@ -1,0 +1,128 @@
+Comando Termux
+
+1. Instalación y actualización de paquetes
+pkg update: Actualiza la lista de paquetes disponibles.
+pkg upgrade: Actualiza los paquetes instalados a las últimas versiones.
+pkg install <paquete>: Instala un paquete (ejemplo: pkg install python).
+pkg list-all: Lista todos los paquetes disponibles.
+pkg uninstall <paquete>: Desinstala un paquete.
+
+2. Navegación por el sistema de archivos
+ls: Lista los archivos en el directorio actual.
+cd <directorio>: Cambia al directorio especificado.
+pwd: Muestra la ruta del directorio actual.
+mkdir <nombre_directorio>: Crea un nuevo directorio.
+rm <archivo>: Elimina un archivo.
+rm -r <directorio>: Elimina un directorio y su contenido.
+cp <origen> <destino>: Copia un archivo o directorio.
+mv <origen> <destino>: Mueve o renombra archivos o directorios.
+
+3. Manipulación de archivos
+cat <archivo>: Muestra el contenido de un archivo.
+nano <archivo>: Edita un archivo en el editor de texto nano.
+vim <archivo>: Edita un archivo usando vim (si está instalado).
+touch <archivo>: Crea un archivo vacío.
+
+4. Gestión de procesos
+ps: Lista los procesos en ejecución.
+kill <PID>: Mata un proceso específico usando su PID.
+top: Muestra una lista en tiempo real de los procesos activos, similar a la herramienta de Linux.
+
+5. Red y conexiones
+curl <url>: Realiza una petición HTTP a una URL.
+wget <url>: Descarga un archivo desde una URL.
+ping <dominio>: Envía paquetes ICMP para comprobar la conectividad a una dirección.
+ssh <usuario>@<servidor>: Conéctate a un servidor remoto usando SSH.
+
+6. Control de permisos y usuarios
+chmod <permisos> <archivo>: Cambia los permisos de un archivo o directorio.
+chown <usuario>:<grupo> <archivo>: Cambia el propietario de un archivo o directorio.
+
+7. Compresión y descompresión
+tar -xvf <archivo.tar>: Extrae un archivo .tar.
+tar -czvf <archivo.tar.gz> <directorio>: Comprime un directorio en un archivo .tar.gz.
+unzip <archivo.zip>: Descomprime un archivo .zip.
+
+8. Control de almacenamiento
+df: Muestra el uso del espacio en disco.
+du -h <directorio>: Muestra el uso del espacio en disco de un directorio específico.
+
+9. Apt y otros comandos relacionados
+apt update: Actualiza la lista de paquetes (alternativa a pkg update).
+apt install <paquete>: Instala un paquete (alternativa a pkg install).
+apt upgrade: Actualiza todos los paquetes instalados.
+
+10. Otras utilidades
+clear: Limpia la terminal.
+exit: Cierra la sesión de Termux.
+history: Muestra el historial de comandos usados.
+
+Preparación del dispositivo:
+
+Instalar Node.js
+pkg i nodejs
+
+Instalar Postgres
+pk i postgresql
+
+Commandos
+Iniciar/reiniciar/detener servidor
+pg_ctl -D $PREFIX/var/lib/postgresql start
+pg_ctl -D $PREFIX/var/lib/postgresql restart
+pg_ctl -D $PREFIX/var/lib/postgresql stop
+
+Configuracion del servidor postgres
+
+Para el archivo postgresql.conf:
+El servidor postgres corre de manera local en un dispositivo, la ip por default es 127.0.0.1, en este archivo se especifica
+las ip's que pueden acceder al servidor.
+nano $PREFIX/var/lib/postgresql/postgresql.conf
+
+La configuración 'localhost' permite la conexion a la base de datos desde el mismo dispositivo
+#listen_addresses = 'localhost'
+Para poder dar acceso a la base de datos a otro dispositivo conectado en la misma red, se debe configurar la ip, para esto debemos
+verificar cuál es la ip que se asigna al dispositivo donde se esta ejecutando postgres, asi que debemos poner la ip del dispositivo
+#listen_addresses = 'localhost,192.168.x.x'
+
+En esta archivo configuraremos la conexion remotas que se aceptaran
+nano $PREFIX/var/lib/postgresql/data/pg_hba.conf
+
+-Configurar usuario
+Para crear un usuario en tu base de datos local de PostgreSQL que se llame arellano196 y tenga los mismos roles que el usuario postgres, puedes seguir estos pasos:
+
+1. Crear el usuario arellano196
+Primero, debes crear el usuario con el mismo nombre que en la base de datos remota:
+
+sql
+CREATE USER arellano196 WITH PASSWORD 'tu_contraseña_aqui';
+2. Asignar los mismos roles que el usuario postgres
+Para que el usuario arellano196 tenga los mismos roles que el usuario postgres, puedes copiar los roles de este último de la siguiente manera. Primero, asegúrate de que el usuario postgres tenga los roles que quieres replicar:
+
+sql
+GRANT ALL PRIVILEGES ON DATABASE tu_base_de_datos TO arellano196;
+Puedes agregar permisos adicionales específicos para el nuevo usuario dependiendo de lo que necesites. Para dar al usuario arellano196 los mismos privilegios y roles que postgres, debes asegurarte de asignar los mismos roles:
+
+sql
+ALTER USER arellano196 WITH SUPERUSER CREATEDB CREATEROLE REPLICATION;
+Esto asigna roles de superusuario y permisos para crear bases de datos, roles y manejar la replicación, que son comunes en el usuario postgres.
+
+Paso 3 Instalar GIT
+
+pkg i git
+
+configurar usuairo
+git config --global user.name "Tu Nombre"
+git config --global user.email "tuemail@example.com"
+
+
+
+
+SSHD
+
+Conectarse con termux, es necesario crear una contrasenia con el comando passwd
+
+
+ssh -p 8022 termux@192.168.100.102
+
+transferir archivos
+scp -P 8022 -r dist node_modules termux@192.168.100.102:/data/data/com.termux/files/home/
